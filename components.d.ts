@@ -8,9 +8,11 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     About: typeof import('./src/components/pages/About.vue')['default']
+    AppAppBar: typeof import('./src/components/AppAppBar.vue')['default']
     AppBar: typeof import('./src/components/AppBar.vue')['default']
     ArabicKB: typeof import('./src/components/ArabicKB.vue')['default']
     FirdleLogo: typeof import('./src/components/FirdleLogo.vue')['default']
+    IIcBaselineInfo: typeof import('~icons/ic/baseline-info')['default']
     IIcBaselineKeyboardArrowDown: typeof import('~icons/ic/baseline-keyboard-arrow-down')['default']
     IIcBaselineSettings: typeof import('~icons/ic/baseline-settings')['default']
     Index: typeof import('./src/components/pages/Index.vue')['default']

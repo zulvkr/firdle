@@ -1,10 +1,6 @@
-<script setup lang="ts">
-import AppBar from './components/AppBar.vue'
-</script>
-
 <template>
   <header>
-    <AppBar />
+    <AppAppBar />
   </header>
   <main class="font-readex">
     <router-view />

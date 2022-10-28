@@ -14,9 +14,9 @@ const props = defineProps({
 
 <template>
   <div :style="btnStyle">
-    <div class="bg-cool-gray-600 h-10 grid rounded-[5px]" :style="btnWrapperStyle">
+    <div class="bg-cool-gray-600 h-10 h-md-10 grid rounded-md" :style="btnWrapperStyle">
       <div
-        class="place-self-center text-size-[20px] w-4 text-center"
+        class="place-self-center text-size-[20px] sm:text-size-[22px] w-4 text-center"
         :style="charStyle"
       >
         <span v-if="props.icon" v-html="props.icon" class="text-[18px]" />
