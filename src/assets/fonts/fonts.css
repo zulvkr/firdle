@@ -1,9 +1,9 @@
 @font-face {
-  font-family: "Readex Pro";
-  src: url("/ReadexPro-VariableFont_wght.ttf") format("truetype");
+  font-family: 'Readex Pro';
+  src: url('/ReadexPro-VariableFont_wght.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "IBM Plex Sans Arabic";
-  src: url("/IBMPlexSansArabic-Regular.ttf") format("truetype");
+  font-family: 'IBM Plex Sans Arabic';
+  src: url('/IBMPlexSansArabic-Regular.ttf') format('truetype');
 }

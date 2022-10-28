@@ -1,4 +1,4 @@
-import { defineConfig,  } from 'windicss/helpers'
+import { defineConfig } from 'windicss/helpers'
 
 const sans = [
   'Readex Pro',
@@ -15,7 +15,7 @@ const sans = [
   'Apple Color Emoji',
   'Segoe UI Emoji',
   'Segoe UI Symbol',
-  'Noto Color Emoji'
+  'Noto Color Emoji',
 ]
 
 export default defineConfig({
@@ -23,16 +23,10 @@ export default defineConfig({
   theme: {
     extend: {
       fontFamily: {
-        readex: [
-          'Readex Pro',
-          ...sans
-        ],
-        IBM: [
-          'IBM Plex Sans Arabic',
-          ...sans
-        ],
-      }
-    }
-  }
+        readex: ['Readex Pro', ...sans],
+        IBM: ['IBM Plex Sans Arabic', ...sans],
+      },
+    },
+  },
   /* configurations... */
 })

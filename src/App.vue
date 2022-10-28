@@ -12,5 +12,5 @@ import AppBar from './components/AppBar.vue'
 </template>
 
 <style lang="postcss">
-@import url("./assets/fonts/fonts.css");
+@import url('./assets/fonts/fonts.css');
 </style>

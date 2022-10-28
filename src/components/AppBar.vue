@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 
-const showAppBar = ref(false);
+const showAppBar = ref(false)
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const showAppBar = ref(false);
         :class="[
           'bg-cool-gray-800',
           'grid appbar',
-          'h-12 py-1 px-4 md:h-14 md:py-2',
+          'h-12 py-1 px-4 sm:h-14 sm:py-2',
           'origin-top transition-transform <sm:scale-y-33',
           !showAppBar && '<sm:transform',
         ]"
@@ -42,7 +42,7 @@ const showAppBar = ref(false);
         :class="[!showAppBar && '<sm:transform']"
       />
     </div>
-    <div class="h-4 md:h-14" />
+    <div class="h-4 sm:h-14" />
   </div>
 </template>
 
@@ -56,7 +56,7 @@ const showAppBar = ref(false);
     grid-area: settings;
   }
 
-  grid-template: "logo . settings" 40px / 100px 1fr 40px;
+  grid-template: 'logo . settings' 40px / 100px 1fr 40px;
 }
 .grid.smallbar {
   .logo {
@@ -67,6 +67,6 @@ const showAppBar = ref(false);
     grid-area: arrow;
   }
 
-  grid-template: ". logo arrow" 16px / 24px 1fr 24px;
+  grid-template: '. logo arrow' 16px / 24px 1fr 24px;
 }
 </style>

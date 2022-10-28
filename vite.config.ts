@@ -14,12 +14,12 @@ export default defineConfig({
     Icons({}),
     Components({
       dts: true,
-      resolvers: [IconsResolver()]
-    })
+      resolvers: [IconsResolver()],
+    }),
   ],
   css: {
     postcss: {
-      plugins: [postcssNesting]
-    }
-  }
+      plugins: [postcssNesting],
+    },
+  },
 })

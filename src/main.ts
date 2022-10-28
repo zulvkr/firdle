@@ -14,5 +14,5 @@ export const createApp = ViteSSG(
   { routes },
   ({ app, router, routes, isClient, initialState }) => {
     // install plugins etc.
-  },
+  }
 )

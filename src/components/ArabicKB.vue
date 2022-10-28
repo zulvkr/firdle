@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CSSProperties, reactive } from "vue";
+import { CSSProperties, reactive } from 'vue'
 import {
   DAD,
   SAD,
@@ -32,27 +32,27 @@ import {
   REH,
   WAW,
   ALEF_MAKSURA,
-} from "../constants/hijaiy";
-import KBButton from "./KBButton.vue";
-import RawBackspace from "~icons/ic/outline-backspace?raw";
-import RawClear from "~icons/ic/outline-clear?raw";
+} from '../constants/hijaiy'
+import KBButton from './KBButton.vue'
+import RawBackspace from '~icons/ic/outline-backspace?raw'
+import RawClear from '~icons/ic/outline-clear?raw'
 
-const charOffset: CSSProperties = { marginLeft: "-8px" };
+const charOffset: CSSProperties = { marginLeft: '-8px' }
 
 const rotate180: CSSProperties = {
-  transform: "rotate(180deg)",
-  WebkitTransform: "rotate(180deg)",
-  msTransform: "rotate(180deg)",
-};
+  transform: 'rotate(180deg)',
+  WebkitTransform: 'rotate(180deg)',
+  msTransform: 'rotate(180deg)',
+}
 
 const iconButtonStyle: CSSProperties = {
-  marginTop: "-2px",
-};
+  marginTop: '-2px',
+}
 
 const colSpan2: CSSProperties = {
-  gridColumn: "span 2 / span 2",
-  marginLeft: "10px",
-};
+  gridColumn: 'span 2 / span 2',
+  marginLeft: '10px',
+}
 
 const keyboardConfig = reactive({
   firstRow: [
@@ -92,35 +92,35 @@ const keyboardConfig = reactive({
     { k: WAW },
     { k: ALEF_MAKSURA },
     {
-      k: "Backspace",
+      k: 'Backspace',
       icon: RawBackspace,
       charStyle: { ...iconButtonStyle, ...rotate180 },
       btnStyle: colSpan2,
       btnWrapperStyle: {
-        backgroundColor: "rgba(55, 65, 81, 1)",
+        backgroundColor: 'rgba(55, 65, 81, 1)',
       },
     },
   ],
   fourthRow: [
     {
-      k: "Clear",
+      k: 'Clear',
       icon: RawClear,
-      charStyle: { width: "unset", ...iconButtonStyle },
+      charStyle: { width: 'unset', ...iconButtonStyle },
       btnWrapperStyle: {
-        padding: "12px 20px",
-        backgroundColor: "rgba(55, 65, 81, 1)",
+        padding: '12px 20px',
+        backgroundColor: 'rgba(55, 65, 81, 1)',
       },
     },
     {
-      k: "Enter",
-      charStyle: { width: "unset" },
+      k: 'Enter',
+      charStyle: { width: 'unset' },
       btnWrapperStyle: {
-        padding: "0 20px",
-        backgroundColor: "rgba(2, 132, 199, 1)",
+        padding: '0 20px',
+        backgroundColor: 'rgba(2, 132, 199, 1)',
       },
     },
   ],
-});
+})
 </script>
 
 <template>
@@ -129,17 +129,11 @@ const keyboardConfig = reactive({
       <div class="w-full max-w-[500px] justify-self-center">
         <div class="grid keyboard gap-x-[5px] gap-y-3 font-IBM">
           <KBButton v-for="button in keyboardConfig.firstRow" v-bind="button" />
-          <KBButton
-            v-for="button in keyboardConfig.secondRow"
-            v-bind="button"
-          />
+          <KBButton v-for="button in keyboardConfig.secondRow" v-bind="button" />
           <KBButton v-for="button in keyboardConfig.thirdRow" v-bind="button" />
         </div>
         <div class="grid grid-flow-col gap-x-[5px] justify-end font-IBM">
-          <KBButton
-            v-for="button in keyboardConfig.fourthRow"
-            v-bind="button"
-          />
+          <KBButton v-for="button in keyboardConfig.fourthRow" v-bind="button" />
         </div>
       </div>
     </div>
