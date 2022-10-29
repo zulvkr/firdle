@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import { CSSProperties, VueElement } from 'vue'
+import { CSSProperties, PropType } from 'vue'
+import { useGameStore } from '../store/game'
 
 const props = defineProps({
   k: String,
-  // Value to emit during X
   value: String,
-  charStyle: Object as () => CSSProperties,
-  btnStyle: Object as () => CSSProperties,
-  btnWrapperStyle: Object as () => CSSProperties,
-  icon: Object,
+  charStyle: Object as PropType<CSSProperties>,
+  btnStyle: Object as PropType<CSSProperties>,
+  btnWrapperStyle: Object as PropType<CSSProperties>,
+  icon: String,
 })
+
+const { fill } = useGameStore()
+const onClick = () => {
+  if (props.value) {
+    fill(props.value)
+  } else if (props.k) {
+    fill(props.k)
+  }
+}
 </script>
 
 <template>
-  <div :style="btnStyle">
+  <button :style="btnStyle" @click="onClick">
     <div class="bg-cool-gray-600 h-10 h-md-10 grid rounded-md" :style="btnWrapperStyle">
       <div
         class="place-self-center text-size-[20px] sm:text-size-[22px] w-4 text-center"
@@ -25,5 +34,5 @@ const props = defineProps({
         </template>
       </div>
     </div>
-  </div>
+  </button>
 </template>
