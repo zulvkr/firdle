@@ -2,6 +2,17 @@
 import ArabicKB from '../ArabicKB.vue'
 import { storeToRefs } from 'pinia'
 import { useGameStore } from '../../store/game'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Firdle',
+  meta: [
+    {
+      name: 'description',
+      content: 'Gim online tebak kata kerja bahasa arab',
+    },
+  ],
+})
 
 const gameStore = useGameStore()
 const { gridWithResult, activeCellIndex } = storeToRefs(gameStore)
@@ -17,12 +28,12 @@ const { gridWithResult, activeCellIndex } = storeToRefs(gameStore)
           v-for="col in row"
           class="rounded border-2 grid border-gray-600"
           :class="[
-            col.type !== 'fiil' && 'aspect-square',
+            col.cellType !== 'result' && 'aspect-square',
             activeCellIndex[0] === index ? 'border-gray-600' : 'border-gray-700',
           ]"
         >
           <div class="place-self-center text-size-xl">
-            {{ col.text }}
+            {{ col.cellText }}
           </div>
         </div>
       </div>
@@ -33,12 +44,16 @@ const { gridWithResult, activeCellIndex } = storeToRefs(gameStore)
 
 <style lang="postcss" scoped>
 .grid.index-page {
-  /* Padding necessary to prevent some parts of grid hidden by keyboard */
   --keyboard-height: 230px;
-  /* padding-bottom: 230px; */
-  height: calc(100vh - var(--keyboard-height)); /* Fallback for browsers that do not support Custom Properties */
+  --answer-height: 400px;
+  /* Margin necessary to prevent some parts of grid hidden by keyboard */
+  margin-bottom: var(--answer-height);
+  height: calc(
+    100vh - var(--keyboard-height)
+  ); /* Fallback for browsers that do not support Custom Properties */
   height: calc((var(--vh, 1vh) * 100) - var(--keyboard-height));
 }
+
 .grid.answer {
   grid-template-columns: 70px repeat(4, minmax(0, 1fr));
 }

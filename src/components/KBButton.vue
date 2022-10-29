@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import { CSSProperties, PropType } from 'vue'
+import { CSSProperties } from 'vue'
 import { useGameStore } from '../store/game'
 
-const props = defineProps({
-  k: String,
-  value: String,
-  charStyle: Object as PropType<CSSProperties>,
-  btnStyle: Object as PropType<CSSProperties>,
-  btnWrapperStyle: Object as PropType<CSSProperties>,
-  icon: String,
-})
+export interface Button {
+  k: string
+  value?: string
+  handler?: Function
+  icon?: string
+  charStyle?: CSSProperties
+  btnStyle?: CSSProperties
+  btnWrapperStyle?: CSSProperties
+}
+
+const props = defineProps<Button>()
 
 const { fill } = useGameStore()
 const onClick = () => {
+  if (props.handler) {
+    return props.handler(props.value)
+  }
   if (props.value) {
-    fill(props.value)
-  } else if (props.k) {
-    fill(props.k)
+    return fill(props.value)
+  }
+  if (props.k) {
+    return fill(props.k)
   }
 }
 </script>
@@ -28,7 +35,7 @@ const onClick = () => {
         class="place-self-center text-size-[20px] sm:text-size-[22px] w-4 text-center"
         :style="charStyle"
       >
-        <span v-if="props.icon" v-html="props.icon" class="text-[18px]" />
+        <span v-if="props.icon" v-html="props.icon" />
         <template v-else>
           {{ props.k }}
         </template>

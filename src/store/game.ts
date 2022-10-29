@@ -15,19 +15,12 @@ export const useGameStore = defineStore('game', () => {
   ] as Cell[][])
 
   /**
-   * Hold fi'il resulted from the game
+   * Hold results of the game
    */
-  const result = ref([
-    { type: 'fiil' },
-    { type: 'fiil' },
-    { type: 'fiil' },
-    { type: 'fiil' },
-    { type: 'fiil' },
-    { type: 'fiil' },
-  ] as Cell[])
+  const results = ref([{}, {}, {}, {}, {}, {}] as Cell[])
 
   const gridWithResult = computed(() =>
-    grid.value.map((row, i) => [result.value[i], ...row])
+    grid.value.map((row, i) => [{ ...results.value[i], cellType: 'result' }, ...row])
   )
 
   /**
@@ -52,18 +45,27 @@ export const useGameStore = defineStore('game', () => {
 
   function fill(value: string) {
     const activeCell = getCell(activeCellIndex.value)
-    activeCell.text = value
+    activeCell.cellText = value
     if (flatActiveCellIndex.value < gridMap.value.length - 1) {
       forward()
     }
   }
 
   function backspace() {
-    const activeCell = getCell(activeCellIndex.value)
-    activeCell.text = undefined
     if (flatActiveCellIndex.value > 0) {
       back()
     }
+    const activeCell = getCell(activeCellIndex.value)
+    activeCell.cellText = undefined
+  }
+
+  function clearLine() {
+    const activeRowIndex = activeCellIndex.value[0]
+    const activeRow = grid.value[activeRowIndex]
+    for (const cell of activeRow) {
+      cell.cellText = undefined
+    }
+    activeCellIndex.value = [activeRowIndex, 3]
   }
 
   function forward() {
@@ -94,12 +96,21 @@ export const useGameStore = defineStore('game', () => {
     return cellIndex1.every((val, index) => cellIndex2[index] === val)
   }
 
-  return { grid, result, gridWithResult, gridMap, activeCellIndex, fill, backspace }
+  return {
+    grid,
+    results,
+    gridWithResult,
+    gridMap,
+    activeCellIndex,
+    fill,
+    backspace,
+    clearLine,
+  }
 })
 
 interface Cell {
-  type?: string
-  text?: string
+  cellType?: string
+  cellText?: string
 }
 
 /**

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CSSProperties, reactive } from 'vue'
+import { CSSProperties } from 'vue'
 import {
   DAD,
   SAD,
@@ -33,20 +33,23 @@ import {
   WAW,
   ALEF_MAKSURA,
 } from '../constants/hijaiy'
-import KBButton from './KBButton.vue'
+import { Button } from './KBButton.vue'
 import RawBackspace from '~icons/ic/outline-backspace?raw'
-import RawClear from '~icons/ic/outline-clear?raw'
+import RawClear from '~icons/ic/round-clear?raw'
+import { useGameStore } from '../store/game'
+
+const { backspace, clearLine } = useGameStore()
+const rawBackspace = RawBackspace as any as string
+const rawClear = RawClear as any as string
 
 const charOffset: CSSProperties = { marginLeft: '-8px' }
 
 const rotate180: CSSProperties = {
   transform: 'rotate(180deg)',
-  WebkitTransform: 'rotate(180deg)',
-  msTransform: 'rotate(180deg)',
 }
 
 const iconButtonStyle: CSSProperties = {
-  marginTop: '-2px',
+  fontSize: '16px',
 }
 
 const colSpan2: CSSProperties = {
@@ -54,7 +57,7 @@ const colSpan2: CSSProperties = {
   marginLeft: '10px',
 }
 
-const keyboardConfig = reactive({
+const keyboardConfig: Record<string, Button[]> = {
   firstRow: [
     { k: DAD, charStyle: charOffset },
     { k: SAD, charStyle: charOffset },
@@ -93,7 +96,8 @@ const keyboardConfig = reactive({
     { k: ALEF_MAKSURA },
     {
       k: 'Backspace',
-      icon: RawBackspace,
+      icon: rawBackspace,
+      handler: backspace,
       charStyle: { ...iconButtonStyle, ...rotate180 },
       btnStyle: colSpan2,
       btnWrapperStyle: {
@@ -104,7 +108,8 @@ const keyboardConfig = reactive({
   fourthRow: [
     {
       k: 'Clear',
-      icon: RawClear,
+      icon: rawClear,
+      handler: clearLine,
       charStyle: { width: 'unset', ...iconButtonStyle },
       btnWrapperStyle: {
         padding: '12px 20px',
@@ -120,19 +125,19 @@ const keyboardConfig = reactive({
       },
     },
   ],
-})
+}
 </script>
 
 <template>
   <div class="fixed bg-cool-gray-800 bottom-0 left-0 right-0">
     <div class="text-white py-2 py-md-4 px-1 grid">
-      <div class="w-full max-w-2xl justify-self-center">
-        <div class="grid keyboard gap-x-[5px] gap-y-3 font-IBM">
+      <div class="w-full max-w-2xl justify-self-center font-IBM">
+        <div class="grid keyboard gap-x-[5px] gap-y-3">
           <KBButton v-for="button in keyboardConfig.firstRow" v-bind="button" />
           <KBButton v-for="button in keyboardConfig.secondRow" v-bind="button" />
           <KBButton v-for="button in keyboardConfig.thirdRow" v-bind="button" />
         </div>
-        <div class="grid grid-flow-col gap-x-[5px] justify-end font-IBM">
+        <div class="grid grid-flow-col gap-x-[5px] justify-end">
           <KBButton v-for="button in keyboardConfig.fourthRow" v-bind="button" />
         </div>
       </div>
