@@ -38,7 +38,7 @@ import RawBackspace from '~icons/ic/outline-backspace?raw'
 import RawClear from '~icons/ic/round-clear?raw'
 import { useGameStore } from '../store/game'
 
-const { backspace, clearLine } = useGameStore()
+const gameStore = useGameStore()
 const rawBackspace = RawBackspace as any as string
 const rawClear = RawClear as any as string
 
@@ -56,6 +56,8 @@ const colSpan2: CSSProperties = {
   gridColumn: 'span 2 / span 2',
   marginLeft: '10px',
 }
+
+const { backspace, clearLine } = gameStore
 
 const keyboardConfig: Record<string, Button[]> = {
   firstRow: [
@@ -126,6 +128,13 @@ const keyboardConfig: Record<string, Button[]> = {
     },
   ],
 }
+
+const { formResult, results } = gameStore
+gameStore.$subscribe((mutation, state) => {
+  const activeRowIndex = state.activeCellIndex[0]
+  results[activeRowIndex].cellText = formResult(activeRowIndex)
+  
+})
 </script>
 
 <template>

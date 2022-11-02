@@ -15,6 +15,7 @@ export interface Button {
 const props = defineProps<Button>()
 
 const { fill } = useGameStore()
+
 const onClick = () => {
   if (props.handler) {
     return props.handler(props.value)

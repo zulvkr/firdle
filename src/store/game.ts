@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
 
 export const useGameStore = defineStore('game', () => {
   /**
@@ -13,6 +14,7 @@ export const useGameStore = defineStore('game', () => {
     [{}, {}, {}, {}],
     [{}, {}, {}, {}],
   ] as Cell[][])
+
 
   /**
    * Hold results of the game
@@ -43,19 +45,27 @@ export const useGameStore = defineStore('game', () => {
     return flatIndex
   })
 
+  
   function fill(value: string) {
     const activeCell = getCell(activeCellIndex.value)
-    activeCell.cellText = value
-    if (flatActiveCellIndex.value < gridMap.value.length - 1) {
+    if (!activeCell.cellText) {
+      activeCell.cellText = value
+      activeCell.cellLit = true
+      setTimeout(()=> {
+        activeCell.cellLit = false
+      }, 300)
+    }
+    if (activeCellIndex.value[1] > 0) {
       forward()
     }
   }
 
   function backspace() {
-    if (flatActiveCellIndex.value > 0) {
+    let activeCell = getCell(activeCellIndex.value)
+    if (!activeCell.cellText && flatActiveCellIndex.value > 0) {
       back()
     }
-    const activeCell = getCell(activeCellIndex.value)
+    activeCell = getCell(activeCellIndex.value)
     activeCell.cellText = undefined
   }
 
@@ -76,6 +86,29 @@ export const useGameStore = defineStore('game', () => {
   function back() {
     const prevIndex = gridMap.value[flatActiveCellIndex.value - 1]
     activeCellIndex.value = prevIndex
+  }
+
+  function formResult(rowIndex: number) {
+    /**
+     * Handle merging same harf
+     * Change hamza to correct hamza form
+     */
+    if (!grid.value[rowIndex].every(({cellText})=> cellText)) {
+      return ''
+    }
+
+    return grid.value[rowIndex].reduceRight((prev, curr, idx, arr) => {
+      let harf = curr.cellText
+      if (harf === HAMZA) {
+        if (idx > 0) {
+          harf = ALEF_HAMZA_ABOVE
+        }
+      }
+      if (harf === prev.slice(-1)) {
+        harf = SHADDA
+      }
+      return prev + harf
+    }, '')
   }
 
   function getCell(cellIndex: cellIndex) {
@@ -105,12 +138,15 @@ export const useGameStore = defineStore('game', () => {
     fill,
     backspace,
     clearLine,
+    formResult,
+    matchCellIndex
   }
 })
 
-interface Cell {
+export interface Cell {
   cellType?: string
   cellText?: string
+  cellLit?: boolean
 }
 
 /**
