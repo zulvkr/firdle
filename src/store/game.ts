@@ -15,14 +15,13 @@ export const useGameStore = defineStore('game', () => {
     [{}, {}, {}, {}],
   ] as Cell[][])
 
-
   /**
    * Hold results of the game
    */
   const results = ref([{}, {}, {}, {}, {}, {}] as Cell[])
 
   const gridWithResult = computed(() =>
-    grid.value.map((row, i) => [{ ...results.value[i], cellType: 'result' }, ...row])
+    grid.value.map((row, i) => [{ ...results.value[i] }, ...row])
   )
 
   /**
@@ -45,13 +44,12 @@ export const useGameStore = defineStore('game', () => {
     return flatIndex
   })
 
-  
   function fill(value: string) {
     const activeCell = getCell(activeCellIndex.value)
     if (!activeCell.cellText) {
       activeCell.cellText = value
       activeCell.cellLit = true
-      setTimeout(()=> {
+      setTimeout(() => {
         activeCell.cellLit = false
       }, 300)
     }
@@ -93,7 +91,7 @@ export const useGameStore = defineStore('game', () => {
      * Handle merging same harf
      * Change hamza to correct hamza form
      */
-    if (!grid.value[rowIndex].every(({cellText})=> cellText)) {
+    if (!grid.value[rowIndex].every(({ cellText }) => cellText)) {
       return ''
     }
 
@@ -139,7 +137,7 @@ export const useGameStore = defineStore('game', () => {
     backspace,
     clearLine,
     formResult,
-    matchCellIndex
+    matchCellIndex,
   }
 })
 

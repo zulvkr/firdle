@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
 import { useGameStore, Cell } from '../store/game'
+import { computed } from '@vue/reactivity'
+
 
 export interface Row {
   row: Cell[]
@@ -9,28 +10,26 @@ export interface Row {
 }
 
 const props = defineProps<Row>()
-const rowIndex = ref(props.index)
+const rowIndex = computed(() => props.index)
 
 const gameStore = useGameStore()
 const { activeCellIndex } = storeToRefs(gameStore)
+
+const result = computed(() => props.row[0].cellText ?? '')
+
+const isRowActive = computed(() => activeCellIndex.value[0] === rowIndex.value)
 
 </script>
 
 <template>
   <div class="grid gap-1 answer">
-    <div
-      v-for="col in props.row"
-      class="rounded border-2 grid border-gray-600 transition-transform"
-      :class="[
-        col.cellType === 'result' ? 'bg-gray-700' : 'aspect-square',
-        activeCellIndex[0] === rowIndex ? 'border-gray-600' : 'border-gray-700',
-        col.cellLit &&
-          'transform scale-105 border-light-500 ',
-      ]"
-    >
-      <div class="place-self-center text-size-xl">
+    <template v-for="(col, index) in props.row">
+      <GameCell v-if="index === 0" type="result" :is-row-active="isRowActive">
         {{ col.cellText }}
-      </div>
-    </div>
+      </GameCell>
+      <GameCell v-else type="char" :is-row-active="isRowActive" :lit="col.cellLit">
+        {{ col.cellText }}
+      </GameCell>
+    </template>
   </div>
 </template>

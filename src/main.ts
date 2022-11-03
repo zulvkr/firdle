@@ -4,7 +4,6 @@ import App from './App.vue'
 import Index from './components/pages/Index.vue'
 import About from './components/pages/About.vue'
 import { createPinia } from 'pinia'
-import { VueQueryPlugin } from "@tanstack/vue-query";
 
 
 const pinia = createPinia()
@@ -19,7 +18,6 @@ export const createApp = ViteSSG(
   { routes },
   ({ app, router, routes, isClient, initialState }) => {
     app.use(pinia)
-    app.use(VueQueryPlugin)
 
     if (import.meta.env.SSR) {
       initialState.pinia = pinia.state.value

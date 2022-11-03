@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     AppBar: typeof import('./src/components/AppBar.vue')['default']
     ArabicKB: typeof import('./src/components/ArabicKB.vue')['default']
     FirdleLogo: typeof import('./src/components/FirdleLogo.vue')['default']
+    GameCell: typeof import('./src/components/GameCell.vue')['default']
     GameGrid: typeof import('./src/components/GameGrid.vue')['default']
     GameRow: typeof import('./src/components/GameRow.vue')['default']
     Grid: typeof import('./src/components/Grid.vue')['default']
