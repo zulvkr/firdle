@@ -138,6 +138,7 @@ export const useGameStore = defineStore('game', () => {
     clearLine,
     formResult,
     matchCellIndex,
+    forward,
   }
 })
 

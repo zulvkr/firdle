@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { computed } from 'vue'
 
 export interface GameCell {
   type: 'result' | 'char'
@@ -24,7 +24,6 @@ const dynamicClass = computed(() => {
     cls.typeClass = className
   }
 
-  
   if (props.isRowActive) {
     const className = 'border-gray-500'
     cls.isRowActive = className
@@ -32,21 +31,23 @@ const dynamicClass = computed(() => {
     const className = 'border-gray-700'
     cls.isRowActive = className
   }
-  
+
   if (props.lit) {
     const className = 'transform scale-105 !border-light-600'
     cls.litClass = className
   }
   return Object.values(cls).join(' ')
 })
-
 </script>
 
 <template>
   <div
-    class="rounded border-2 grid border-gray-600 transition-transform"
+    class="rounded border-2 grid border-gray-600 transition-transform relative"
     :class="dynamicClass"
   >
+    <div class="absolute top-0 left-0">
+      <slot name="indicator"> </slot>
+    </div>
     <div class="place-self-center text-size-xl">
       <slot />
     </div>

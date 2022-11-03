@@ -37,12 +37,20 @@ import { Button } from './KBButton.vue'
 import RawBackspace from '~icons/ic/outline-backspace?raw'
 import RawClear from '~icons/ic/round-clear?raw'
 import { useGameStore } from '../store/game'
+import { useEventBus } from '../store/eventbus'
+import { storeToRefs } from 'pinia'
 
 const gameStore = useGameStore()
-const rawBackspace = RawBackspace as any as string
-const rawClear = RawClear as any as string
+const { backspace, clearLine, formResult } = gameStore
+const { results } = storeToRefs(gameStore)
 
-const charOffset: CSSProperties = { marginLeft: '-8px' }
+const eventbus = useEventBus()
+const { kbEnter } = eventbus
+
+const rawBackspace = RawBackspace as unknown as string
+const rawClear = RawClear as unknown as string
+
+const longCharAdjust: CSSProperties = { marginLeft: '-8px' }
 
 const rotate180: CSSProperties = {
   transform: 'rotate(180deg)',
@@ -52,17 +60,10 @@ const iconButtonStyle: CSSProperties = {
   fontSize: '16px',
 }
 
-const colSpan2: CSSProperties = {
-  gridColumn: 'span 2 / span 2',
-  marginLeft: '10px',
-}
-
-const { backspace, clearLine } = gameStore
-
 const keyboardConfig: Record<string, Button[]> = {
   firstRow: [
-    { k: DAD, charStyle: charOffset },
-    { k: SAD, charStyle: charOffset },
+    { k: DAD, charStyle: longCharAdjust },
+    { k: SAD, charStyle: longCharAdjust },
     { k: THEH },
     { k: QAF },
     { k: FEH },
@@ -74,8 +75,8 @@ const keyboardConfig: Record<string, Button[]> = {
     { k: JEEM },
   ],
   secondRow: [
-    { k: SHEEN, charStyle: charOffset },
-    { k: SEEN, charStyle: charOffset },
+    { k: SHEEN, charStyle: longCharAdjust },
+    { k: SEEN, charStyle: longCharAdjust },
     { k: YEH },
     { k: BEH },
     { k: LAM },
@@ -101,7 +102,10 @@ const keyboardConfig: Record<string, Button[]> = {
       icon: rawBackspace,
       handler: backspace,
       charStyle: { ...iconButtonStyle, ...rotate180 },
-      btnStyle: colSpan2,
+      btnStyle: {
+        gridColumn: 'span 2 / span 2',
+        marginLeft: '10px',
+      },
       btnWrapperStyle: {
         backgroundColor: 'rgba(55, 65, 81, 1)',
       },
@@ -120,6 +124,7 @@ const keyboardConfig: Record<string, Button[]> = {
     },
     {
       k: 'Enter',
+      handler: kbEnter,
       charStyle: { width: 'unset' },
       btnWrapperStyle: {
         padding: '0 20px',
@@ -129,11 +134,9 @@ const keyboardConfig: Record<string, Button[]> = {
   ],
 }
 
-const { formResult, results } = gameStore
 gameStore.$subscribe((mutation, state) => {
   const activeRowIndex = state.activeCellIndex[0]
-  results[activeRowIndex].cellText = formResult(activeRowIndex)
-  
+  results.value[activeRowIndex].cellText = formResult(activeRowIndex)
 })
 </script>
 
