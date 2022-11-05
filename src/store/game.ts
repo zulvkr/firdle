@@ -25,17 +25,14 @@ export const useGameStore = defineStore('game', () => {
   )
 
   /**
-   * Map grid as `cellIndex` array
+   * Map grid as `cellIndex` array to traverse grid linearly
    */
   const gridMap = computed(() => createGridMap(grid.value))
 
-  /**
-   * Hold the state of active cell
-   */
   const activeCellIndex = ref<cellIndex>(gridMap.value[0])
 
   /**
-   * activeCell index in gridMap
+   * Index of activeCell in gridMap
    */
   const flatActiveCellIndex = computed(() => {
     const flatIndex = gridMap.value.findIndex((cellIndex) =>
@@ -146,6 +143,7 @@ export interface Cell {
   cellType?: string
   cellText?: string
   cellLit?: boolean
+  cellContent?: unknown
 }
 
 /**

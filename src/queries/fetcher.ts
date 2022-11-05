@@ -32,10 +32,10 @@ function useCountFiilQuery(result: Ref<string>) {
     }
   })
 
-  const fetchRes = useFetch<CountResponse>(cachedRoute, {
+  const fetchRes = useFetch(cachedRoute, {
     immediate: false,
     refetch: true,
-  }).json()
+  }).json<CountResponse>()
 
   const isExist = computed(() => {
     if (!fetchRes.isFinished.value) {
@@ -56,7 +56,7 @@ function useFiilQuery(result: string) {
     return new URLSearchParams({ result }).toString()
   })
 
-  const fetchRes = useFetch<CountResponse>(`${fetchPath}?${fetchQuery.value}`, {
+  const fetchRes = useFetch(`${fetchPath}?${fetchQuery.value}`, {
     immediate: false,
   }).json()
 

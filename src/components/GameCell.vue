@@ -45,7 +45,7 @@ const dynamicClass = computed(() => {
     class="rounded border-2 grid border-gray-600 transition-transform relative"
     :class="dynamicClass"
   >
-    <div class="absolute top-0 left-0">
+    <div class="absolute -top-3 -left-3">
       <slot name="indicator"> </slot>
     </div>
     <div class="place-self-center text-size-xl">

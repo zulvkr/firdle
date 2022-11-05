@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 04 Nov 2022 01:02:35 GMT
+Content-Type: text/plain; charset=utf-8
+Content-Length: 822
+Connection: close
+Access-Control-Allow-Origin: http://localhost:5173
+
+{
+  "status": 200,
+  "fiil": {
+    "fiilUnvocalized": "صنّع",
+    "searchResults": [
+      {
+        "matchedResultHTML": "<span id=\"w71318\"><b> قَوَّمَ </b>: (فعل)</span>",
+        "searchDetails": [
+          "<li class=\"more\">قَوَّمْتُ، أُقَوِّمُ، قَوِّمْ، مصدر تَقْوِيمٌ</li>",
+          "<li>قوَّمَتِ الشاةُ: أصابها القُوَام</li>",
+          "<li>قوَّمَتِ المعوجّ: عدَّله وأزال عِوَجه</li>",
+          "<li>قوَّمَتِ السِّلعة: سعَّرها وَثَمَّنَها</li>",
+          "<li>قَوَّمَ الأَخْلاَقَ : هَذَّبَهَا، أَصْلَحَهَا</li>",
+          "<li>قَوَّمَ الخَطَأَ : صَحَّحَهُ</li>"
+        ]
+      }
+    ]
+  }
+}

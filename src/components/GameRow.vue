@@ -4,6 +4,7 @@ import { useGameStore, Cell } from '../store/game'
 import { computed } from '@vue/reactivity'
 import { useCountFiilQuery, useFiilQuery } from '../queries/fetcher'
 import { useEventBus } from '../store/eventbus'
+import { isDefined } from '@vueuse/shared'
 
 export interface Row {
   row: Cell[]
@@ -23,18 +24,31 @@ const isRowActive = computed(() => activeCellIndex.value[0] === rowIndex.value)
 
 const countFiil = useCountFiilQuery(result)
 
-const showResult = computed(() => Boolean(result.value) && countFiil.isExist.value)
+const isResultReady = computed(()=> result.value && isDefined(countFiil.isExist))
+
+const resultIndicator = computed(() => {
+  if (countFiil.isFetching.value) {
+    return 'loading'
+  }
+  if (!isResultReady.value) {
+    return null
+  }
+  if ((countFiil.data.value?.count ?? 0) > 0) {
+    return 'exist'
+  }
+  return 'not-exist'
+})
 
 const fiil = useFiilQuery(result.value)
 
-useEventBus().$onAction(async ({ name, after }) => {
-  if (!isRowActive) {
+const unsubscribe = useEventBus().$onAction(async ({ name }) => {
+  if (!isRowActive.value) {
     return
   }
-  if (name === 'kbEnter' && Boolean(result.value) && countFiil.isExist.value) {
+  if (name === 'kbEnter' && isResultReady.value) {
     await fiil.execute()
-    console.log(fiil.data.value)
     gameStore.forward()
+    unsubscribe()
   }
 })
 </script>
@@ -45,8 +59,14 @@ useEventBus().$onAction(async ({ name, after }) => {
       <GameCell v-if="index === 0" type="result" :is-row-active="isRowActive">
         {{ col.cellText }}
         <template #indicator>
-          <i-ph-spinner-gap-duotone v-if="countFiil.isFetching.value" />
-          <i-ic-baseline-check v-if="showResult" />
+          <span
+            v-if="resultIndicator"
+            class="rounded-full h-5 text-center text-xs leading-5 w-5 inline-block children:align-middle"
+            :class="[resultIndicator === 'exist' && 'bg-sky-600 ']"
+          >
+            <i-ph-spinner-gap-duotone v-if="resultIndicator === 'loading'" />
+            <i-ic-baseline-check v-if="resultIndicator === 'exist'" />
+          </span>
         </template>
       </GameCell>
       <GameCell v-else type="char" :is-row-active="isRowActive" :lit="col.cellLit">
