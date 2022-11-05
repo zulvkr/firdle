@@ -59,14 +59,18 @@ const unsubscribe = useEventBus().$onAction(async ({ name }) => {
       <GameCell v-if="index === 0" type="result" :is-row-active="isRowActive">
         {{ col.cellText }}
         <template #indicator>
-          <span
+          <div
             v-if="resultIndicator"
-            class="rounded-full h-5 text-center text-xs leading-5 w-5 inline-block children:align-middle"
-            :class="[resultIndicator === 'exist' && 'bg-sky-600 ']"
+            class="rounded-full h-5 w-5 text-sm text-center leading-5 grid place-items-center"
+            :class="[
+              resultIndicator === 'exist' && 'bg-sky-600',
+              resultIndicator === 'not-exist' && 'bg-gray-700 border'
+            ]"
           >
             <i-ph-spinner-gap-duotone v-if="resultIndicator === 'loading'" />
-            <i-ic-baseline-check v-if="resultIndicator === 'exist'" />
-          </span>
+            <i-ic-baseline-check v-else-if="resultIndicator === 'exist'" />
+            <i-ic-baseline-question-mark v-else-if="resultIndicator === 'not-exist'" />
+          </div>
         </template>
       </GameCell>
       <GameCell v-else type="char" :is-row-active="isRowActive" :lit="col.cellLit">

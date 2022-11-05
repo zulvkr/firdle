@@ -2,7 +2,7 @@ import { useFetch } from '@vueuse/core'
 import { computed, Ref, ref, watch } from 'vue'
 
 interface BaseResponse {
-  status: string
+  status: number
 }
 
 interface CountResponse extends BaseResponse {

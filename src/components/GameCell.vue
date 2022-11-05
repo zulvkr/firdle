@@ -25,10 +25,10 @@ const dynamicClass = computed(() => {
   }
 
   if (props.isRowActive) {
-    const className = 'border-gray-500'
+    const className = 'border-2 border-gray-500'
     cls.isRowActive = className
   } else {
-    const className = 'border-gray-700'
+    const className = 'border-1 border-gray-700'
     cls.isRowActive = className
   }
 
@@ -42,10 +42,10 @@ const dynamicClass = computed(() => {
 
 <template>
   <div
-    class="rounded border-2 grid border-gray-600 transition-transform relative"
+    class="rounded grid transition-transform relative"
     :class="dynamicClass"
   >
-    <div class="absolute -top-3 -left-3">
+    <div class="absolute -top-2 -left-3">
       <slot name="indicator"> </slot>
     </div>
     <div class="place-self-center text-size-xl">

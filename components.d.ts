@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     IIcBaselineCheck: typeof import('~icons/ic/baseline-check')['default']
     IIcBaselineInfo: typeof import('~icons/ic/baseline-info')['default']
     IIcBaselineKeyboardArrowDown: typeof import('~icons/ic/baseline-keyboard-arrow-down')['default']
+    IIcBaselineQuestionMark: typeof import('~icons/ic/baseline-question-mark')['default']
     IIcBaselineSettings: typeof import('~icons/ic/baseline-settings')['default']
     Index: typeof import('./src/components/pages/Index.vue')['default']
     IPhSpinnerGapDuotone: typeof import('~icons/ph/spinner-gap-duotone')['default']
