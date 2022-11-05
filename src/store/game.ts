@@ -30,6 +30,9 @@ export const useGameStore = defineStore('game', () => {
   const gridMap = computed(() => createGridMap(grid.value))
 
   const activeCellIndex = ref<cellIndex>(gridMap.value[0])
+  const atFirstCol = computed(() => activeCellIndex.value[1] < 3)
+  const atLastCol = computed(() => activeCellIndex.value[1] > 0)
+
 
   /**
    * Index of activeCell in gridMap
@@ -50,14 +53,14 @@ export const useGameStore = defineStore('game', () => {
         activeCell.cellLit = false
       }, 300)
     }
-    if (activeCellIndex.value[1] > 0) {
+    if (atLastCol.value) {
       forward()
     }
   }
 
   function backspace() {
     let activeCell = getCell(activeCellIndex.value)
-    if (!activeCell.cellText && flatActiveCellIndex.value > 0) {
+    if (!activeCell.cellText && atFirstCol.value) {
       back()
     }
     activeCell = getCell(activeCellIndex.value)

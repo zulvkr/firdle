@@ -6,7 +6,7 @@ const showAppBar = ref(false)
 
 <template>
   <div @click="showAppBar = !showAppBar">
-    <div class="top-0 right-0 left-0 fixed">
+    <div class="top-0 right-0 left-0 fixed z-50">
       <div
         :class="[
           'bg-cool-gray-800',
