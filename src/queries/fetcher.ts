@@ -50,13 +50,14 @@ function useCountFiilQuery(result: Ref<string>) {
   return { isExist, ...fetchRes }
 }
 
-function useFiilQuery(result: string) {
+function useFiilQuery(result: Ref<string>) {
   const fetchPath = createFetchPath('/firdle-fiil')
   const fetchQuery = computed(() => {
-    return new URLSearchParams({ result }).toString()
+    return new URLSearchParams({ result: result.value }).toString()
   })
+  const fetchURL = computed(() => `${fetchPath}?${fetchQuery.value}`)
 
-  const fetchRes = useFetch(`${fetchPath}?${fetchQuery.value}`, {
+  const fetchRes = useFetch(fetchURL, {
     immediate: false,
   }).json()
 

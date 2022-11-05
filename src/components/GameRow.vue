@@ -39,7 +39,7 @@ const resultIndicator = computed(() => {
   return 'not-exist'
 })
 
-const fiil = useFiilQuery(result.value)
+const fiil = useFiilQuery(result)
 
 const unsubscribe = useEventBus().$onAction(async ({ name }) => {
   if (!isRowActive.value) {
@@ -47,6 +47,7 @@ const unsubscribe = useEventBus().$onAction(async ({ name }) => {
   }
   if (name === 'kbEnter' && isResultReady.value) {
     await fiil.execute()
+    console.log(result)
     gameStore.forward()
     unsubscribe()
   }
