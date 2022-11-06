@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
+import { denormalizeFiil } from '../utils/denormalize'
 
 export const useGameStore = defineStore('game', () => {
   /**
@@ -95,7 +96,7 @@ export const useGameStore = defineStore('game', () => {
       return ''
     }
 
-    return grid.value[rowIndex].reduceRight((prev, curr, idx, arr) => {
+    const normalResult = grid.value[rowIndex].reduceRight((prev, curr, idx, arr) => {
       let harf = curr.cellText
       if (harf === HAMZA) {
         if (idx > 0) {
@@ -107,6 +108,8 @@ export const useGameStore = defineStore('game', () => {
       }
       return prev + harf
     }, '')
+
+    return denormalizeFiil(normalResult)
   }
 
   function getCell(cellIndex: cellIndex) {

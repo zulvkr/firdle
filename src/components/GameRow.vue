@@ -24,7 +24,7 @@ const isRowActive = computed(() => activeCellIndex.value[0] === rowIndex.value)
 
 const countFiil = useCountFiilQuery(result)
 
-const isResultReady = computed(()=> result.value && isDefined(countFiil.isExist))
+const isResultReady = computed(()=> result.value && isDefined(countFiil.data))
 
 const resultIndicator = computed(() => {
   if (countFiil.isFetching.value) {
@@ -33,7 +33,7 @@ const resultIndicator = computed(() => {
   if (!isResultReady.value) {
     return null
   }
-  if ((countFiil.data.value?.count ?? 0) > 0) {
+  if ((countFiil.data.value?.data.count ?? 0) > 0) {
     return 'exist'
   }
   return 'not-exist'
@@ -47,7 +47,6 @@ const unsubscribe = useEventBus().$onAction(async ({ name }) => {
   }
   if (name === 'kbEnter' && isResultReady.value) {
     await fiil.execute()
-    console.log(result)
     gameStore.forward()
     unsubscribe()
   }
@@ -70,7 +69,7 @@ const unsubscribe = useEventBus().$onAction(async ({ name }) => {
           >
             <i-ph-spinner-gap-duotone v-if="resultIndicator === 'loading'" />
             <i-ic-baseline-check v-else-if="resultIndicator === 'exist'" />
-            <i-ic-baseline-question-mark v-else-if="resultIndicator === 'not-exist'" />
+            <i-ic-baseline-question-mark v-else-if="resultIndicator === 'not-exist'" transform="scale(-1,1)"/>
           </div>
         </template>
       </GameCell>

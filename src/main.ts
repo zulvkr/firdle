@@ -5,7 +5,6 @@ import Index from './components/pages/Index.vue'
 import About from './components/pages/About.vue'
 import { createPinia } from 'pinia'
 
-
 const pinia = createPinia()
 
 const routes = [

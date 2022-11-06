@@ -1,26 +1,31 @@
-import { useFetch } from '@vueuse/core'
+import { createFetch, useFetch } from '@vueuse/core'
 import { computed, Ref, ref, watch } from 'vue'
 
+interface Status {
+  code: number
+}
+
 interface BaseResponse {
-  status: number
+  status: Status
+}
+
+interface Count {
+  count: number
+  value: unknown
 }
 
 interface CountResponse extends BaseResponse {
-  count: number
+  data: Count
 }
 
-const baseURLString = 'https://basket.uno.ivanzulfikar.com'
-
-function createFetchPath(path: string) {
-  const url = new URL(baseURLString)
-  url.pathname = path
-  return url.toString()
-}
+const useBaseFetch = createFetch({
+  baseUrl: import.meta.env.VITE_API_BASE_URL,
+})
 
 function useCountFiilQuery(result: Ref<string>) {
-  const fetchPath = createFetchPath('/firdle-count-fiil')
+  const fetchPath = '/fiil/count'
   const fetchQuery = computed(() => {
-    return new URLSearchParams({ count: 'true', result: result.value }).toString()
+    return new URLSearchParams({ value: result.value }).toString()
   })
 
   // update this state to trigger refetch
@@ -32,32 +37,22 @@ function useCountFiilQuery(result: Ref<string>) {
     }
   })
 
-  const fetchRes = useFetch(cachedRoute, {
+  const fetchRes = useBaseFetch(cachedRoute, {
     immediate: false,
     refetch: true,
   }).json<CountResponse>()
 
-  const isExist = computed(() => {
-    if (!fetchRes.isFinished.value) {
-      return null
-    }
-    if ((fetchRes.data.value?.count ?? 0) > 0) {
-      return true
-    }
-    return false
-  })
-
-  return { isExist, ...fetchRes }
+  return fetchRes
 }
 
 function useFiilQuery(result: Ref<string>) {
-  const fetchPath = createFetchPath('/firdle-fiil')
+  const fetchPath = '/fiil'
   const fetchQuery = computed(() => {
-    return new URLSearchParams({ result: result.value }).toString()
+    return new URLSearchParams({ value: result.value }).toString()
   })
   const fetchURL = computed(() => `${fetchPath}?${fetchQuery.value}`)
 
-  const fetchRes = useFetch(fetchURL, {
+  const fetchRes = useBaseFetch(fetchURL, {
     immediate: false,
   }).json()
 

@@ -14,7 +14,7 @@ useHead({
 </script>
 
 <template>
-  <div class="grid index-page items-center">
+  <div class="grid index-page items-center xl:items-start">
     <GameGrid />
   </div>
   <ArabicKB />

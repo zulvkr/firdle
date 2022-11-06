@@ -143,7 +143,7 @@ gameStore.$subscribe((mutation, state) => {
 <template>
   <div class="fixed bg-cool-gray-800 bottom-0 left-0 right-0">
     <div class="text-white py-2 py-md-4 px-1 grid">
-      <div class="w-full max-w-2xl justify-self-center font-IBM">
+      <div class="w-full max-w-xl justify-self-center font-IBM">
         <div class="grid keyboard gap-x-[5px] gap-y-3">
           <KBButton v-for="button in keyboardConfig.firstRow" v-bind="button" />
           <KBButton v-for="button in keyboardConfig.secondRow" v-bind="button" />
