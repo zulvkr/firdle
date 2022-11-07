@@ -42,7 +42,7 @@ const dynamicClass = computed(() => {
 
 <template>
   <div
-    class="rounded grid transition-transform relative"
+    class="rounded grid transition-transform duration-75 relative"
     :class="dynamicClass"
   >
     <div class="absolute -top-2 -left-3">

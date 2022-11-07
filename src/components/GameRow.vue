@@ -5,6 +5,7 @@ import { computed } from '@vue/reactivity'
 import { useCountFiilQuery, useFiilQuery } from '../queries/fetcher'
 import { useEventBus } from '../store/eventbus'
 import { isDefined } from '@vueuse/shared'
+import { ref } from 'vue'
 
 export interface Row {
   row: Cell[]
@@ -24,16 +25,16 @@ const isRowActive = computed(() => activeCellIndex.value[0] === rowIndex.value)
 
 const countFiil = useCountFiilQuery(result)
 
-const isResultReady = computed(()=> result.value && isDefined(countFiil.data))
+const isResultReady = computed(() => result.value && isDefined(countFiil.data))
 
-const resultIndicator = computed(() => {
+const resultStatus = computed(() => {
   if (countFiil.isFetching.value) {
     return 'loading'
   }
   if (!isResultReady.value) {
     return null
   }
-  if ((countFiil.data.value?.data.count ?? 0) > 0) {
+  if ((countFiil.data.value?.data?.count ?? 0) > 0) {
     return 'exist'
   }
   return 'not-exist'
@@ -51,26 +52,42 @@ const unsubscribe = useEventBus().$onAction(async ({ name }) => {
     unsubscribe()
   }
 })
+
+const showInfoModal = ref(false)
+
+async function onClickResult() {
+  if (resultStatus.value === 'exist') {
+    await fiil.execute()
+    showInfoModal.value = true
+  }
+}
 </script>
 
 <template>
   <div class="grid gap-1 answer">
     <template v-for="(col, index) in props.row">
-      <GameCell v-if="index === 0" type="result" :is-row-active="isRowActive">
+      <GameCell
+        v-if="index === 0"
+        type="result"
+        :is-row-active="isRowActive"
+        @click="onClickResult"
+      >
         {{ col.cellText }}
         <template #indicator>
-          <div
-            v-if="resultIndicator"
-            class="rounded-full h-5 w-5 text-sm text-center leading-5 grid place-items-center"
-            :class="[
-              resultIndicator === 'exist' && 'bg-sky-600',
-              resultIndicator === 'not-exist' && 'bg-gray-700 border'
-            ]"
-          >
-            <i-ph-spinner-gap-duotone v-if="resultIndicator === 'loading'" />
-            <i-ic-baseline-check v-else-if="resultIndicator === 'exist'" />
-            <i-ic-baseline-question-mark v-else-if="resultIndicator === 'not-exist'" transform="scale(-1,1)"/>
-          </div>
+          <Indicator v-if="resultStatus === 'loading'">
+            <i-ph-spinner-gap-duotone class="animate-spin" />
+          </Indicator>
+          <Transition name="zoom" mode="out-in">
+            <Indicator v-if="resultStatus === 'exist'" class="bg-sky-600">
+              <i-ic-baseline-check />
+            </Indicator>
+            <Indicator
+              v-else-if="resultStatus === 'not-exist'"
+              class="bg-gray-700 border"
+            >
+              <i-ic-baseline-question-mark transform="scale(-1,1)" />
+            </Indicator>
+          </Transition>
         </template>
       </GameCell>
       <GameCell v-else type="char" :is-row-active="isRowActive" :lit="col.cellLit">
@@ -78,4 +95,19 @@ const unsubscribe = useEventBus().$onAction(async ({ name }) => {
       </GameCell>
     </template>
   </div>
+  <Modal v-model="showInfoModal">
+    <InfoBox :data="fiil.data.value?.data" />
+  </Modal>
 </template>
+
+<style scoped lang="postcss">
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.zoom-enter-from,
+.zoom-leave-to {
+  transform: scale3d(0, 0, 0);
+}
+</style>

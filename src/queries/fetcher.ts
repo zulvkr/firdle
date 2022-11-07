@@ -1,22 +1,7 @@
 import { createFetch, useFetch } from '@vueuse/core'
 import { computed, Ref, ref, watch } from 'vue'
+import { getJSON } from './type'
 
-interface Status {
-  code: number
-}
-
-interface BaseResponse {
-  status: Status
-}
-
-interface Count {
-  count: number
-  value: unknown
-}
-
-interface CountResponse extends BaseResponse {
-  data: Count
-}
 
 const useBaseFetch = createFetch({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
@@ -40,7 +25,7 @@ function useCountFiilQuery(result: Ref<string>) {
   const fetchRes = useBaseFetch(cachedRoute, {
     immediate: false,
     refetch: true,
-  }).json<CountResponse>()
+  }).json<getJSON<'/fiil/count'>>()
 
   return fetchRes
 }
@@ -54,7 +39,7 @@ function useFiilQuery(result: Ref<string>) {
 
   const fetchRes = useBaseFetch(fetchURL, {
     immediate: false,
-  }).json()
+  }).json<getJSON<'/fiil/'>>()
 
   return fetchRes
 }

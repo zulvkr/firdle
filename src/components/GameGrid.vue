@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { ref } from 'vue';
 import { useGameStore } from '../store/game'
 
 const gameStore = useGameStore()
 const { gridWithResult } = storeToRefs(gameStore)
+
 </script>
 
 <template>

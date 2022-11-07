@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ArabicKB from '../ArabicKB.vue'
 import { useHead } from '@vueuse/head'
 
 useHead({
@@ -17,7 +16,7 @@ useHead({
   <div class="grid index-page items-center xl:items-start">
     <GameGrid />
   </div>
-  <ArabicKB />
+  <KB />
 </template>
 
 <style lang="postcss" scoped>
