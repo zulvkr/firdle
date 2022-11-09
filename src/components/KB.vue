@@ -1,44 +1,45 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { CSSProperties } from 'vue'
-import {
-  DAD,
-  SAD,
-  THEH,
-  QAF,
-  FEH,
-  GHAIN,
-  AIN,
-  HEH,
-  KHAH,
-  HAH,
-  JEEM,
-  SHEEN,
-  SEEN,
-  YEH,
-  BEH,
-  LAM,
-  ALEF,
-  TEH,
-  NOON,
-  MEEM,
-  KAF,
-  TEH_MARBUTA,
-  HAMZA,
-  ZAH,
-  TAH,
-  THAL,
-  DAL,
-  ZAIN,
-  REH,
-  WAW,
-  ALEF_MAKSURA,
-} from '../constants/hijaiy'
-import { Button } from './KBButton.vue'
 import RawBackspace from '~icons/ic/outline-backspace?raw'
 import RawClear from '~icons/ic/round-clear?raw'
-import { useGameStore } from '../store/game'
+
+import {
+  AIN,
+  ALEF,
+  ALEF_MAKSURA,
+  BEH,
+  DAD,
+  DAL,
+  FEH,
+  GHAIN,
+  HAH,
+  HAMZA,
+  HEH,
+  JEEM,
+  KAF,
+  KHAH,
+  LAM,
+  MEEM,
+  NOON,
+  QAF,
+  REH,
+  SAD,
+  SEEN,
+  SHEEN,
+  TAH,
+  TEH,
+  TEH_MARBUTA,
+  THAL,
+  THEH,
+  WAW,
+  YEH,
+  ZAH,
+  ZAIN,
+} from '../constants/hijaiy'
 import { useEventBus } from '../store/eventbus'
-import { storeToRefs } from 'pinia'
+import { useGameStore } from '../store/game'
+import { Button } from './KBButton.vue'
 
 const gameStore = useGameStore()
 const { backspace, clearLine, formResult } = gameStore

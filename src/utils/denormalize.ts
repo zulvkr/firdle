@@ -1,4 +1,11 @@
-import { ALEF, ALEF_HAMZA_ABOVE, ALEF_MADDA, HAMZA, HAMZAT, SHADDA } from '../constants/hijaiy'
+import {
+  ALEF,
+  ALEF_HAMZA_ABOVE,
+  ALEF_MADDA,
+  HAMZA,
+  HAMZAT,
+  SHADDA,
+} from '../constants/hijaiy'
 
 export function denormalizeShadda(fiil: string) {
   return fiil.split('').reduce((prev, curr, idx, arr) => {
@@ -13,7 +20,7 @@ export function denormalizeAlefMadda(fiil: string) {
   return fiil.split('').reduce((prev, curr, idx, arr) => {
     if (curr === ALEF) {
       if (HAMZAT.includes(prev.slice(-1))) {
-        return prev.slice(0,-1) + ALEF_MADDA
+        return prev.slice(0, -1) + ALEF_MADDA
       }
     }
     return prev + curr

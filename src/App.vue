@@ -2,7 +2,6 @@
 import { useWindowSize } from '@vueuse/core'
 
 const { height } = useWindowSize()
-
 </script>
 
 <template>

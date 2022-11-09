@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+
 import { getJSON } from '../queries/type'
 
 const props = defineProps<{

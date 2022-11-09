@@ -39,7 +39,7 @@ export default defineConfig({
       fontFamily: {
         readex: ['Readex Pro', ...sans],
         IBM: ['IBM Plex Sans Arabic', ...sans],
-        lateef: ['Lateef', ...serif]
+        lateef: ['Lateef', ...serif],
       },
     },
   },

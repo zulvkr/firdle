@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+
 import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
 import { getJSON } from '../queries/type'
 import { denormalizeFiil } from '../utils/denormalize'

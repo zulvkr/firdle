@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
-import { useBreakpoints, breakpointsTailwind } from '@vueuse/core'
 
 const isAppBarExpanded = ref(false)
 

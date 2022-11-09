@@ -1,9 +1,10 @@
-import { ViteSSG } from 'vite-ssg'
-import 'virtual:windi.css'
-import App from './App.vue'
-import Index from './components/pages/Index.vue'
-import About from './components/pages/About.vue'
 import { createPinia } from 'pinia'
+import 'virtual:windi.css'
+import { ViteSSG } from 'vite-ssg'
+
+import App from './App.vue'
+import About from './components/pages/About.vue'
+import Index from './components/pages/Index.vue'
 
 const pinia = createPinia()
 

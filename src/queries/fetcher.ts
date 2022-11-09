@@ -1,7 +1,7 @@
 import { createFetch, useFetch } from '@vueuse/core'
-import { computed, Ref, ref, watch } from 'vue'
-import { getJSON } from './type'
+import { Ref, computed, ref, watch } from 'vue'
 
+import { getJSON } from './type'
 
 const useBaseFetch = createFetch({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
@@ -57,4 +57,3 @@ export function useAnswerMatchQuery(result: Ref<string>) {
 
   return fetchRes
 }
-

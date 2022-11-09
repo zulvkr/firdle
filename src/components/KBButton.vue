@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { CSSProperties } from 'vue'
+
 import { useGameStore } from '../store/game'
 
 export interface Button {
