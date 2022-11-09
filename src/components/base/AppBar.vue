@@ -15,7 +15,7 @@ onMounted(() => {
 <template>
   <div class="top-0 sticky z-30 h-[var(--app-bar-height-fill-space)]">
     <Transition name="fade" mode="out-in">
-      <AppBarRegular v-if="isAppBarExpanded">
+      <AppBarRegular v-if="isAppBarExpanded" @click-outside="isAppBarExpanded = false">
         <slot name="appbar-content" />
       </AppBarRegular>
       <AppBarMini v-else @click="isAppBarExpanded = true">
@@ -24,7 +24,7 @@ onMounted(() => {
     </Transition>
     <div class="absolute top-0 left-0 right-0">
       <hr
-        class="border-sky-400 origin-top transition-transform transform"
+        class="border-gray-500 origin-top transition-transform transform"
         :class="
           isAppBarExpanded
             ? 'translate-y-[var(--app-bar-height)]'
@@ -38,7 +38,7 @@ onMounted(() => {
 <style lang="postcss" scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: opacity 0.2s ease;
 }
 
 .fade-enter-from,

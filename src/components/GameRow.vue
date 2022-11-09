@@ -12,7 +12,7 @@ import {
 import { useEventBus } from '../store/eventbus'
 import { Cell, useGameStore } from '../store/game'
 import { useSettingsStore } from '../store/settings'
-import { gameMessages } from './GameMessages'
+import { gameMessages } from './gameMessages'
 
 export interface Row {
   row: Cell[]
@@ -71,10 +71,6 @@ const unsubscribe = eventbus.$onAction(async ({ name }) => {
   }
   if (resultStatus.value === 'not-exist') {
     eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
-    // await answerMatch.execute()
-    // await assignAnswerMatch(answerMatch.data.value?.data)
-    // gameStore.forward()
-    // unsubscribe()
   }
 })
 
@@ -84,6 +80,9 @@ async function onClickResult() {
   if (resultStatus.value === 'exist') {
     await fiil.execute()
     showInfoModal.value = true
+  }
+  if (resultStatus.value === 'not-exist') {
+    eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }
 }
 </script>
@@ -96,6 +95,7 @@ async function onClickResult() {
         type="result"
         :is-row-active="isRowActive"
         @click="onClickResult"
+        :class="[isResultReady && 'cursor-pointer']"
       >
         {{ col.cellText }}
         <template #indicator>

@@ -19,7 +19,7 @@
     </template>
     <template #smallbar-content>
       <div
-        class="text-sky-400 grid smallbar text-xs"
+        class="text-gray-300 grid smallbar text-xs"
       >
         <div class="logo font-semibold grid">
           <div class="place-self-center">FIRDLE</div>

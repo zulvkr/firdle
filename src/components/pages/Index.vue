@@ -13,7 +13,7 @@ useHead({
 </script>
 
 <template>
-  <div class="grid index-page items-center xl:items-start overflow-y-auto">
+  <div class="grid index-page items-center overflow-y-auto">
     <GameGrid />
   </div>
   <KB />

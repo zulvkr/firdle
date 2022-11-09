@@ -14,6 +14,7 @@ const dynamicClass = computed(() => {
   const cls = {
     typeClass: '',
     litClass: '',
+    answerMatchClass: '',
     isRowActive: '',
   }
   if (props.type === 'result') {
@@ -34,19 +35,19 @@ const dynamicClass = computed(() => {
   }
 
   if (props.lit) {
-    const className = 'transform scale-105 ring ring-opacity-80 ring-sky-400'
+    const className = 'transform scale-105 ring ring-opacity-80 ring-sky-400 ring-2'
     cls.litClass = className
   }
 
   if (props.answerMatch === 'matched') {
     const className = '!bg-green-600'
-    cls.litClass = className
+    cls.answerMatchClass = className
   } else if (props.answerMatch === 'missed') {
     const className = '!bg-dark-600'
-    cls.litClass = className
+    cls.answerMatchClass = className
   } else if (props.answerMatch === 'misplaced') {
     const className = '!bg-yellow-600'
-    cls.litClass = className
+    cls.answerMatchClass = className
   }
   return Object.values(cls).join(' ')
 })

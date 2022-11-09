@@ -6,9 +6,10 @@ const { height } = useWindowSize()
 
 <template>
   <AppAppBar />
-  <main class="font-readex h-[var(--main-height)]">
+  <main class="font-IBM h-[var(--main-height)]">
     <router-view />
   </main>
+  <SnackBar />
 </template>
 
 <style lang="postcss">

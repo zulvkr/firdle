@@ -35,5 +35,6 @@ declare module '@vue/runtime-core' {
     Modal: typeof import('./src/components/base/Modal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SnackBar: typeof import('./src/components/base/SnackBar.vue')['default']
   }
 }
