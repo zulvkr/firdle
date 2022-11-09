@@ -12,7 +12,7 @@ const details = computed(() => props.data?.resultDetails?.join?.(''))
 <template>
   <div class="font-lateef text-3xl leading-10 text-white" dir="rtl">
     <div class="py-2 px-8 almaany-title" v-html="data?.matchedResultHTML"></div>
-    <hr class="border-gray-600" />
+    <hr class="border-gray-500" />
     <div class="py-4 px-8">
       <ol v-html="details" class="almaany-details list-circle pr-6"></ol>
     </div>

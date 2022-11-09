@@ -25,7 +25,7 @@ const dynamicClass = computed(() => {
   }
 
   if (props.isRowActive) {
-    const className = 'border-2 border-gray-500'
+    const className = 'border-1 border-gray-500'
     cls.isRowActive = className
   } else {
     const className = 'border-1 border-gray-700'
@@ -33,7 +33,7 @@ const dynamicClass = computed(() => {
   }
 
   if (props.lit) {
-    const className = 'transform scale-105 !border-light-600'
+    const className = 'transform scale-105 ring ring-opacity-80 ring-sky-400'
     cls.litClass = className
   }
   return Object.values(cls).join(' ')
@@ -42,7 +42,7 @@ const dynamicClass = computed(() => {
 
 <template>
   <div
-    class="rounded grid transition-transform duration-75 relative"
+    class="rounded grid transition-all duration-75 relative"
     :class="dynamicClass"
   >
     <div class="absolute -top-2 -left-3">

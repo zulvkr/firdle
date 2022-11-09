@@ -83,7 +83,7 @@ async function onClickResult() {
             </Indicator>
             <Indicator
               v-else-if="resultStatus === 'not-exist'"
-              class="bg-gray-700 border"
+              class="bg-gray-700 border border-gray-500"
             >
               <i-ic-baseline-question-mark transform="scale(-1,1)" />
             </Indicator>
@@ -95,7 +95,7 @@ async function onClickResult() {
       </GameCell>
     </template>
   </div>
-  <Modal v-model="showInfoModal">
+  <Modal v-model="showInfoModal" persistent>
     <InfoBox :data="fiil.data.value?.data" />
   </Modal>
 </template>

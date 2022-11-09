@@ -141,10 +141,10 @@ gameStore.$subscribe((mutation, state) => {
 </script>
 
 <template>
-  <div class="fixed bg-cool-gray-800 bottom-0 left-0 right-0">
-    <div class="text-white py-2 py-md-4 px-1 grid">
+  <div class="bg-cool-gray-800 bottom-0 left-0 right-0 z-10" id="keyboard">
+    <div class="text-white py-1 py-md-4 px-1 grid">
       <div class="w-full max-w-xl justify-self-center font-IBM">
-        <div class="grid keyboard gap-x-[5px] gap-y-3">
+        <div class="grid keyboard gap-x-[5px] gap-y-2">
           <KBButton v-for="button in keyboardConfig.firstRow" v-bind="button" />
           <KBButton v-for="button in keyboardConfig.secondRow" v-bind="button" />
           <KBButton v-for="button in keyboardConfig.thirdRow" v-bind="button" />
@@ -161,5 +161,11 @@ gameStore.$subscribe((mutation, state) => {
 .grid.keyboard {
   grid-auto-flow: row;
   grid-template: auto auto auto auto / repeat(11, minmax(0, 1fr));
+}
+</style>
+
+<style>
+:root {
+  --keyboard-height: 216px;
 }
 </style>

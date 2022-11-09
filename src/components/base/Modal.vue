@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { onClickOutside } from '@vueuse/core'
-import { Ref, ref, watch, watchEffect } from 'vue'
+import { onClickOutside, useScrollLock } from '@vueuse/core'
+import { ref, watchEffect } from 'vue'
 
 const i_show = ref(true)
+
+const isShaked = ref(false)
 
 const props = defineProps<{
   modelValue: boolean
@@ -11,19 +13,35 @@ const props = defineProps<{
 
 const emit = defineEmits(['update:modelValue'])
 
+const body = document.body
+const bodyLock = useScrollLock(body)
+
 watchEffect(() => {
   i_show.value = props.modelValue
+  bodyLock.value = i_show.value
+  body.style.paddingRight = i_show.value ? 'calc(100vw - 100%)' : ''
 })
 
 const target = ref(null)
 
-onClickOutside(target, () => {
-  if (props.persistent) {
+onClickOutside(
+  target,
+  async () => {
+    if (props.persistent && i_show.value === true) {
+      isShaked.value = true
+      setTimeout(() => {
+        isShaked.value = false
+      }, 500)
+      return
+    }
+    emit('update:modelValue', false)
+  },
+  { capture: false }
+)
 
-    return
-  }
+function onClickExit() {
   emit('update:modelValue', false)
-})
+}
 </script>
 
 <template>
@@ -34,10 +52,14 @@ onClickOutside(target, () => {
       </div>
     </Transition>
     <Transition name="slide-y">
-      <div v-if="i_show" class="fixed inset-0 z-41 grid modal px-4 pt-12 py-4 overflow-scroll">
+      <div
+        v-if="i_show"
+        class="fixed inset-0 mb-1 z-41 grid modal px-4 pt-12 py-4 overflow-y-auto"
+      >
         <div
           ref="target"
           class="w-full bg-gray-900 border-gray-500 border rounded-lg place-self-center col-start-2"
+          :class="isShaked ? 'animate-animated animate-headShake' : ''"
         >
           <slot>
             <div class="h-30"></div>
@@ -45,9 +67,14 @@ onClickOutside(target, () => {
         </div>
       </div>
     </Transition>
-    <div v-if="i_show" class="p-2 h-10 w-10 fixed top-2 right-0 z-42" @click="$emit('update:modelValue')">
-      <i-ic-baseline-close font-size="20px" />
-    </div>
+    <button
+      v-if="i_show"
+      class="p-2 h-10 w-10 fixed top-2 right-5 z-42 grid place-content-center"
+      :class="isShaked ? 'animate-animated animate-headShake' : ''"
+      @click="onClickExit"
+    >
+      <i-ic-baseline-close font-size="24px" />
+    </button>
   </Teleport>
 </template>
 
