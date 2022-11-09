@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@iconify/json": "^2.1.130",
+    "@trivago/prettier-plugin-sort-imports": "^3.4.0",
     "@types/node": "^18.11.7",
     "@vitejs/plugin-vue": "^3.2.0",
     "@vueuse/head": "^0.9.8",

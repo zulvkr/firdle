@@ -5,6 +5,7 @@ export interface GameCell {
   type: 'result' | 'char'
   lit?: boolean
   isRowActive: boolean
+  answerMatch?: string
 }
 
 const props = defineProps<GameCell>()
@@ -34,6 +35,17 @@ const dynamicClass = computed(() => {
 
   if (props.lit) {
     const className = 'transform scale-105 ring ring-opacity-80 ring-sky-400'
+    cls.litClass = className
+  }
+
+  if (props.answerMatch === 'matched') {
+    const className = '!bg-green-600'
+    cls.litClass = className
+  } else if (props.answerMatch === 'missed') {
+    const className = '!bg-dark-600'
+    cls.litClass = className
+  } else if (props.answerMatch === 'misplaced') {
+    const className = '!bg-yellow-600'
     cls.litClass = className
   }
   return Object.values(cls).join(' ')

@@ -5,5 +5,9 @@
   "trailingComma": "es5",
   "semi": false,
   "printWidth": 88,
-  "singleAttributePerLine": false
+  "singleAttributePerLine": false,
+  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+
 }

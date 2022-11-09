@@ -51,7 +51,6 @@ onMounted(() => {
 :root {
   --mini-app-bar-height: 16px;
   --app-bar-height: 48px;
-  /* --app-bar-hr: calc(0px - var(--app-bar-height)); */
   --app-bar-height-fill-space: var(--mini-app-bar-height);
   @screen sm {
     --app-bar-height: 56px;

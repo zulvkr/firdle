@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
+import { getJSON } from '../queries/type'
 import { denormalizeFiil } from '../utils/denormalize'
 
 export const useGameStore = defineStore('game', () => {
@@ -33,7 +34,6 @@ export const useGameStore = defineStore('game', () => {
   const activeCellIndex = ref<cellIndex>(gridMap.value[0])
   const atFirstCol = computed(() => activeCellIndex.value[1] < 3)
   const atLastCol = computed(() => activeCellIndex.value[1] > 0)
-
 
   /**
    * Index of activeCell in gridMap
@@ -130,6 +130,21 @@ export const useGameStore = defineStore('game', () => {
     return cellIndex1.every((val, index) => cellIndex2[index] === val)
   }
 
+  async function assignAnswerMatch(answer: getJSON<'/answer/'>['data']) {
+    if (!answer?.answer) {
+      return
+    }
+    const answerReversed = answer.answer.slice().reverse()
+    const activeRow = grid.value[activeCellIndex.value[0]]
+
+    for (let i = activeRow.length - 1; i >= 0; i--) {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 300)
+      })
+      activeRow[i].cellAnswerMatch = answerReversed[i]
+    }
+  }
+
   return {
     grid,
     results,
@@ -142,6 +157,7 @@ export const useGameStore = defineStore('game', () => {
     formResult,
     matchCellIndex,
     forward,
+    assignAnswerMatch,
   }
 })
 
@@ -150,6 +166,7 @@ export interface Cell {
   cellText?: string
   cellLit?: boolean
   cellContent?: unknown
+  cellAnswerMatch?: string
 }
 
 /**

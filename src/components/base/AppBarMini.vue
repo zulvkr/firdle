@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="px-4 backdrop-blur backdrop-filter">
+  <div class="px-4 h-[var(--mini-app-bar-height)] backdrop-blur backdrop-filter">
     <slot />
   </div>
 </template>

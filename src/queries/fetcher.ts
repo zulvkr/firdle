@@ -7,7 +7,7 @@ const useBaseFetch = createFetch({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
 })
 
-function useCountFiilQuery(result: Ref<string>) {
+export function useCountFiilQuery(result: Ref<string>) {
   const fetchPath = '/fiil/count'
   const fetchQuery = computed(() => {
     return new URLSearchParams({ value: result.value }).toString()
@@ -30,7 +30,7 @@ function useCountFiilQuery(result: Ref<string>) {
   return fetchRes
 }
 
-function useFiilQuery(result: Ref<string>) {
+export function useFiilQuery(result: Ref<string>) {
   const fetchPath = '/fiil'
   const fetchQuery = computed(() => {
     return new URLSearchParams({ value: result.value }).toString()
@@ -44,4 +44,17 @@ function useFiilQuery(result: Ref<string>) {
   return fetchRes
 }
 
-export { useCountFiilQuery, useFiilQuery }
+export function useAnswerMatchQuery(result: Ref<string>) {
+  const fetchPath = '/answer'
+  const fetchQuery = computed(() => {
+    return new URLSearchParams({ value: result.value }).toString()
+  })
+  const fetchURL = computed(() => `${fetchPath}?${fetchQuery.value}`)
+
+  const fetchRes = useBaseFetch(fetchURL, {
+    immediate: false,
+  }).json<getJSON<'/answer/'>>()
+
+  return fetchRes
+}
+

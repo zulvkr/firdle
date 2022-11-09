@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useGameStore, Cell } from '../store/game'
 import { computed } from '@vue/reactivity'
-import { useCountFiilQuery, useFiilQuery } from '../queries/fetcher'
-import { useEventBus } from '../store/eventbus'
 import { isDefined } from '@vueuse/shared'
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+
+import {
+  useAnswerMatchQuery,
+  useCountFiilQuery,
+  useFiilQuery,
+} from '../queries/fetcher'
+import { useEventBus } from '../store/eventbus'
+import { Cell, useGameStore } from '../store/game'
+import { useSettingsStore } from '../store/settings'
+import { gameMessages } from './GameMessages'
 
 export interface Row {
   row: Cell[]
@@ -14,10 +21,15 @@ export interface Row {
 
 const props = defineProps<Row>()
 
-const rowIndex = computed(() => props.index)
-
 const gameStore = useGameStore()
 const { activeCellIndex } = storeToRefs(gameStore)
+
+const settingsStore = useSettingsStore()
+const { persistentInfoModal } = storeToRefs(settingsStore)
+
+const eventbus = useEventBus()
+
+const rowIndex = computed(() => props.index)
 
 const result = computed(() => props.row[0].cellText ?? '')
 
@@ -42,14 +54,27 @@ const resultStatus = computed(() => {
 
 const fiil = useFiilQuery(result)
 
-const unsubscribe = useEventBus().$onAction(async ({ name }) => {
+const answerMatch = useAnswerMatchQuery(result)
+
+const unsubscribe = eventbus.$onAction(async ({ name }) => {
   if (!isRowActive.value) {
     return
   }
-  if (name === 'kbEnter' && isResultReady.value) {
-    await fiil.execute()
+  if (name !== 'kbEnter') {
+    return
+  }
+  if (resultStatus.value === 'exist') {
+    await answerMatch.execute()
+    await gameStore.assignAnswerMatch(answerMatch.data.value?.data)
     gameStore.forward()
     unsubscribe()
+  }
+  if (resultStatus.value === 'not-exist') {
+    eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
+    // await answerMatch.execute()
+    // await assignAnswerMatch(answerMatch.data.value?.data)
+    // gameStore.forward()
+    // unsubscribe()
   }
 })
 
@@ -90,12 +115,18 @@ async function onClickResult() {
           </Transition>
         </template>
       </GameCell>
-      <GameCell v-else type="char" :is-row-active="isRowActive" :lit="col.cellLit">
+      <GameCell
+        v-else
+        type="char"
+        :is-row-active="isRowActive"
+        :lit="col.cellLit"
+        :answer-match="col.cellAnswerMatch"
+      >
         {{ col.cellText }}
       </GameCell>
     </template>
   </div>
-  <Modal v-model="showInfoModal" persistent>
+  <Modal v-model="showInfoModal" :persistent="persistentInfoModal">
     <InfoBox :data="fiil.data.value?.data" />
   </Modal>
 </template>
