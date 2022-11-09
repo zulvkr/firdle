@@ -54,7 +54,7 @@ const dynamicClass = computed(() => {
 </script>
 
 <template>
-  <div class="rounded grid transition-all duration-75 relative" :class="dynamicClass">
+  <div class="rounded grid transition-all duration-75 relative content-center" :class="dynamicClass">
     <div class="absolute -top-2 -left-3">
       <slot name="indicator"> </slot>
     </div>

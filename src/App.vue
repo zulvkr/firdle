@@ -22,4 +22,8 @@ const { height } = useWindowSize()
     --main-height: calc(var(--vh) - var(--app-bar-height));
   }
 }
+
+body {
+  touch-action: pan-x pan-y;
+}
 </style>

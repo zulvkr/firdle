@@ -4,42 +4,11 @@ import { CSSProperties } from 'vue'
 import RawBackspace from '~icons/ic/outline-backspace?raw'
 import RawClear from '~icons/ic/round-clear?raw'
 
-import {
-  AIN,
-  ALEF,
-  ALEF_MAKSURA,
-  BEH,
-  DAD,
-  DAL,
-  FEH,
-  GHAIN,
-  HAH,
-  HAMZA,
-  HEH,
-  JEEM,
-  KAF,
-  KHAH,
-  LAM,
-  MEEM,
-  NOON,
-  QAF,
-  REH,
-  SAD,
-  SEEN,
-  SHEEN,
-  TAH,
-  TEH,
-  TEH_MARBUTA,
-  THAL,
-  THEH,
-  WAW,
-  YEH,
-  ZAH,
-  ZAIN,
-} from '../constants/hijaiy'
+import * as hj from '../constants/hijaiy'
 import { useEventBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
 import { Button } from './KBButton.vue'
+import { useMagicKeyboardListener } from './KBListener'
 
 const gameStore = useGameStore()
 const { backspace, clearLine, formResult } = gameStore
@@ -47,6 +16,8 @@ const { results } = storeToRefs(gameStore)
 
 const eventbus = useEventBus()
 const { kbEnter } = eventbus
+
+useMagicKeyboardListener()
 
 const rawBackspace = RawBackspace as unknown as string
 const rawClear = RawClear as unknown as string
@@ -63,41 +34,41 @@ const iconButtonStyle: CSSProperties = {
 
 const keyboardConfig: Record<string, Button[]> = {
   firstRow: [
-    { k: DAD, charStyle: longCharAdjust },
-    { k: SAD, charStyle: longCharAdjust },
-    { k: THEH },
-    { k: QAF },
-    { k: FEH },
-    { k: GHAIN },
-    { k: AIN },
-    { k: HEH },
-    { k: KHAH },
-    { k: HAH },
-    { k: JEEM },
+    { k: hj.DAD, charStyle: longCharAdjust },
+    { k: hj.SAD, charStyle: longCharAdjust },
+    { k: hj.THEH },
+    { k: hj.QAF },
+    { k: hj.FEH },
+    { k: hj.GHAIN },
+    { k: hj.AIN },
+    { k: hj.HEH },
+    { k: hj.KHAH },
+    { k: hj.HAH },
+    { k: hj.JEEM },
   ],
   secondRow: [
-    { k: SHEEN, charStyle: longCharAdjust },
-    { k: SEEN, charStyle: longCharAdjust },
-    { k: YEH },
-    { k: BEH },
-    { k: LAM },
-    { k: ALEF },
-    { k: TEH },
-    { k: NOON },
-    { k: MEEM },
-    { k: KAF },
-    { k: TEH_MARBUTA },
+    { k: hj.SHEEN, charStyle: longCharAdjust },
+    { k: hj.SEEN, charStyle: longCharAdjust },
+    { k: hj.YEH },
+    { k: hj.BEH },
+    { k: hj.LAM },
+    { k: hj.ALEF },
+    { k: hj.TEH },
+    { k: hj.NOON },
+    { k: hj.MEEM },
+    { k: hj.KAF },
+    { k: hj.TEH_MARBUTA },
   ],
   thirdRow: [
-    { k: HAMZA },
-    { k: ZAH },
-    { k: TAH },
-    { k: THAL },
-    { k: DAL },
-    { k: ZAIN },
-    { k: REH },
-    { k: WAW },
-    { k: ALEF_MAKSURA },
+    { k: hj.HAMZA },
+    { k: hj.ZAH },
+    { k: hj.TAH },
+    { k: hj.THAL },
+    { k: hj.DAL },
+    { k: hj.ZAIN },
+    { k: hj.REH },
+    { k: hj.WAW },
+    { k: hj.ALEF_MAKSURA },
     {
       k: 'Backspace',
       icon: rawBackspace,
