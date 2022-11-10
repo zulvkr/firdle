@@ -10,9 +10,9 @@ import { useGameGridStore } from '../store/gameGrid'
 import { KBButtonProps } from './KBButton.vue'
 import { useMagicKeyboardListener } from './KBListener'
 
-const gameStore = useGameGridStore()
-const { backspace, clearLine, formResult } = gameStore
-const { results, grid, gridMap } = storeToRefs(gameStore)
+const gameGridStore = useGameGridStore()
+const { backspace, clearLine, formResult } = gameGridStore
+const { results, grid, gridMap } = storeToRefs(gameGridStore)
 
 const eventbus = useEventBus()
 const { kbEnter } = eventbus
@@ -129,7 +129,7 @@ const KBConfig = computed<KbConfig>(() => {
   }
 })
 
-gameStore.$subscribe((mutation, state) => {
+gameGridStore.$subscribe((mutation, state) => {
   const activeRowIndex = state.activeCellIndex[0]
   results.value[activeRowIndex].cellText = formResult(activeRowIndex)
 })

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { answerMatch } from '../queries/type'
+
 export interface GameCell {
   type: 'result' | 'harf'
   lit?: boolean
   isRowActive: boolean
-  answerMatch?: string
+  answerMatch?: answerMatch
 }
 
 const props = defineProps<GameCell>()
@@ -54,7 +56,10 @@ const dynamicClass = computed(() => {
 </script>
 
 <template>
-  <div class="rounded grid transition-all duration-75 relative content-center" :class="dynamicClass">
+  <div
+    class="rounded grid transition-all duration-75 relative content-center"
+    :class="dynamicClass"
+  >
     <div class="absolute -top-2 -left-3">
       <slot name="indicator"> </slot>
     </div>

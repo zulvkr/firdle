@@ -27,7 +27,7 @@ const target = ref(null)
 onClickOutside(
   target,
   async () => {
-    if (i_show.value === true) {
+    if (props.persistent && i_show.value === true) {
       isShaked.value = true
       await promiseTimeout(500)
       isShaked.value = false

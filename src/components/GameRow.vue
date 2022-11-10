@@ -10,6 +10,7 @@ import {
   useFiilQuery,
 } from '../queries/fetcher'
 import { useEventBus } from '../store/eventbus'
+import { useGameStore } from '../store/game'
 import { Cell, useGameGridStore } from '../store/gameGrid'
 import { useSettingsStore } from '../store/settings'
 import { gameMessages } from './gameMessages'
@@ -21,8 +22,11 @@ export interface Row {
 
 const props = defineProps<Row>()
 
-const gameStore = useGameGridStore()
-const { activeCellIndex } = storeToRefs(gameStore)
+const gameGridStore = useGameGridStore()
+const { activeCellIndex } = storeToRefs(gameGridStore)
+
+const gameStore = useGameStore()
+const { isPlaying } = storeToRefs(gameStore)
 
 const settingsStore = useSettingsStore()
 const { persistentInfoModal } = storeToRefs(settingsStore)
@@ -65,8 +69,14 @@ const unsubscribe = eventbus.$onAction(async ({ name }) => {
   }
   if (resultStatus.value === 'exist') {
     await answerMatch.execute()
-    await gameStore.assignAnswerMatch(answerMatch.data.value?.data)
-    gameStore.forward()
+    const answer = answerMatch.data.value?.data?.answer
+    if (answer) {
+      await gameGridStore.assignAnswerMatch(answer)
+    }
+    gameStore.evaluateStatus()
+    if (isPlaying.value) {
+      gameGridStore.forward()
+    }
     unsubscribe()
   }
   if (resultStatus.value === 'not-exist') {

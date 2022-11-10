@@ -3,8 +3,8 @@ import { storeToRefs } from 'pinia'
 
 import { useGameGridStore } from '../store/gameGrid'
 
-const gameStore = useGameGridStore()
-const { gridWithResult } = storeToRefs(gameStore)
+const gameGridStore = useGameGridStore()
+const { gridWithResult } = storeToRefs(gameGridStore)
 </script>
 
 <template>

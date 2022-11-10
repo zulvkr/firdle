@@ -1,4 +1,4 @@
-import { createFetch, useFetch } from '@vueuse/core'
+import { createFetch } from '@vueuse/core'
 import { Ref, computed, ref, watch } from 'vue'
 
 import { getJSON } from './type'
