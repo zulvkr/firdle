@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
-import { useGameStore } from '../store/game'
+import { useGameGridStore } from '../store/gameGrid'
 
-const gameStore = useGameStore()
+const gameStore = useGameGridStore()
 const { gridWithResult } = storeToRefs(gameStore)
 </script>
 

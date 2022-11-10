@@ -10,7 +10,7 @@ import {
   useFiilQuery,
 } from '../queries/fetcher'
 import { useEventBus } from '../store/eventbus'
-import { Cell, useGameStore } from '../store/game'
+import { Cell, useGameGridStore } from '../store/gameGrid'
 import { useSettingsStore } from '../store/settings'
 import { gameMessages } from './gameMessages'
 
@@ -21,7 +21,7 @@ export interface Row {
 
 const props = defineProps<Row>()
 
-const gameStore = useGameStore()
+const gameStore = useGameGridStore()
 const { activeCellIndex } = storeToRefs(gameStore)
 
 const settingsStore = useSettingsStore()

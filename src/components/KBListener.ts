@@ -2,11 +2,11 @@ import { useMagicKeys, whenever } from '@vueuse/core'
 
 import * as hj from '../constants/hijaiy'
 import { useEventBus } from '../store/eventbus'
-import { useGameStore } from '../store/game'
+import { useGameGridStore } from '../store/gameGrid'
 
 export function useMagicKeyboardListener() {
   const magic = useMagicKeys()
-  const { fill, backspace } = useGameStore()
+  const { fill, backspace } = useGameGridStore()
   const { kbEnter } = useEventBus()
 
   const simpleKeys = [

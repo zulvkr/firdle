@@ -6,7 +6,7 @@ import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
 import { getJSON } from '../queries/type'
 import { denormalizeFiil } from '../utils/denormalize'
 
-export const useGameStore = defineStore('game', () => {
+export const useGameGridStore = defineStore('game', () => {
   /**
    * The 2D array state of the game
    */

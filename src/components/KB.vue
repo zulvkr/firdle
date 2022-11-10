@@ -6,11 +6,11 @@ import RawClear from '~icons/ic/round-clear?raw'
 
 import * as hj from '../constants/hijaiy'
 import { useEventBus } from '../store/eventbus'
-import { useGameStore } from '../store/game'
+import { useGameGridStore } from '../store/gameGrid'
 import { KBButtonProps } from './KBButton.vue'
 import { useMagicKeyboardListener } from './KBListener'
 
-const gameStore = useGameStore()
+const gameStore = useGameGridStore()
 const { backspace, clearLine, formResult } = gameStore
 const { results, grid, gridMap } = storeToRefs(gameStore)
 

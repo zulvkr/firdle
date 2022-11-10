@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CSSProperties } from 'vue'
 
-import { useGameStore } from '../store/game'
+import { useGameGridStore } from '../store/gameGrid'
 
 export interface KBButtonProps {
   k: string
@@ -16,7 +16,7 @@ export interface KBButtonProps {
 
 const props = defineProps<KBButtonProps>()
 
-const { fill } = useGameStore()
+const { fill } = useGameGridStore()
 
 const onClick = () => {
   if (props.handler) {
