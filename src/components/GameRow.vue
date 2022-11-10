@@ -117,7 +117,7 @@ async function onClickResult() {
       </GameCell>
       <GameCell
         v-else
-        type="char"
+        type="harf"
         :is-row-active="isRowActive"
         :lit="col.cellLit"
         :answer-match="col.cellAnswerMatch"

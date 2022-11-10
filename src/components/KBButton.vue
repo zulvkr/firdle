@@ -3,7 +3,7 @@ import { CSSProperties } from 'vue'
 
 import { useGameStore } from '../store/game'
 
-export interface Button {
+export interface KBButtonProps {
   k: string
   value?: string
   handler?: Function
@@ -11,9 +11,10 @@ export interface Button {
   charStyle?: CSSProperties
   btnStyle?: CSSProperties
   btnWrapperStyle?: CSSProperties
+  dim?: boolean
 }
 
-const props = defineProps<Button>()
+const props = defineProps<KBButtonProps>()
 
 const { fill } = useGameStore()
 
@@ -32,7 +33,11 @@ const onClick = () => {
 
 <template>
   <button :style="btnStyle" @click="onClick">
-    <div class="bg-cool-gray-600 h-10 h-md-10 grid rounded-md" :style="btnWrapperStyle">
+    <div
+      class="h-10 h-md-10 grid rounded-md"
+      :class="[dim ? 'bg-dark-600' : 'bg-gray-600']"
+      :style="btnWrapperStyle"
+    >
       <div
         class="place-self-center text-size-[20px] sm:text-size-[22px] w-4 text-center"
         :style="charStyle"

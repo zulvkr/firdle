@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 export interface GameCell {
-  type: 'result' | 'char'
+  type: 'result' | 'harf'
   lit?: boolean
   isRowActive: boolean
   answerMatch?: string
@@ -21,7 +21,7 @@ const dynamicClass = computed(() => {
     const className = 'bg-gray-700'
     cls.typeClass = className
   }
-  if (props.type === 'char') {
+  if (props.type === 'harf') {
     const className = 'aspect-square'
     cls.typeClass = className
   }

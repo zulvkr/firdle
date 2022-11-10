@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { CSSProperties } from 'vue'
+import { CSSProperties, computed } from 'vue'
 import RawBackspace from '~icons/ic/outline-backspace?raw'
 import RawClear from '~icons/ic/round-clear?raw'
 
 import * as hj from '../constants/hijaiy'
 import { useEventBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
-import { Button } from './KBButton.vue'
+import { KBButtonProps } from './KBButton.vue'
 import { useMagicKeyboardListener } from './KBListener'
 
 const gameStore = useGameStore()
 const { backspace, clearLine, formResult } = gameStore
-const { results } = storeToRefs(gameStore)
+const { results, grid, gridMap } = storeToRefs(gameStore)
 
 const eventbus = useEventBus()
 const { kbEnter } = eventbus
@@ -32,79 +32,105 @@ const iconButtonStyle: CSSProperties = {
   fontSize: '16px',
 }
 
-const keyboardConfig: Record<string, Button[]> = {
-  firstRow: [
-    { k: hj.DAD, charStyle: longCharAdjust },
-    { k: hj.SAD, charStyle: longCharAdjust },
-    { k: hj.THEH },
-    { k: hj.QAF },
-    { k: hj.FEH },
-    { k: hj.GHAIN },
-    { k: hj.AIN },
-    { k: hj.HEH },
-    { k: hj.KHAH },
-    { k: hj.HAH },
-    { k: hj.JEEM },
-  ],
-  secondRow: [
-    { k: hj.SHEEN, charStyle: longCharAdjust },
-    { k: hj.SEEN, charStyle: longCharAdjust },
-    { k: hj.YEH },
-    { k: hj.BEH },
-    { k: hj.LAM },
-    { k: hj.ALEF },
-    { k: hj.TEH },
-    { k: hj.NOON },
-    { k: hj.MEEM },
-    { k: hj.KAF },
-    { k: hj.TEH_MARBUTA },
-  ],
-  thirdRow: [
-    { k: hj.HAMZA },
-    { k: hj.ZAH },
-    { k: hj.TAH },
-    { k: hj.THAL },
-    { k: hj.DAL },
-    { k: hj.ZAIN },
-    { k: hj.REH },
-    { k: hj.WAW },
-    { k: hj.ALEF_MAKSURA },
-    {
-      k: 'Backspace',
-      icon: rawBackspace,
-      handler: backspace,
-      charStyle: { ...iconButtonStyle, ...rotate180 },
-      btnStyle: {
-        gridColumn: 'span 2 / span 2',
-        marginLeft: '10px',
-      },
-      btnWrapperStyle: {
-        backgroundColor: 'rgba(55, 65, 81, 1)',
-      },
-    },
-  ],
-  fourthRow: [
-    {
-      k: 'Clear',
-      icon: rawClear,
-      handler: clearLine,
-      charStyle: { width: 'unset', ...iconButtonStyle },
-      btnWrapperStyle: {
-        padding: '12px 20px',
-        backgroundColor: 'rgba(55, 65, 81, 1)',
-      },
-    },
-    {
-      k: 'Enter',
-      handler: kbEnter,
-      charStyle: { width: 'unset' },
-      btnWrapperStyle: {
-        padding: '0 20px',
-        backgroundColor: 'rgba(2, 132, 199, 1)',
-      },
-    },
-  ],
+interface KbConfig {
+  firstRow: KBButtonProps[]
+  secondRow: KBButtonProps[]
+  thirdRow: KBButtonProps[]
+  fourthRow: KBButtonProps[]
 }
+
+const notExistHuruf = computed(() => {
+  const uniqueharf = new Set()
+  for (const [r, c] of gridMap.value) {
+    if (grid.value[r][c].cellAnswerMatch === 'missed') {
+      uniqueharf.add(grid.value[r][c].cellText)
+    }
+  }
+  return uniqueharf
+})
+
+function addDim(buttonProps: KBButtonProps) {
+  return {
+    ...buttonProps,
+    dim: notExistHuruf.value.has(buttonProps.k),
+  }
+}
+
+const KBConfig = computed<KbConfig>(() => {
+  return {
+    firstRow: [
+      { k: hj.DAD, charStyle: longCharAdjust },
+      { k: hj.SAD, charStyle: longCharAdjust },
+      { k: hj.THEH },
+      { k: hj.QAF },
+      { k: hj.FEH },
+      { k: hj.GHAIN },
+      { k: hj.AIN },
+      { k: hj.HEH },
+      { k: hj.KHAH },
+      { k: hj.HAH },
+      { k: hj.JEEM },
+    ].map(addDim),
+    secondRow: [
+      { k: hj.SHEEN, charStyle: longCharAdjust },
+      { k: hj.SEEN, charStyle: longCharAdjust },
+      { k: hj.YEH },
+      { k: hj.BEH },
+      { k: hj.LAM },
+      { k: hj.ALEF },
+      { k: hj.TEH },
+      { k: hj.NOON },
+      { k: hj.MEEM },
+      { k: hj.KAF },
+      { k: hj.TEH_MARBUTA },
+    ].map(addDim),
+    thirdRow: [
+      { k: hj.HAMZA },
+      { k: hj.ZAH },
+      { k: hj.TAH },
+      { k: hj.THAL },
+      { k: hj.DAL },
+      { k: hj.ZAIN },
+      { k: hj.REH },
+      { k: hj.WAW },
+      { k: hj.ALEF_MAKSURA },
+      {
+        k: 'Backspace',
+        icon: rawBackspace,
+        handler: backspace,
+        charStyle: { ...iconButtonStyle, ...rotate180 },
+        btnStyle: {
+          gridColumn: 'span 2 / span 2',
+          marginLeft: '10px',
+        },
+        btnWrapperStyle: {
+          backgroundColor: 'rgba(55, 65, 81, 1)',
+        },
+      },
+    ].map(addDim),
+    fourthRow: [
+      {
+        k: 'Clear',
+        icon: rawClear,
+        handler: clearLine,
+        charStyle: { width: 'unset', ...iconButtonStyle },
+        btnWrapperStyle: {
+          padding: '12px 20px',
+          backgroundColor: 'rgba(55, 65, 81, 1)',
+        },
+      },
+      {
+        k: 'Enter',
+        handler: kbEnter,
+        charStyle: { width: 'unset', fontSize: '18px' },
+        btnWrapperStyle: {
+          padding: '0 20px',
+          backgroundColor: 'rgba(2, 132, 199, 1)',
+        },
+      },
+    ],
+  }
+})
 
 gameStore.$subscribe((mutation, state) => {
   const activeRowIndex = state.activeCellIndex[0]
@@ -113,16 +139,16 @@ gameStore.$subscribe((mutation, state) => {
 </script>
 
 <template>
-  <div class="bg-cool-gray-800 bottom-0 left-0 right-0 z-10" id="keyboard">
+  <div class="bg-gray-800 bottom-0 left-0 right-0 z-10" id="keyboard">
     <div class="text-white py-1 py-md-4 px-1 grid">
       <div class="w-full max-w-xl justify-self-center font-IBM">
         <div class="grid keyboard gap-x-[5px] gap-y-2">
-          <KBButton v-for="button in keyboardConfig.firstRow" v-bind="button" />
-          <KBButton v-for="button in keyboardConfig.secondRow" v-bind="button" />
-          <KBButton v-for="button in keyboardConfig.thirdRow" v-bind="button" />
+          <KBButton v-for="button in KBConfig.firstRow" v-bind="button" />
+          <KBButton v-for="button in KBConfig.secondRow" v-bind="button" />
+          <KBButton v-for="button in KBConfig.thirdRow" v-bind="button" />
         </div>
         <div class="grid grid-flow-col gap-x-[5px] justify-end">
-          <KBButton v-for="button in keyboardConfig.fourthRow" v-bind="button" />
+          <KBButton v-for="button in KBConfig.fourthRow" v-bind="button" />
         </div>
       </div>
     </div>

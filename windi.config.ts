@@ -37,7 +37,6 @@ export default defineConfig({
   theme: {
     extend: {
       fontFamily: {
-        readex: ['Readex Pro', ...sans],
         IBM: ['IBM Plex Sans Arabic', ...sans],
         lateef: ['Lateef', ...serif],
       },
