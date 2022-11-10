@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onClickOutside, useScrollLock } from '@vueuse/core'
+import { onClickOutside, promiseTimeout, useScrollLock } from '@vueuse/core'
 import { ref, watchEffect } from 'vue'
 
 const i_show = ref(true)
@@ -27,11 +27,10 @@ const target = ref(null)
 onClickOutside(
   target,
   async () => {
-    if (props.persistent && i_show.value === true) {
+    if (i_show.value === true) {
       isShaked.value = true
-      setTimeout(() => {
-        isShaked.value = false
-      }, 500)
+      await promiseTimeout(500)
+      isShaked.value = false
       return
     }
     emit('update:modelValue', false)

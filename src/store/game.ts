@@ -1,3 +1,4 @@
+import { promiseTimeout } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -139,9 +140,7 @@ export const useGameStore = defineStore('game', () => {
     const activeRow = grid.value[activeCellIndex.value[0]]
 
     for (let i = activeRow.length - 1; i >= 0; i--) {
-      await new Promise((resolve) => {
-        setTimeout(resolve, 300)
-      })
+      await promiseTimeout(300)
       activeRow[i].cellAnswerMatch = answerReversed[i]
     }
   }
