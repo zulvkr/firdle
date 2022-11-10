@@ -49,14 +49,11 @@ const notExistHuruf = computed(() => {
   return uniqueharf
 })
 
-function addDim(buttonProps: KBButtonProps) {
-  return {
+const KBConfig = computed<KbConfig>(() => {
+  const addDim = (buttonProps: KBButtonProps) => ({
     ...buttonProps,
     dim: notExistHuruf.value.has(buttonProps.k),
-  }
-}
-
-const KBConfig = computed<KbConfig>(() => {
+  })
   return {
     firstRow: [
       { k: hj.DAD, charStyle: longCharAdjust },

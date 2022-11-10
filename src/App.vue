@@ -1,12 +1,16 @@
 <script lang="ts" setup>
 import { useWindowSize } from '@vueuse/core'
+import { watchEffect } from 'vue'
 
 const { height } = useWindowSize()
+watchEffect(() => {
+  document.documentElement.style.setProperty('--vh', `${height.value / 100}px`)
+})
 </script>
 
 <template>
   <AppAppBar />
-  <main class="font-IBM h-[var(--main-height)]">
+  <main class="font-IBM">
     <router-view />
   </main>
   <SnackBar />
@@ -15,11 +19,14 @@ const { height } = useWindowSize()
 <style lang="postcss">
 @import url('./assets/fonts/fonts.css');
 :root {
-  --vh: 100vh;
-  --main-height: var(--vh);
-  --main-height: calc(var(--vh) - var(--mini-app-bar-height));
+  --100vh: 100vh;
+  /* Avoid Chrome to see Safari hack */
+  @supports (-webkit-touch-callout: none) {
+    --100vh: calc(var(--vh, 1vh) * 100);
+  }
+  --main-height: calc(var(--100vh) - var(--mini-app-bar-height));
   @screen sm {
-    --main-height: calc(var(--vh) - var(--app-bar-height));
+    --main-height: calc(var(--100vh) - var(--app-bar-height));
   }
 }
 
