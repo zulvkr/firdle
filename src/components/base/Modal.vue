@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onClickOutside, promiseTimeout, useScrollLock } from '@vueuse/core'
+import { onClickOutside, promiseTimeout } from '@vueuse/core'
 import { ref, watchEffect } from 'vue'
 
 const i_show = ref(true)
@@ -13,13 +13,8 @@ const props = defineProps<{
 
 const emit = defineEmits(['update:modelValue'])
 
-const body = document.body
-const bodyLock = useScrollLock(body)
-
 watchEffect(() => {
   i_show.value = props.modelValue
-  bodyLock.value = i_show.value
-  body.style.paddingRight = i_show.value ? 'calc(100vw - 100%)' : ''
 })
 
 const target = ref(null)

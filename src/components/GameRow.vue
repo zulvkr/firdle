@@ -76,8 +76,8 @@ const unsubscribe = eventbus.$onAction(async ({ name }) => {
     gameStore.evaluateStatus()
     if (isPlaying.value) {
       gameGridStore.forward()
+      unsubscribe()
     }
-    unsubscribe()
   }
   if (resultStatus.value === 'not-exist') {
     eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })

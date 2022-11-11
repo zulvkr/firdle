@@ -26,14 +26,18 @@ export const useGameStore = defineStore('game', () => {
     const isAllMatched = grid.value[activeRowIndex].every(
       ({ cellAnswerMatch }) => cellAnswerMatch === 'matched'
     )
+
     if (isAllMatched) {
-      return win()
+      win()
+      return
     }
     if (atLastRow) {
-      return lose()
+      lose()
+      return
     }
     if (!atLastRow) {
-      return playStatus.value === 'playing'
+      playStatus.value = 'playing'
+      return
     }
   }
 
@@ -46,6 +50,7 @@ export const useGameStore = defineStore('game', () => {
     playStatus.value = 'played'
     winStatus.value = 'lose'
   }
+
   return {
     playStatus,
     winStatus,

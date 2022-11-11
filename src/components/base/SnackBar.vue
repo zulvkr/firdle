@@ -55,7 +55,12 @@ onClickOutside(target, () => (show.value = false))
       <div
         v-if="show"
         ref="target"
-        class="border rounded-lg font-IBM bg-blue-gray-900 bg-opacity-80 border-gray-500 shadow mx-4 text-sm inset-x-0 top-20 shadow-gray-900 fixed backdrop-blur backdrop-filter xl:left-auto xl:right-10 sm:w-80 transform sm:mx-auto"
+        :class="[
+          'border rounded-lg',
+          'font-IBM text-sm',
+          'bg-blue-gray-900 bg-opacity-80 border-gray-500 shadow mx-4 shadow-gray-900 backdrop-blur backdrop-filter',
+          'inset-x-0 top-20 fixed xl:left-auto xl:right-10 sm:w-80 sm:mx-auto',
+        ]"
       >
         <div class="py-3 px-4">
           <div class="pb-4">

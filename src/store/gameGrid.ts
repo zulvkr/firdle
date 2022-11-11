@@ -3,10 +3,10 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
-import { answerMatch, getJSON } from '../queries/type'
+import { answerMatch } from '../queries/type'
 import { denormalizeFiil } from '../utils/denormalize'
 
-export const useGameGridStore = defineStore('game', () => {
+export const useGameGridStore = defineStore('gameGrid', () => {
   /**
    * The 2D array state of the game
    */
