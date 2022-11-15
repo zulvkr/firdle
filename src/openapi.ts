@@ -4,92 +4,112 @@
  */
 
 export interface paths {
-  '/answer/': {
+  "/answer/": {
     get: {
       parameters: {
         query: {
-          value: string
-        }
-      }
+          value: string;
+        };
+      };
       responses: {
         /** Successful Response */
         200: {
           content: {
-            'application/json': {
-              status?: components['schemas']['def-1']
-              data?: components['schemas']['def-3']
-            }
-          }
-        }
-      }
-    }
-  }
-  '/fiil/count': {
+            "application/json": {
+              status?: components["schemas"]["def-1"];
+              data?: components["schemas"]["def-3"];
+            };
+          };
+        };
+      };
+    };
+  };
+  "/answer/meta": {
     get: {
-      parameters: {
-        query: {
-          value: string
-        }
-      }
       responses: {
         /** Successful Response */
         200: {
           content: {
-            'application/json': {
-              status?: components['schemas']['def-1']
-              data?: components['schemas']['def-0']
-            }
-          }
-        }
-      }
-    }
-  }
-  '/fiil/': {
+            "application/json": {
+              status?: components["schemas"]["def-1"];
+              data?: components["schemas"]["def-4"];
+            };
+          };
+        };
+      };
+    };
+  };
+  "/fiil/count": {
     get: {
       parameters: {
         query: {
-          value: string
-        }
-      }
+          value: string;
+        };
+      };
       responses: {
         /** Successful Response */
         200: {
           content: {
-            'application/json': {
-              status?: components['schemas']['def-1']
-              data?: components['schemas']['def-2']
-            }
-          }
-        }
-      }
-    }
-  }
+            "application/json": {
+              status?: components["schemas"]["def-1"];
+              data?: components["schemas"]["def-0"];
+            };
+          };
+        };
+      };
+    };
+  };
+  "/fiil/": {
+    get: {
+      parameters: {
+        query: {
+          value: string;
+        };
+      };
+      responses: {
+        /** Successful Response */
+        200: {
+          content: {
+            "application/json": {
+              status?: components["schemas"]["def-1"];
+              data?: components["schemas"]["def-2"];
+            };
+          };
+        };
+      };
+    };
+  };
 }
 
 export interface components {
   schemas: {
     /** Count */
-    'def-0': {
-      count?: number
-      value?: string
-    }
+    "def-0": {
+      count?: number;
+      value?: string;
+    };
     /** Status */
-    'def-1': {
+    "def-1": {
       /** @enum {number} */
-      code?: 200 | 1000
-      detail?: string
-    }
+      code?: 200 | 1000;
+      detail?: string;
+    };
     /** AlmaanySearch */
-    'def-2': {
-      matchedResult?: string
-      matchedResultHTML?: string
-      resultDetails?: string[]
-    }
+    "def-2": {
+      matchedResult?: string;
+      matchedResultHTML?: string;
+      resultDetails?: string[];
+    };
     /** Answer */
-    'def-3': {
-      answer?: ('matched' | 'misplaced' | 'missed')[]
-    }
-  }
+    "def-3": {
+      answer?: ("matched" | "misplaced" | "missed")[];
+    };
+    /** MetaAnswer */
+    "def-4": {
+      answerId?: number;
+      expTime?: string;
+    };
+  };
 }
 
 export interface operations {}

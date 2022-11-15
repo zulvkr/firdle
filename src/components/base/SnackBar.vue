@@ -29,7 +29,7 @@ const color = computed(() => {
 
 const debouncedHideSnackBar = useDebounceFn(() => {
   show.value = false
-}, 3000)
+}, 1300)
 
 eventbus.$onAction(async ({ name, after }) => {
   after((result) => {
@@ -57,15 +57,15 @@ onClickOutside(target, () => (show.value = false))
         ref="target"
         :class="[
           'border rounded-lg',
-          'font-IBM text-sm',
-          'bg-blue-gray-900 bg-opacity-80 border-gray-500 shadow mx-4 shadow-gray-900 backdrop-blur backdrop-filter',
-          'inset-x-0 top-20 fixed xl:left-auto xl:right-10 sm:w-80 sm:mx-auto',
+          'font-medium font-IBM text-dark-800',
+          'bg-white shadow-lg mx-4 backdrop-blur-md backdrop-filter',
+          'inset-x-0 top-20 fixed sm:w-max sm:mx-auto',
         ]"
       >
-        <div class="py-3 px-4">
-          <div class="pb-4">
+        <div class="py-2 px-4">
+          <!-- <div class="pb-4">
             <div class="rounded-md w-4 aspect-square" :class="color" />
-          </div>
+          </div> -->
           <div>
             {{ options.message }}
           </div>

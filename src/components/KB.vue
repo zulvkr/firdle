@@ -158,9 +158,3 @@ gameGridStore.$subscribe((mutation, state) => {
   grid-template: auto auto auto auto / repeat(11, minmax(0, 1fr));
 }
 </style>
-
-<style>
-:root {
-  --keyboard-height: 216px;
-}
-</style>

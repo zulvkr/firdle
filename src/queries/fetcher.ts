@@ -57,3 +57,11 @@ export function useAnswerMatchQuery(result: Ref<string>) {
 
   return fetchRes
 }
+
+export function useAnswerMetaQuery() {
+  const fetchURL = '/answer/meta'
+
+  const fetchRes = useBaseFetch(fetchURL).json<getJSON<'/answer/meta'>>()
+
+  return fetchRes
+}

@@ -26,7 +26,7 @@ const gameGridStore = useGameGridStore()
 const { activeCellIndex } = storeToRefs(gameGridStore)
 
 const gameStore = useGameStore()
-const { isPlaying } = storeToRefs(gameStore)
+const { isPlaying, isFinished } = storeToRefs(gameStore)
 
 const settingsStore = useSettingsStore()
 const { persistentInfoModal } = storeToRefs(settingsStore)
@@ -61,13 +61,13 @@ const fiil = useFiilQuery(result)
 const answerMatch = useAnswerMatchQuery(result)
 
 const unsubscribe = eventbus.$onAction(async ({ name }) => {
-  if (!isRowActive.value) {
+  if (!isRowActive.value || name !== 'kbEnter') {
     return
   }
-  if (name !== 'kbEnter') {
-    return
+  if (resultStatus.value === 'not-exist') {
+    eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }
-  if (resultStatus.value === 'exist') {
+  if (resultStatus.value === 'exist' && !isFinished.value) {
     await answerMatch.execute()
     const answer = answerMatch.data.value?.data?.answer
     if (answer) {
@@ -78,9 +78,6 @@ const unsubscribe = eventbus.$onAction(async ({ name }) => {
       gameGridStore.forward()
       unsubscribe()
     }
-  }
-  if (resultStatus.value === 'not-exist') {
-    eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }
 })
 

@@ -1,24 +1,46 @@
+import { useNow } from '@vueuse/core'
 import { defineStore, storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
+import { gameMessages } from '../components/gameMessages'
+import { dayjs } from '../utils/dayjs'
+import { useEventBus } from './eventbus'
 import { useGameGridStore } from './gameGrid'
+import { useQueryCacheStore } from './queryCache'
 
 export const useGameStore = defineStore('game', () => {
   const gameGridStore = useGameGridStore()
   const { activeCellIndex, grid } = storeToRefs(gameGridStore)
+
+  const queryCacheStore = useQueryCacheStore()
+  const { answerMeta } = storeToRefs(queryCacheStore)
+
+  const eventbus = useEventBus()
 
   const playStatus = ref<playStatus>('unplayed')
   const winStatus = ref<winStatus>(undefined)
 
   const isUnplayed = computed(() => playStatus.value === 'unplayed')
   const isPlaying = computed(() => playStatus.value === 'playing')
-  const isPlayed = computed(() => playStatus.value === 'played')
+  const isFinished = computed(() => playStatus.value === 'finished')
   const isWin = computed(
-    () => playStatus.value === 'played' && winStatus.value === 'win'
+    () => playStatus.value === 'finished' && winStatus.value === 'win'
   )
   const isLose = computed(
-    () => playStatus.value === 'played' && winStatus.value === 'lose'
+    () => playStatus.value === 'finished' && winStatus.value === 'lose'
   )
+
+  const now = useNow({ interval: 1000 })
+  const expTime = computed(() => dayjs(answerMeta.value.data.value?.data?.expTime))
+  const timeToExp = computed(() => {
+    return dayjs.duration(expTime.value.diff(now.value)).format('HH:mm:ss')
+  })
+
+  watch(winStatus, (val) => {
+    if (val) {
+      eventbus.snackbar({ message: gameMessages.snackbar.win, status: 'info' })
+    }
+  })
 
   function evaluateStatus() {
     const activeRowIndex = activeCellIndex.value[0]
@@ -42,12 +64,12 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function win() {
-    playStatus.value = 'played'
+    playStatus.value = 'finished'
     winStatus.value = 'win'
   }
 
   function lose() {
-    playStatus.value = 'played'
+    playStatus.value = 'finished'
     winStatus.value = 'lose'
   }
 
@@ -58,12 +80,14 @@ export const useGameStore = defineStore('game', () => {
     isLose,
     isUnplayed,
     isPlaying,
-    isPlayed,
+    isFinished,
+    expTime,
+    timeToExp,
     win,
     lose,
     evaluateStatus,
   }
 })
 
-type playStatus = 'unplayed' | 'playing' | 'played'
+type playStatus = 'unplayed' | 'playing' | 'finished'
 type winStatus = 'win' | 'lose' | undefined

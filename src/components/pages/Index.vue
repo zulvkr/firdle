@@ -1,12 +1,26 @@
 <script setup lang="ts">
+import { computed } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
+import { storeToRefs } from 'pinia'
+
+import { useGameStore } from '../../store/game'
+import { gameMessages } from '../gameMessages'
+
+const gameStore = useGameStore()
+const { isFinished, timeToExp } = storeToRefs(gameStore)
+
+const { kb_sheet, meta } = gameMessages
+
+const message = computed(()=> {
+  return kb_sheet.new_game_in_time(timeToExp.value)
+})
 
 useHead({
   title: 'Firdle',
   meta: [
     {
       name: 'description',
-      content: 'Gim online tebak kata kerja bahasa arab',
+      content: meta.description,
     },
   ],
 })
@@ -16,11 +30,20 @@ useHead({
   <div class="grid index-page items-center overflow-y-auto">
     <GameGrid />
   </div>
-  <KB />
+  <KB v-if="!isFinished" />
+  <div v-else class="grid place-content-center h-[var(--keyboard-height)] font-IBM">
+    {{ message }}
+  </div>
 </template>
 
 <style lang="postcss" scoped>
 .grid.index-page {
   height: calc(var(--main-height) - var(--keyboard-height));
+}
+</style>
+
+<style>
+:root {
+  --keyboard-height: 216px;
 }
 </style>
