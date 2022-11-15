@@ -41,6 +41,9 @@ const rowStatus = computed(() => {
   if (activeCellIndex.value[0] > rowIndex.value) {
     return 'finished'
   }
+  if (activeCellIndex.value[0] === rowIndex.value && isFinished.value) {
+    return 'finished'
+  }
   if (activeCellIndex.value[0] === rowIndex.value) {
     return 'active'
   }
@@ -103,7 +106,7 @@ async function onClickResult() {
   }
 }
 
-onMounted(()=> {
+onMounted(() => {
   if (result.value) {
     countFiil.execute()
   }
@@ -113,42 +116,25 @@ onMounted(()=> {
 <template>
   <div class="grid gap-1 answer">
     <template v-for="(col, index) in props.row">
-      <GameCell
+      <GameCellResult
         v-if="index === 0"
-        type="result"
         :row-status="rowStatus"
-        :is-row-active="isRowActive"
-        @click="onClickResult"
+        :result-status="resultStatus"
+        :answer-match="col.cellAnswerMatch"
         :class="[isResultReady && 'cursor-pointer']"
+        @click="onClickResult"
       >
         {{ col.cellText }}
-        <template #indicator v-if="isRowActive">
-          <Indicator v-if="resultStatus === 'loading'">
-            <i-ph-spinner-gap-duotone class="animate-spin" />
-          </Indicator>
-          <Transition name="zoom" mode="out-in">
-            <Indicator v-if="resultStatus === 'exist'" class="bg-sky-600">
-              <i-ic-baseline-playlist-add-check />
-            </Indicator>
-            <Indicator
-              v-else-if="resultStatus === 'not-exist'"
-              class="bg-gray-700 border border-gray-500"
-            >
-              <i-ic-baseline-question-mark transform="scale(-1,1)" font-size="0.8rem" />
-            </Indicator>
-          </Transition>
-        </template>
-      </GameCell>
-      <GameCell
+      </GameCellResult>
+      <GameCellHarf
         v-else
-        type="harf"
-        :is-row-active="isRowActive"
+        class="aspect-square"
         :row-status="rowStatus"
         :lit="col.cellLit"
         :answer-match="col.cellAnswerMatch"
       >
         {{ col.cellText }}
-      </GameCell>
+      </GameCellHarf>
     </template>
   </div>
   <Modal v-model="showInfoModal" :persistent="persistentInfoModal">
