@@ -9,6 +9,7 @@ export interface GameCell {
   type: 'result' | 'harf'
   lit?: boolean
   isRowActive: boolean
+  rowStatus: 'finished' | 'active' | 'inactive'
   answerMatch?: answerMatch
 }
 
@@ -22,7 +23,7 @@ const dynamicClass = computed(() => {
     typeClass: '',
     litClass: '',
     answerMatchClass: '',
-    isRowActive: '',
+    activeRowClass: '',
   }
   if (props.type === 'result') {
     const className = 'bg-gray-700'
@@ -33,12 +34,12 @@ const dynamicClass = computed(() => {
     cls.typeClass = className
   }
 
-  if (!isFinished.value && props.isRowActive) {
+  if (!isFinished.value && props.rowStatus === 'active') {
     const className = 'border-1 border-gray-500'
-    cls.isRowActive = className
+    cls.activeRowClass = className
   } else {
     const className = 'border-1 border-gray-700'
-    cls.isRowActive = className
+    cls.activeRowClass = className
   }
 
   if (props.lit) {
@@ -62,9 +63,16 @@ const dynamicClass = computed(() => {
 
 <template>
   <div
-    class="rounded grid transition-all duration-75 relative content-center"
+    class="rounded grid transition-all duration-75 relative content-center group"
     :class="dynamicClass"
   >
+    <div
+      class="absolute top-1 left-1 opacity-30 text-sky-400 group-hover:text-white group-hover:opacity-70 transition-all"
+      v-if="props.type === 'result' && rowStatus === 'finished'"
+    >
+      <i-ic-round-format-list-bulleted />
+    </div>
+
     <div class="absolute -top-2 -left-3">
       <slot name="indicator"> </slot>
     </div>

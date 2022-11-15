@@ -37,7 +37,17 @@ const rowIndex = computed(() => props.index)
 
 const result = computed(() => props.row[0].cellText ?? '')
 
-const isRowActive = computed(() => activeCellIndex.value[0] === rowIndex.value)
+const rowStatus = computed(() => {
+  if (activeCellIndex.value[0] > rowIndex.value) {
+    return 'finished'
+  }
+  if (activeCellIndex.value[0] === rowIndex.value) {
+    return 'active'
+  }
+  return 'inactive'
+})
+
+const isRowActive = computed(() => rowStatus.value === 'active')
 
 const countFiil = useCountFiilQuery(result)
 
@@ -106,6 +116,7 @@ onMounted(()=> {
       <GameCell
         v-if="index === 0"
         type="result"
+        :row-status="rowStatus"
         :is-row-active="isRowActive"
         @click="onClickResult"
         :class="[isResultReady && 'cursor-pointer']"
@@ -117,13 +128,13 @@ onMounted(()=> {
           </Indicator>
           <Transition name="zoom" mode="out-in">
             <Indicator v-if="resultStatus === 'exist'" class="bg-sky-600">
-              <i-ic-baseline-check />
+              <i-ic-baseline-playlist-add-check />
             </Indicator>
             <Indicator
               v-else-if="resultStatus === 'not-exist'"
               class="bg-gray-700 border border-gray-500"
             >
-              <i-ic-baseline-question-mark transform="scale(-1,1)" />
+              <i-ic-baseline-question-mark transform="scale(-1,1)" font-size="0.8rem" />
             </Indicator>
           </Transition>
         </template>
@@ -132,6 +143,7 @@ onMounted(()=> {
         v-else
         type="harf"
         :is-row-active="isRowActive"
+        :row-status="rowStatus"
         :lit="col.cellLit"
         :answer-match="col.cellAnswerMatch"
       >
