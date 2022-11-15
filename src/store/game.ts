@@ -1,5 +1,5 @@
-import { useNow } from '@vueuse/core'
-import { defineStore, storeToRefs } from 'pinia'
+import { useNow, useStorage } from '@vueuse/core'
+import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { gameMessages } from '../components/gameMessages'
@@ -17,8 +17,8 @@ export const useGameStore = defineStore('game', () => {
 
   const eventbus = useEventBus()
 
-  const playStatus = ref<playStatus>('unplayed')
-  const winStatus = ref<winStatus>(undefined)
+  const playStatus = useStorage<playStatus>('game-playstatus', 'unplayed')
+  const winStatus = useStorage<winStatus>('game-winstatus', undefined)
 
   const isUnplayed = computed(() => playStatus.value === 'unplayed')
   const isPlaying = computed(() => playStatus.value === 'playing')
@@ -91,3 +91,7 @@ export const useGameStore = defineStore('game', () => {
 
 type playStatus = 'unplayed' | 'playing' | 'finished'
 type winStatus = 'win' | 'lose' | undefined
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useGameStore, import.meta.hot))
+}

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import { answerMatch } from '../queries/type'
+import { useGameStore } from '../store/game'
 
 export interface GameCell {
   type: 'result' | 'harf'
@@ -9,6 +11,9 @@ export interface GameCell {
   isRowActive: boolean
   answerMatch?: answerMatch
 }
+
+const gameStore = useGameStore()
+const { isFinished } = storeToRefs(gameStore)
 
 const props = defineProps<GameCell>()
 
@@ -28,7 +33,7 @@ const dynamicClass = computed(() => {
     cls.typeClass = className
   }
 
-  if (props.isRowActive) {
+  if (!isFinished.value && props.isRowActive) {
     const className = 'border-1 border-gray-500'
     cls.isRowActive = className
   } else {

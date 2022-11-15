@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export interface snackbarOptions {
   status: 'error' | 'success' | 'info' | 'warning'
@@ -16,3 +16,7 @@ export const useEventBus = defineStore('eventbus', () => {
 
   return { kbEnter, snackbar }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useEventBus, import.meta.hot))
+}

@@ -2,7 +2,7 @@
 import { computed } from '@vue/reactivity'
 import { isDefined } from '@vueuse/shared'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 import {
   useAnswerMatchQuery,
@@ -92,6 +92,12 @@ async function onClickResult() {
     eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }
 }
+
+onMounted(()=> {
+  if (result.value) {
+    countFiil.execute()
+  }
+})
 </script>
 
 <template>

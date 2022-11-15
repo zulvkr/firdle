@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed } from 'vue'
 
 import { useAnswerMetaQuery } from '../queries/fetcher'
@@ -14,3 +14,7 @@ export const useQueryCacheStore = defineStore('query-cache', () => {
     answerMeta: computedAnswerMeta,
   }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useQueryCacheStore, import.meta.hot))
+}

@@ -1,5 +1,5 @@
-import { computedEager, promiseTimeout } from '@vueuse/core'
-import { defineStore } from 'pinia'
+import { computedEager, promiseTimeout, useStorage } from '@vueuse/core'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
@@ -12,7 +12,7 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   /**
    * The 2D array state of the game
    */
-  const grid = ref([
+  const grid = useStorage('gamegrid-grid', [
     [{}, {}, {}, {}],
     [{}, {}, {}, {}],
     [{}, {}, {}, {}],
@@ -24,7 +24,7 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   /**
    * Hold results of the game
    */
-  const results = ref([{}, {}, {}, {}, {}, {}] as Cell[])
+  const results = useStorage('gamegrid-result', [{}, {}, {}, {}, {}, {}] as Cell[])
 
   const gridWithResult = computed(() =>
     grid.value.map((row, i) => [{ ...results.value[i] }, ...row])
@@ -35,7 +35,7 @@ export const useGameGridStore = defineStore('gameGrid', () => {
    */
   const gridMap = createGridMap()
 
-  const activeCellIndex = ref<cellIndex>(gridMap[0])
+  const activeCellIndex = useStorage<cellIndex>('gamegrid-activecellindex', gridMap[0])
   const atFirstCol = computedEager(() => activeCellIndex.value[1] < 3)
   const atLastCol = computedEager(() => activeCellIndex.value[1] > 0)
 
@@ -172,3 +172,7 @@ export interface Cell {
  * Mark position of a cell in format [rowIndex, colIndex]
  */
 type cellIndex = [number, number]
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useGameGridStore, import.meta.hot))
+}
