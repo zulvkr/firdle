@@ -11,8 +11,8 @@ import { KBButtonProps } from './KBButton.vue'
 import { useMagicKeyboardListener } from './KBListener'
 
 const gameGridStore = useGameGridStore()
-const { backspace, clearLine, formResult } = gameGridStore
-const { results, grid, gridMap } = storeToRefs(gameGridStore)
+const { backspace, clearLine, formResult, gridMap } = gameGridStore
+const { results, grid } = storeToRefs(gameGridStore)
 
 const eventbus = useEventBus()
 const { kbEnter } = eventbus
@@ -41,7 +41,7 @@ interface KbConfig {
 
 const notExistHuruf = computed(() => {
   const uniqueharf = new Set()
-  for (const [r, c] of gridMap.value) {
+  for (const [r, c] of gridMap) {
     if (grid.value[r][c].cellAnswerMatch === 'missed') {
       uniqueharf.add(grid.value[r][c].cellText)
     }

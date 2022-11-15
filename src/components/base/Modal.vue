@@ -52,7 +52,7 @@ function onClickExit() {
       >
         <div
           ref="target"
-          class="w-full bg-gray-900 border-gray-500 border rounded-lg place-self-center col-start-2 shadow-lg"
+          class="w-full bg-gray-800 border-gray-500 border rounded-lg place-self-center col-start-2 shadow-lg"
           :class="isShaked ? 'animate-animated animate-headShake' : ''"
         >
           <slot>

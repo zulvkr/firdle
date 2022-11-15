@@ -57,9 +57,9 @@ onClickOutside(target, () => (show.value = false))
         ref="target"
         :class="[
           'border rounded-lg',
-          'font-medium font-IBM text-dark-800',
+          'font-semibold font-IBM text-dark-100 text-center',
           'bg-white shadow-lg mx-4 backdrop-blur-md backdrop-filter',
-          'inset-x-0 top-20 fixed sm:w-max sm:mx-auto',
+          'inset-x-0 top-20 fixed w-max mx-auto',
         ]"
       >
         <div class="py-2 px-4">

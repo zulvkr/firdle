@@ -45,7 +45,7 @@ const dynamicClass = computed(() => {
     const className = '!bg-green-600'
     cls.answerMatchClass = className
   } else if (props.answerMatch === 'missed') {
-    const className = '!bg-dark-600'
+    const className = '!bg-dark-400'
     cls.answerMatchClass = className
   } else if (props.answerMatch === 'misplaced') {
     const className = '!bg-yellow-600'

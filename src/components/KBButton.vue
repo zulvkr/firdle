@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useVibrate } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
 import { CSSProperties } from 'vue'
 
 import { useGameGridStore } from '../store/gameGrid'
+import { useSettingsStore } from '../store/settings'
 
 export interface KBButtonProps {
   k: string
@@ -14,20 +17,26 @@ export interface KBButtonProps {
   dim?: boolean
 }
 
+const { vibrate } = useVibrate({ pattern: [16] })
+
 const props = defineProps<KBButtonProps>()
 
 const { fill } = useGameGridStore()
 
+const settingsStore = useSettingsStore()
+const { vibrateKeyboard } = storeToRefs(settingsStore)
+
 const onClick = () => {
+  if (vibrateKeyboard.value) {
+    vibrate()
+  }
   if (props.handler) {
     return props.handler(props.value)
   }
   if (props.value) {
     return fill(props.value)
   }
-  if (props.k) {
-    return fill(props.k)
-  }
+  return fill(props.k)
 }
 </script>
 
@@ -35,7 +44,7 @@ const onClick = () => {
   <button :style="btnStyle" @click="onClick">
     <div
       class="h-10 h-md-10 grid rounded-md"
-      :class="[dim ? 'bg-dark-600' : 'bg-gray-600']"
+      :class="[dim ? 'bg-dark-400' : 'bg-gray-600']"
       :style="btnWrapperStyle"
     >
       <div

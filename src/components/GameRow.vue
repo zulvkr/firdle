@@ -105,7 +105,7 @@ async function onClickResult() {
         :class="[isResultReady && 'cursor-pointer']"
       >
         {{ col.cellText }}
-        <template #indicator>
+        <template #indicator v-if="isRowActive">
           <Indicator v-if="resultStatus === 'loading'">
             <i-ph-spinner-gap-duotone class="animate-spin" />
           </Indicator>

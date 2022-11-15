@@ -3,19 +3,25 @@ import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
 
 const isAppBarExpanded = ref(false)
+const bp = useBreakpoints(breakpointsTailwind)
 
 onMounted(() => {
-  const breakpoints = useBreakpoints(breakpointsTailwind)
-  if (breakpoints.isGreaterOrEqual('sm')) {
+  if (bp.isGreaterOrEqual('sm')) {
     isAppBarExpanded.value = true
   }
 })
+
+function onClickOutsideRegular() {
+  if (bp.isSmaller('sm')) {
+    isAppBarExpanded.value = false
+  }
+}
 </script>
 
 <template>
   <div class="top-0 sticky z-30 h-[var(--app-bar-height-fill-space)]">
     <Transition name="fade" mode="out-in">
-      <AppBarRegular v-if="isAppBarExpanded" @click-outside="isAppBarExpanded = false">
+      <AppBarRegular v-if="isAppBarExpanded" @click-outside="onClickOutsideRegular">
         <slot name="appbar-content" />
       </AppBarRegular>
       <AppBarMini v-else @click="isAppBarExpanded = true">
