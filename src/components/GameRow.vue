@@ -141,15 +141,3 @@ onMounted(() => {
     <InfoBox :data="fiil.data.value?.data" />
   </Modal>
 </template>
-
-<style scoped lang="postcss">
-.zoom-enter-active,
-.zoom-leave-active {
-  transition: transform 0.3s ease;
-}
-
-.zoom-enter-from,
-.zoom-leave-to {
-  transform: scale3d(0, 0, 0);
-}
-</style>
