@@ -1,7 +1,8 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { computed } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
 import { useGameStore } from '../../store/game'
 import { gameMessages } from '../gameMessages'
@@ -11,7 +12,7 @@ const { isFinished, timeToExp } = storeToRefs(gameStore)
 
 const { kb_sheet, meta } = gameMessages
 
-const message = computed(()=> {
+const message = computed(() => {
   return kb_sheet.new_game_in_time(timeToExp.value)
 })
 

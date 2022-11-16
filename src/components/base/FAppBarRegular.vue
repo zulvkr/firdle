@@ -13,8 +13,8 @@ onClickOutside(target, () => {
 
 <template>
   <div
-    class="backdrop-filter backdrop-blur py-1 px-4 sm:py-2 h-[var(--app-bar-height)]"
     ref="target"
+    class="backdrop-filter backdrop-blur py-1 px-4 sm:py-2 h-[var(--app-bar-height)]"
   >
     <slot />
   </div>

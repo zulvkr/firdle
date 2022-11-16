@@ -9,7 +9,7 @@ import { useSettingsStore } from '../store/settings'
 export interface KBButtonProps {
   k: string
   value?: string
-  handler?: Function
+  handler?: (...args: unknown[]) => void
   icon?: string
   charStyle?: CSSProperties
   btnStyle?: CSSProperties

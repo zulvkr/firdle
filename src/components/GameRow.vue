@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from '@vue/reactivity'
 import { isDefined } from '@vueuse/shared'
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 import { onMounted, ref } from 'vue'
 
 import {
@@ -115,9 +115,9 @@ onMounted(() => {
 
 <template>
   <div class="grid gap-1 answer">
-    <template v-for="(col, index) in props.row">
+    <template v-for="(col, colIndex) in props.row" :key="colIndex">
       <GameCellResult
-        v-if="index === 0"
+        v-if="colIndex === 0"
         :row-status="rowStatus"
         :result-status="resultStatus"
         :answer-match="col.cellAnswerMatch"
@@ -137,7 +137,7 @@ onMounted(() => {
       </GameCellHarf>
     </template>
   </div>
-  <Modal v-model="showInfoModal" :persistent="persistentInfoModal">
+  <FModal v-model="showInfoModal" :persistent="persistentInfoModal">
     <InfoBox :data="fiil.data.value?.data" />
-  </Modal>
+  </FModal>
 </template>

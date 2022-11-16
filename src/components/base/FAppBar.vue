@@ -21,12 +21,12 @@ function onClickOutsideRegular() {
 <template>
   <div class="top-0 sticky z-30 h-[var(--app-bar-height-fill-space)]">
     <Transition name="fade" mode="out-in">
-      <AppBarRegular v-if="isAppBarExpanded" @click-outside="onClickOutsideRegular">
+      <FAppBarRegular v-if="isAppBarExpanded" @click-outside="onClickOutsideRegular">
         <slot name="appbar-content" />
-      </AppBarRegular>
-      <AppBarMini v-else @click="isAppBarExpanded = true">
+      </FAppBarRegular>
+      <FAppBarMini v-else @click="isAppBarExpanded = true">
         <slot name="smallbar-content" />
-      </AppBarMini>
+      </FAppBarMini>
     </Transition>
     <div class="absolute top-0 left-0 right-0">
       <hr

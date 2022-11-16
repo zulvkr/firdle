@@ -13,7 +13,7 @@ watchEffect(() => {
   <main class="font-IBM">
     <router-view />
   </main>
-  <SnackBar />
+  <FSnackBar />
 </template>
 
 <style lang="postcss">

@@ -42,7 +42,7 @@ function onClickExit() {
   <Teleport to="body">
     <Transition name="fade">
       <div v-if="i_show" class="fixed inset-0 z-40">
-        <div class="opacity-70 bg-black h-full"></div>
+        <div class="opacity-70 bg-black h-full" />
       </div>
     </Transition>
     <Transition name="slide-y">
@@ -56,7 +56,7 @@ function onClickExit() {
           :class="isShaked ? 'animate-animated animate-headShake' : ''"
         >
           <slot>
-            <div class="h-30"></div>
+            <div class="h-30" />
           </slot>
         </div>
       </div>

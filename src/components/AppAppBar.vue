@@ -1,8 +1,8 @@
 <template>
-  <AppBar>
+  <FAppBar>
     <template #appbar-content>
       <div class="grid appbar">
-        <div class="logo" >
+        <div class="logo">
           <FirdleLogo class="h-full" />
         </div>
         <div class="hints grid">
@@ -18,18 +18,18 @@
       </div>
     </template>
     <template #smallbar-content>
-      <div
-        class="text-gray-300 grid smallbar text-xs"
-      >
+      <div class="text-gray-300 grid smallbar text-xs">
         <div class="logo font-semibold grid">
-          <div class="place-self-center">FIRDLE</div>
+          <div class="place-self-center">
+            FIRDLE
+          </div>
         </div>
         <div class="arrow">
           <i-ic-baseline-keyboard-arrow-down />
         </div>
       </div>
     </template>
-  </AppBar>
+  </FAppBar>
 </template>
 
 <style lang="postcss" scoped>
@@ -48,6 +48,7 @@
 
   grid-template: 'logo . hints settings' 40px / 100px 1fr 40px 40px;
 }
+
 .grid.smallbar {
   .logo {
     grid-area: logo;

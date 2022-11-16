@@ -7,6 +7,6 @@ export const gameMessages = {
     new_game_in_time: (time: string) => `Permainan baru dimulai dalam ${time}`,
   },
   meta: {
-    description: 'Permainan tebak fi\'il bahasa arab'
-  }
+    description: "Permainan tebak fi'il bahasa arab",
+  },
 }

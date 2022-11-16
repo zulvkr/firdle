@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed } from '@vue/reactivity'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
+import { computed } from 'vue'
 import { ref } from 'vue'
 
 import { snackbarOptions, useEventBus } from '../../store/eventbus'
