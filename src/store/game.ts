@@ -1,4 +1,4 @@
-import { useNow, useStorage } from '@vueuse/core'
+import { computedEager, useNow, useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, watch } from 'vue'
 
@@ -20,15 +20,16 @@ export const useGameStore = defineStore('game', () => {
   const playStatus = useStorage<playStatus>('game-playstatus', 'unplayed')
   const winStatus = useStorage<winStatus>('game-winstatus', undefined)
 
-  const isUnplayed = computed(() => playStatus.value === 'unplayed')
-  const isPlaying = computed(() => playStatus.value === 'playing')
-  const isFinished = computed(() => playStatus.value === 'finished')
-  const isWin = computed(
-    () => playStatus.value === 'finished' && winStatus.value === 'win'
-  )
-  const isLose = computed(
-    () => playStatus.value === 'finished' && winStatus.value === 'lose'
-  )
+  const isUnplayed = computedEager(() => playStatus.value === 'unplayed')
+  const isPlaying = computedEager(() => playStatus.value === 'playing')
+  const isFinished = computedEager(() => playStatus.value === 'finished')
+  const isWin = computedEager(() => {
+    return playStatus.value === 'finished' && winStatus.value === 'win'
+  })
+  const isLose = computedEager(() => {
+    return playStatus.value === 'finished' && winStatus.value === 'lose'
+  })
+  const atLastRow = computedEager(() => activeCellIndex.value[0] === 5)
 
   const now = useNow({ interval: 1000 })
   const expTime = computed(() => dayjs(answerMeta.value.data.value?.data?.expTime))
@@ -41,13 +42,18 @@ export const useGameStore = defineStore('game', () => {
       eventbus.snackbar({ message: gameMessages.snackbar.win, status: 'info' })
     }
     if (val === 'lose') {
-      eventbus.snackbar({ message: gameMessages.snackbar.win, status: 'info' })
+      eventbus.snackbar({ message: gameMessages.snackbar.lose, status: 'info' })
+    }
+  })
+
+  watch(atLastRow, (val) => {
+    if (val) {
+      eventbus.snackbar({ message: gameMessages.snackbar.last_try, status: 'info' })
     }
   })
 
   function evaluateStatus() {
     const activeRowIndex = activeCellIndex.value[0]
-    const atLastRow = activeRowIndex === 5
     const isAllMatched = grid.value[activeRowIndex].every(
       ({ cellAnswerMatch }) => cellAnswerMatch === 'matched'
     )
@@ -56,11 +62,11 @@ export const useGameStore = defineStore('game', () => {
       win()
       return
     }
-    if (atLastRow) {
+    if (atLastRow.value) {
       lose()
       return
     }
-    if (!atLastRow) {
+    if (!atLastRow.value) {
       playStatus.value = 'playing'
       return
     }

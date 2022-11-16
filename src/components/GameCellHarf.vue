@@ -12,21 +12,19 @@ export interface GameCellHarf {
 const props = defineProps<GameCellHarf>()
 
 const dynamicClass = computed(() => {
-  const cls = {
-    answerMatchClass: '',
-  }
+  let answerMatchClass
 
   if (props.answerMatch === 'matched') {
     const className = '!bg-green-600'
-    cls.answerMatchClass = className
+    answerMatchClass = className
   } else if (props.answerMatch === 'missed') {
     const className = '!bg-dark-400'
-    cls.answerMatchClass = className
+    answerMatchClass = className
   } else if (props.answerMatch === 'misplaced') {
     const className = '!bg-yellow-600'
-    cls.answerMatchClass = className
+    answerMatchClass = className
   }
-  return Object.values(cls).join(' ')
+  return answerMatchClass
 })
 </script>
 

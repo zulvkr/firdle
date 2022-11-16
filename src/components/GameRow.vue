@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isDefined } from '@vueuse/shared'
+import { computedEager, isDefined } from '@vueuse/shared'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { onMounted, ref } from 'vue'
@@ -51,7 +51,7 @@ const rowStatus = computed(() => {
   return 'inactive'
 })
 
-const isRowActive = computed(() => rowStatus.value === 'active')
+const isRowActive = computedEager(() => rowStatus.value === 'active')
 
 const countFiil = useCountFiilQuery(result)
 
