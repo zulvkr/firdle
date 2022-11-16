@@ -8,7 +8,7 @@ const isShaked = ref(false)
 
 const props = defineProps<{
   modelValue: boolean
-  persistent: boolean
+  persistent?: boolean
 }>()
 
 const emit = defineEmits(['update:modelValue'])

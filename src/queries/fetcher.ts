@@ -1,4 +1,4 @@
-import { createFetch } from '@vueuse/core'
+import { createFetch, useStorage } from '@vueuse/core'
 import { Ref, computed, ref, watch } from 'vue'
 
 import { getJSON } from './type'
@@ -38,7 +38,7 @@ export function useFiilQuery(result: Ref<string>) {
 
   const fetchURL = computed(() => `${fetchPath}?${fetchQuery.value}`)
 
-  const outSyncFetchResURL = ref(fetchURL.value)
+  const outSyncFetchResURL = ref('')
 
   const fetchRes = useBaseFetch(fetchURL, {
     immediate: false,
@@ -49,7 +49,7 @@ export function useFiilQuery(result: Ref<string>) {
   })
 
   async function lazyExecute() {
-    if (fetchURL.value === outSyncFetchResURL.value) {
+    if (fetchURL.value !== outSyncFetchResURL.value) {
       await fetchRes.execute()
     }
   }
@@ -57,7 +57,7 @@ export function useFiilQuery(result: Ref<string>) {
   return { ...fetchRes, lazyExecute }
 }
 
-export function useAnswerMatchQuery(result: Ref<string>) {
+export function useAnswerMatchQuery(result: Ref<string>, rowIndex: number) {
   const fetchPath = '/answer'
   const fetchQuery = computed(() => {
     return new URLSearchParams({ value: result.value }).toString()
@@ -68,7 +68,13 @@ export function useAnswerMatchQuery(result: Ref<string>) {
     immediate: false,
   }).json<getJSON<'/answer/'>>()
 
-  return fetchRes
+  const cachedData = useStorage(`answermatchquery-row-${rowIndex}`, fetchRes.data)
+
+  fetchRes.onFetchResponse(() => {
+    cachedData.value = fetchRes.data.value
+  })
+
+  return { ...fetchRes, cachedData }
 }
 
 export function useAnswerMetaQuery() {

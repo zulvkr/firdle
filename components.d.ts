@@ -9,9 +9,10 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     About: typeof import('./src/components/pages/About.vue')['default']
     AppAppBar: typeof import('./src/components/AppAppBar.vue')['default']
-    AppBar: typeof import('./src/components/base/AppBar.vue')['default']
+    AppBar: typeof import('./src/components/AppBar.vue')['default']
     AppBarMini: typeof import('./src/components/base/AppBarMini.vue')['default']
     AppBarRegular: typeof import('./src/components/base/AppBarRegular.vue')['default']
+    AppTutorial: typeof import('./src/components/AppTutorial.vue')['default']
     ArabicKB: typeof import('./src/components/ArabicKB.vue')['default']
     Dialog: typeof import('./src/components/base/Dialog.vue')['default']
     FAppBar: typeof import('./src/components/base/FAppBar.vue')['default']

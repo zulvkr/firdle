@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useWindowSize } from '@vueuse/core'
-import { watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 
+const tut = ref(true)
 const { height } = useWindowSize()
 watchEffect(() => {
   document.documentElement.style.setProperty('--vh', `${height.value / 100}px`)
@@ -9,11 +10,14 @@ watchEffect(() => {
 </script>
 
 <template>
-  <AppAppBar />
+  <AppBar />
   <main class="font-IBM">
     <router-view />
   </main>
   <FSnackBar />
+  <FModal v-model="tut">
+    <AppTutorial />
+  </FModal>
 </template>
 
 <style lang="postcss">

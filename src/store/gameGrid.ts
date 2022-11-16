@@ -1,6 +1,6 @@
 import { computedEager, promiseTimeout, useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
 import { answerMatch } from '../queries/type'
@@ -49,7 +49,12 @@ export const useGameGridStore = defineStore('gameGrid', () => {
     return flatIndex
   })
 
+  const freezeGrid = ref(false)
+
   function fill(value: string) {
+    if (freezeGrid.value) {
+      return
+    }
     const activeCell = getCell(activeCellIndex.value)
     if (!activeCell.cellText) {
       activeCell.cellText = value
@@ -64,6 +69,9 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   }
 
   function backspace() {
+    if (freezeGrid.value) {
+      return
+    }
     let activeCell = getCell(activeCellIndex.value)
     if (!activeCell.cellText && atFirstCol.value) {
       back()
@@ -73,6 +81,9 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   }
 
   function clearLine() {
+    if (freezeGrid.value) {
+      return
+    }
     const activeRowIndex = activeCellIndex.value[0]
     const activeRow = grid.value[activeRowIndex]
     for (const cell of activeRow) {
@@ -82,11 +93,17 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   }
 
   function forward() {
+    if (freezeGrid.value) {
+      return
+    }
     const nextIndex = gridMap[flatActiveCellIndex.value + 1]
     activeCellIndex.value = nextIndex
   }
 
   function back() {
+    if (freezeGrid.value) {
+      return
+    }
     const prevIndex = gridMap[flatActiveCellIndex.value - 1]
     activeCellIndex.value = prevIndex
   }
@@ -134,13 +151,13 @@ export const useGameGridStore = defineStore('gameGrid', () => {
     return cellIndex1.every((val, index) => cellIndex2[index] === val)
   }
 
-  async function assignAnswerMatch(answer: answerMatch[]) {
+  async function assignAnswerMatch(answer: answerMatch[], rowIndex: number) {
     const answerReversed = answer.slice().reverse()
-    const activeRow = grid.value[activeCellIndex.value[0]]
+    const row = grid.value[rowIndex]
 
-    for (let i = activeRow.length - 1; i >= 0; i--) {
-      await promiseTimeout(300)
-      activeRow[i].cellAnswerMatch = answerReversed[i]
+    for (let i = row.length - 1; i >= 0; i--) {
+      await promiseTimeout(200)
+      row[i].cellAnswerMatch = answerReversed[i]
     }
   }
 

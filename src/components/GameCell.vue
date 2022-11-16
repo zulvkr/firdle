@@ -33,7 +33,7 @@ const dynamicClass = computed(() => {
 
 <template>
   <div
-    class="rounded grid transition-all duration-75 relative content-center group"
+    class="rounded grid transition-all duration-75 relative content-center group select-none"
     :class="dynamicClass"
   >
     <slot name="indicator" />

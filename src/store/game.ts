@@ -3,6 +3,7 @@ import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, watch } from 'vue'
 
 import { gameMessages } from '../components/gameMessages'
+import { answerMatch } from '../queries/type'
 import { dayjs } from '../utils/dayjs'
 import { useEventBus } from './eventbus'
 import { useGameGridStore } from './gameGrid'
@@ -52,11 +53,8 @@ export const useGameStore = defineStore('game', () => {
     }
   })
 
-  function evaluateStatus() {
-    const activeRowIndex = activeCellIndex.value[0]
-    const isAllMatched = grid.value[activeRowIndex].every(
-      ({ cellAnswerMatch }) => cellAnswerMatch === 'matched'
-    )
+  function evaluateStatus(answerMatch?: answerMatch[]) {
+    const isAllMatched = answerMatch?.every((cellMatch) => cellMatch === 'matched')
 
     if (isAllMatched) {
       win()

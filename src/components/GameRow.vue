@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { computedEager, isDefined } from '@vueuse/shared'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { onMounted, ref } from 'vue'
 
 import { useResultButton } from '../composables/useResultButton'
-import {
-  useAnswerMatchQuery,
-  useCountFiilQuery,
-  useFiilQuery,
-} from '../queries/fetcher'
+import { useAnswerMatchQuery, useCountFiilQuery } from '../queries/fetcher'
 import { useEventBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
 import { Cell, useGameGridStore } from '../store/gameGrid'
@@ -70,7 +66,7 @@ const resultStatus = computed(() => {
   return 'not-exist'
 })
 
-const answerMatch = useAnswerMatchQuery(result)
+const answerMatch = useAnswerMatchQuery(result, rowIndex.value)
 
 const unsubscribe = eventbus.$onAction(async ({ name }) => {
   if (!isRowActive.value || name !== 'kbEnter') {
@@ -81,15 +77,18 @@ const unsubscribe = eventbus.$onAction(async ({ name }) => {
   }
   if (resultStatus.value === 'exist' && !isFinished.value) {
     await answerMatch.execute()
-    const answer = answerMatch.data.value?.data?.answer
-    if (answer) {
-      await gameGridStore.assignAnswerMatch(answer)
-    }
-    gameStore.evaluateStatus()
+    gameStore.evaluateStatus(answerMatch.cachedData.value?.data?.answer)
     if (isPlaying.value) {
       gameGridStore.forward()
       unsubscribe()
     }
+  }
+})
+
+watchEffect(async () => {
+  const answer = answerMatch.cachedData.value?.data?.answer
+  if (answer) {
+    await gameGridStore.assignAnswerMatch(answer, rowIndex.value)
   }
 })
 
