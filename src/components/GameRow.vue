@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { onMounted, ref } from 'vue'
 
+import { useResultButton } from '../composables/useResultButton'
 import {
   useAnswerMatchQuery,
   useCountFiilQuery,
@@ -69,8 +70,6 @@ const resultStatus = computed(() => {
   return 'not-exist'
 })
 
-const fiil = useFiilQuery(result)
-
 const answerMatch = useAnswerMatchQuery(result)
 
 const unsubscribe = eventbus.$onAction(async ({ name }) => {
@@ -94,17 +93,7 @@ const unsubscribe = eventbus.$onAction(async ({ name }) => {
   }
 })
 
-const showInfoModal = ref(false)
-
-async function onClickResult() {
-  if (resultStatus.value === 'exist') {
-    await fiil.execute()
-    showInfoModal.value = true
-  }
-  if (resultStatus.value === 'not-exist') {
-    eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
-  }
-}
+const { onClickResult, showInfoModal, fiil } = useResultButton(resultStatus, result)
 
 onMounted(() => {
   if (result.value) {

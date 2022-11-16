@@ -35,13 +35,26 @@ export function useFiilQuery(result: Ref<string>) {
   const fetchQuery = computed(() => {
     return new URLSearchParams({ value: result.value }).toString()
   })
+
   const fetchURL = computed(() => `${fetchPath}?${fetchQuery.value}`)
+
+  const outSyncFetchResURL = ref(fetchURL.value)
 
   const fetchRes = useBaseFetch(fetchURL, {
     immediate: false,
   }).json<getJSON<'/fiil/'>>()
 
-  return fetchRes
+  fetchRes.onFetchResponse(() => {
+    outSyncFetchResURL.value = fetchURL.value
+  })
+
+  async function lazyExecute() {
+    if (fetchURL.value === outSyncFetchResURL.value) {
+      await fetchRes.execute()
+    }
+  }
+
+  return { ...fetchRes, lazyExecute }
 }
 
 export function useAnswerMatchQuery(result: Ref<string>) {

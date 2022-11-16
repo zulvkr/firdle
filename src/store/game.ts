@@ -1,6 +1,6 @@
 import { useNow, useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, watch } from 'vue'
 
 import { gameMessages } from '../components/gameMessages'
 import { dayjs } from '../utils/dayjs'
@@ -37,7 +37,10 @@ export const useGameStore = defineStore('game', () => {
   })
 
   watch(winStatus, (val) => {
-    if (val) {
+    if (val === 'win') {
+      eventbus.snackbar({ message: gameMessages.snackbar.win, status: 'info' })
+    }
+    if (val === 'lose') {
       eventbus.snackbar({ message: gameMessages.snackbar.win, status: 'info' })
     }
   })

@@ -1,6 +1,6 @@
 import { computedEager, promiseTimeout, useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
 import { answerMatch } from '../queries/type'
