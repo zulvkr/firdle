@@ -4,7 +4,7 @@ import { useFiilQuery } from '../queries/fetcher'
 import { useEventBus } from '../store/eventbus'
 import { gameMessages } from './gameMessages'
 
-export function useResultButton(
+export function useResultInfoModal(
   resultStatus: Ref<'loading' | 'exist' | 'not-exist' | null>,
   result: Ref<string>
 ) {

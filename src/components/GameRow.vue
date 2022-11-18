@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computedEager, isDefined } from '@vueuse/shared'
 import { storeToRefs } from 'pinia'
-import { computed, toRef, watchEffect } from 'vue'
+import { computed, toRef } from 'vue'
 import { onMounted } from 'vue'
 
-import { useResultButton } from '../composables/useResultInfoModal'
+import { useResultInfoModal } from '../composables/useResultInfoModal'
+import { useRow } from '../composables/useRow'
 import { useAnswerMatchQuery, useCountFiilQuery } from '../queries/fetcher'
 import { useEventBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
@@ -20,7 +21,7 @@ export interface Row {
 const props = defineProps<Row>()
 
 const gameGridStore = useGameGridStore()
-const { activeCellIndex, results } = storeToRefs(gameGridStore)
+const { results } = storeToRefs(gameGridStore)
 
 const gameStore = useGameStore()
 const { isPlaying, isFinished } = storeToRefs(gameStore)
@@ -30,28 +31,13 @@ const { persistentInfoModal } = storeToRefs(settingsStore)
 
 const eventbus = useEventBus()
 
-const rowIndex = computed(() => props.index)
+const resultText = computed(() => props.row[0].cellText ?? '')
 
-const result = computed(() => props.row[0].cellText ?? '')
+const { isRowActive, rowStatus, rowIndex } = useRow(props.index)
 
-const rowStatus = computedEager(() => {
-  if (activeCellIndex.value[0] > rowIndex.value) {
-    return 'finished'
-  }
-  if (activeCellIndex.value[0] === rowIndex.value && isFinished.value) {
-    return 'finished'
-  }
-  if (activeCellIndex.value[0] === rowIndex.value) {
-    return 'active'
-  }
-  return 'inactive'
-})
+const countFiil = useCountFiilQuery(resultText)
 
-const isRowActive = computedEager(() => rowStatus.value === 'active')
-
-const countFiil = useCountFiilQuery(result)
-
-const isResultReady = computed(() => result.value && isDefined(countFiil.data))
+const isResultReady = computed(() => resultText.value && isDefined(countFiil.data))
 
 const resultStatus = computedEager(() => {
   if (countFiil.isFetching.value) {
@@ -67,10 +53,27 @@ const resultStatus = computedEager(() => {
 })
 
 const answerMatch = useAnswerMatchQuery(
-  result,
-  toRef(results.value[rowIndex.value], 'answerMatch')
+  resultText,
+  toRef(results.value[rowIndex], 'answerMatch')
 )
+
 const { cachedAnswer } = answerMatch
+
+async function evaluateRow() {
+  await answerMatch.execute()
+  if (!cachedAnswer.value) {
+    return
+  }
+  await gameGridStore.assignAnswerMatch(cachedAnswer.value, rowIndex)
+  if (!isRowActive.value) {
+    return
+  }
+  gameStore.evaluateStatus(cachedAnswer.value)
+  if (!isPlaying.value) {
+    return
+  }
+  gameGridStore.forward()
+}
 
 eventbus.$onAction(async ({ name }) => {
   if (!isRowActive.value || name !== 'kbEnter') {
@@ -80,32 +83,25 @@ eventbus.$onAction(async ({ name }) => {
     eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }
   if (resultStatus.value === 'exist' && !isFinished.value) {
-    await answerMatch.execute()
-    gameStore.evaluateStatus(cachedAnswer.value)
-    if (isPlaying.value) {
-      gameGridStore.forward()
-    }
+    results.value[rowIndex].locked = true
+    await evaluateRow()
   }
 })
 
-watchEffect(async () => {
-  if (cachedAnswer.value) {
-    await gameGridStore.assignAnswerMatch(cachedAnswer.value, rowIndex.value)
-  }
-})
-
-const { onClickResult, showInfoModal, fiil } = useResultButton(resultStatus, result)
+const { onClickResult, showInfoModal, fiil } = useResultInfoModal(
+  resultStatus,
+  resultText
+)
 
 onMounted(async () => {
-  if (result.value) {
-    await countFiil.execute()
-    if (gameGridStore.isAnswerLocked(rowIndex.value)) {
-      await answerMatch.execute()
-    }
+  if (!resultText.value) {
+    return
   }
-  if (cachedAnswer.value) {
-    await gameGridStore.assignAnswerMatch(cachedAnswer.value, rowIndex.value)
+  await countFiil.execute()
+  if (!gameGridStore.isAnswerLocked(rowIndex)) {
+    return
   }
+  await evaluateRow()
 })
 </script>
 

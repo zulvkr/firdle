@@ -7,7 +7,6 @@ import { cellIndex, useGameGridStore } from '../store/gameGrid'
 
 export interface GameCellHarf {
   lit?: boolean
-  rowStatus: 'finished' | 'active' | 'inactive'
   cellIndex: cellIndex
 }
 
@@ -44,7 +43,7 @@ const dynamicClass = computed(() => {
 </script>
 
 <template>
-  <GameCell :row-status="rowStatus" class="aspect-square" :class="dynamicClass">
+  <GameCell class="aspect-square" :class="dynamicClass">
     <slot />
   </GameCell>
 </template>
