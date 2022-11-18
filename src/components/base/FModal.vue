@@ -42,17 +42,17 @@ function onClickExit() {
   <Teleport to="body">
     <Transition name="fade">
       <div v-if="i_show" class="fixed inset-0 z-40">
-        <div class="opacity-70 bg-black h-full" />
+        <div class="bg-opacity-70 bg-black h-full" />
       </div>
     </Transition>
     <Transition name="slide-y">
       <div
         v-if="i_show"
-        class="fixed inset-0 mb-1 z-41 grid modal px-4 pt-12 py-4 overflow-y-auto"
+        class="fixed inset-0 mb-1 z-41 grid modal px-4 pt-12 py-4 overflow-y-auto items-start"
       >
         <div
           ref="target"
-          class="w-full bg-gray-800 border-gray-500 border rounded-lg place-self-center col-start-2 shadow-lg"
+          class="w-full bg-gray-900 rounded-lg col-start-2 mt-12 mt-sm-0 shadow-modal"
           :class="isShaked ? 'animate-animated animate-headShake' : ''"
         >
           <slot>
@@ -74,7 +74,7 @@ function onClickExit() {
 
 <style lang="postcss" scoped>
 .grid.modal {
-  grid-template-columns: auto minmax(0, 420px) auto;
+  grid-template-columns: auto minmax(0, 560px) auto;
 }
 
 .fade-enter-active,
@@ -96,5 +96,8 @@ function onClickExit() {
 .slide-y-leave-to {
   opacity: 0;
   transform: translateY(-15px);
+}
+.shadow-modal {
+  box-shadow: inset 1px 1px 0 0 rgb(23, 33, 53), 0 3px 8px 0 rgb(7, 10, 15);
 }
 </style>

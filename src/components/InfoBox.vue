@@ -12,27 +12,45 @@ const details = computed(() => props.data?.resultDetails?.join?.(''))
 </script>
 
 <template>
-  <div class="font-lateef text-3xl leading-10 text-white" dir="rtl">
-    <!-- eslint-disable-next-line vue/no-v-html -->
-    <div class="py-2 px-8 almaany-title" v-html="data?.matchedResultHTML" />
-    <hr class="border-gray-500" />
-    <div class="pt-4 pb-6 px-8">
-      <ol class="almaany-details list-circle pr-6" v-html="details" />
+  <div class="font-IBM text-lg leading-10 text-white" dir="rtl">
+    <div class="flex pt-4 px-4 justify-between">
+      <div class="flex items-center">
+        <span class="font-semibold text-2xl" v-html="data?.matchedResult" />
+        <span class="pr-2 text-sm">
+          <a
+            :href="`https://almaany.com/ar/dict/ar-ar/${data?.matchedResult}/`"
+            class="hover:bg-sky-400 hover:bg-opacity-5 pt-2 pb-1 px-2 rounded text-sky-400"
+            target="_blank"
+          >
+            <span class="inline-flex">
+              <i-ic-baseline-open-in-new />
+              <div class="pr-1">almaany</div>
+            </span>
+          </a>
+        </span>
+      </div>
+      <div>
+        <div
+          class="text-base border border-gray-500 px-2 py-2 rounded font-IBM font-medium items-center flex"
+        >
+          فعل
+        </div>
+      </div>
+    </div>
+    <div class="pb-4 px-4">
+      <ol
+        class="almaany-details list-disc pr-6 marker:text-sm marker:text-gray-400"
+        v-html="details"
+      />
     </div>
   </div>
 </template>
 
 <style lang="postcss">
-.almaany-title {
-  font-weight: 300;
-  b {
-    font-weight: 600;
-  }
-}
 .almaany-details {
-  font-weight: 300;
+  font-weight: 400;
   b {
-    font-weight: 600;
+    /* font-weight: 600; */
     @apply text-yellow-300;
   }
   li {

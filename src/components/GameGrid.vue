@@ -9,7 +9,7 @@ const { gridWithResult } = storeToRefs(gameGridStore)
 
 <template>
   <div
-    class="max-w-[380px] xl:max-w-[320px] mt-4 w-full grid px-5 gap-2 justify-self-center"
+    class="max-w-[320px] sm:max-w-[380px] xl:max-w-[320px] mt-4 w-full grid px-5 gap-2 justify-self-center"
   >
     <template v-for="(row, rowIndex) in gridWithResult" :key="rowIndex">
       <GameRow :row="row" :index="rowIndex" />

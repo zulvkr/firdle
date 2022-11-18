@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     About: typeof import('./src/components/pages/About.vue')['default']
-    AppAppBar: typeof import('./src/components/AppAppBar.vue')['default']
     AppBar: typeof import('./src/components/AppBar.vue')['default']
     AppBarMini: typeof import('./src/components/base/AppBarMini.vue')['default']
     AppBarRegular: typeof import('./src/components/base/AppBarRegular.vue')['default']
@@ -33,6 +32,7 @@ declare module '@vue/runtime-core' {
     IIcBaselineClose: typeof import('~icons/ic/baseline-close')['default']
     IIcBaselineInfo: typeof import('~icons/ic/baseline-info')['default']
     IIcBaselineKeyboardArrowDown: typeof import('~icons/ic/baseline-keyboard-arrow-down')['default']
+    IIcBaselineOpenInNew: typeof import('~icons/ic/baseline-open-in-new')['default']
     IIcBaselinePlaylistAddCheck: typeof import('~icons/ic/baseline-playlist-add-check')['default']
     IIcBaselineQuestionMark: typeof import('~icons/ic/baseline-question-mark')['default']
     IIcBaselineSettings: typeof import('~icons/ic/baseline-settings')['default']
