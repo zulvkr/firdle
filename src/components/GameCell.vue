@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 
 export interface GameCell {
-  lit?: boolean
   rowStatus: 'finished' | 'active' | 'inactive'
 }
 
@@ -10,7 +9,6 @@ const props = defineProps<GameCell>()
 
 const dynamicClass = computed(() => {
   const cls = {
-    litClass: '',
     activeRowClass: '',
   }
 
@@ -20,11 +18,6 @@ const dynamicClass = computed(() => {
   } else {
     const className = 'border-1 border-gray-700'
     cls.activeRowClass = className
-  }
-
-  if (props.lit) {
-    const className = 'transform scale-105 ring ring-opacity-80 ring-sky-400 ring-2'
-    cls.litClass = className
   }
 
   return Object.values(cls).join(' ')

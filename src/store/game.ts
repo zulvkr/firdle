@@ -11,7 +11,7 @@ import { useQueryCacheStore } from './queryCache'
 
 export const useGameStore = defineStore('game', () => {
   const gameGridStore = useGameGridStore()
-  const { activeCellIndex, grid } = storeToRefs(gameGridStore)
+  const { activeCellIndex } = storeToRefs(gameGridStore)
 
   const queryCacheStore = useQueryCacheStore()
   const { answerMeta } = storeToRefs(queryCacheStore)

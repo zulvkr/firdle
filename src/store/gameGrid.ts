@@ -22,9 +22,28 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   ] as Cell[][])
 
   /**
+   * Store unpersisted data
+   */
+  const gridU = ref([
+    [{}, {}, {}, {}],
+    [{}, {}, {}, {}],
+    [{}, {}, {}, {}],
+    [{}, {}, {}, {}],
+    [{}, {}, {}, {}],
+    [{}, {}, {}, {}],
+  ] as UCell[][])
+
+  /**
    * Hold results of the game
    */
-  const results = useStorage('gamegrid-result', [{}, {}, {}, {}, {}, {}] as Cell[])
+  const results = useStorage('gamegrid-result', [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+  ] as ResultCell[])
 
   const gridWithResult = computed(() =>
     grid.value.map((row, i) => [{ ...results.value[i] }, ...row])
@@ -38,6 +57,7 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   const activeCellIndex = useStorage<cellIndex>('gamegrid-activecellindex', gridMap[0])
   const atFirstCol = computedEager(() => activeCellIndex.value[1] < 3)
   const atLastCol = computedEager(() => activeCellIndex.value[1] > 0)
+  const atLastRow = computedEager(() => activeCellIndex.value[0] === 5)
 
   /**
    * Index of activeCell in gridMap
@@ -49,18 +69,16 @@ export const useGameGridStore = defineStore('gameGrid', () => {
     return flatIndex
   })
 
-  const freezeGrid = ref(false)
-
   function fill(value: string) {
-    if (freezeGrid.value) {
+    if (isAnswerLocked(activeCellIndex.value[0])) {
       return
     }
     const activeCell = getCell(activeCellIndex.value)
-    if (!activeCell.cellText) {
-      activeCell.cellText = value
-      activeCell.cellLit = true
+    if (!activeCell.p.cellText) {
+      activeCell.p.cellText = value
+      activeCell.u.cellLit = true
       setTimeout(() => {
-        activeCell.cellLit = false
+        activeCell.u.cellLit = false
       }, 200)
     }
     if (atLastCol.value) {
@@ -69,19 +87,19 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   }
 
   function backspace() {
-    if (freezeGrid.value) {
+    if (isAnswerLocked(activeCellIndex.value[0])) {
       return
     }
     let activeCell = getCell(activeCellIndex.value)
-    if (!activeCell.cellText && atFirstCol.value) {
+    if (!activeCell.p.cellText && atFirstCol.value) {
       back()
     }
     activeCell = getCell(activeCellIndex.value)
-    activeCell.cellText = undefined
+    activeCell.p.cellText = undefined
   }
 
   function clearLine() {
-    if (freezeGrid.value) {
+    if (isAnswerLocked(activeCellIndex.value[0])) {
       return
     }
     const activeRowIndex = activeCellIndex.value[0]
@@ -93,17 +111,11 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   }
 
   function forward() {
-    if (freezeGrid.value) {
-      return
-    }
     const nextIndex = gridMap[flatActiveCellIndex.value + 1]
     activeCellIndex.value = nextIndex
   }
 
   function back() {
-    if (freezeGrid.value) {
-      return
-    }
     const prevIndex = gridMap[flatActiveCellIndex.value - 1]
     activeCellIndex.value = prevIndex
   }
@@ -118,7 +130,7 @@ export const useGameGridStore = defineStore('gameGrid', () => {
     }
 
     const normalResult = grid.value[rowIndex].reduceRight((prev, curr, idx, arr) => {
-      let harf = curr.cellText
+      let harf: string | undefined = curr.cellText
       if (harf === HAMZA) {
         if (idx > 0) {
           harf = ALEF_HAMZA_ABOVE
@@ -134,7 +146,10 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   }
 
   function getCell(cellIndex: cellIndex) {
-    return grid.value[cellIndex[0]][cellIndex[1]]
+    return {
+      p: grid.value[cellIndex[0]][cellIndex[1]],
+      u: gridU.value[cellIndex[0]][cellIndex[1]],
+    }
   }
 
   function createGridMap() {
@@ -153,42 +168,57 @@ export const useGameGridStore = defineStore('gameGrid', () => {
 
   async function assignAnswerMatch(answer: answerMatch[], rowIndex: number) {
     const answerReversed = answer.slice().reverse()
-    const row = grid.value[rowIndex]
+    const row = gridU.value[rowIndex]
 
     for (let i = row.length - 1; i >= 0; i--) {
       await promiseTimeout(200)
-      row[i].cellAnswerMatch = answerReversed[i]
+      row[i].cellMatch = answerReversed[i]
     }
+  }
+
+  function isAnswerLocked(rowIndex: number) {
+    return results.value[rowIndex].locked
   }
 
   return {
     grid,
+    gridU,
     results,
     gridWithResult,
     gridMap,
     activeCellIndex,
+    atLastRow,
+    assignAnswerMatch,
     fill,
     backspace,
     clearLine,
     formResult,
     matchCellIndex,
     forward,
-    assignAnswerMatch,
+    getCell,
+    isAnswerLocked,
   }
 })
 
 export interface Cell {
-  cellType?: string
   cellText?: string
-  cellLit?: boolean
   cellContent?: unknown
-  cellAnswerMatch?: answerMatch
+}
+
+export interface ResultCell extends Cell {
+  locked?: boolean
+  answerMatch?: answerMatch[]
+}
+
+export interface UCell {
+  cellLit?: boolean
+  cellMatch?: answerMatch
 }
 
 /**
  * Mark position of a cell in format [rowIndex, colIndex]
  */
-type cellIndex = [number, number]
+export type cellIndex = [number, number]
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useGameGridStore, import.meta.hot))

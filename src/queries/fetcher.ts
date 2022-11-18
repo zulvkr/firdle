@@ -1,7 +1,9 @@
 import { createFetch, useStorage } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
 import { Ref, computed, ref, watch } from 'vue'
 
-import { getJSON } from './type'
+import { useGameGridStore } from '../store/gameGrid'
+import { answerMatch, getJSON } from './type'
 
 const useBaseFetch = createFetch({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
@@ -57,7 +59,10 @@ export function useFiilQuery(result: Ref<string>) {
   return { ...fetchRes, lazyExecute }
 }
 
-export function useAnswerMatchQuery(result: Ref<string>, rowIndex: number) {
+export function useAnswerMatchQuery(
+  result: Ref<string>,
+  cachedAnswer: Ref<answerMatch[] | undefined>
+) {
   const fetchPath = '/answer'
   const fetchQuery = computed(() => {
     return new URLSearchParams({ value: result.value }).toString()
@@ -68,13 +73,11 @@ export function useAnswerMatchQuery(result: Ref<string>, rowIndex: number) {
     immediate: false,
   }).json<getJSON<'/answer/'>>()
 
-  const cachedData = useStorage(`answermatchquery-row-${rowIndex}`, fetchRes.data)
-
   fetchRes.onFetchResponse(() => {
-    cachedData.value = fetchRes.data.value
+    cachedAnswer.value = fetchRes.data.value?.data?.answer
   })
 
-  return { ...fetchRes, cachedData }
+  return { ...fetchRes, cachedAnswer }
 }
 
 export function useAnswerMetaQuery() {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computedEager, isDefined } from '@vueuse/shared'
 import { storeToRefs } from 'pinia'
-import { computed, watchEffect } from 'vue'
-import { onMounted, ref } from 'vue'
+import { computed, toRef, watchEffect } from 'vue'
+import { onMounted } from 'vue'
 
-import { useResultButton } from '../composables/useResultButton'
+import { useResultButton } from '../composables/useResultInfoModal'
 import { useAnswerMatchQuery, useCountFiilQuery } from '../queries/fetcher'
 import { useEventBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
@@ -20,7 +20,7 @@ export interface Row {
 const props = defineProps<Row>()
 
 const gameGridStore = useGameGridStore()
-const { activeCellIndex } = storeToRefs(gameGridStore)
+const { activeCellIndex, results } = storeToRefs(gameGridStore)
 
 const gameStore = useGameStore()
 const { isPlaying, isFinished } = storeToRefs(gameStore)
@@ -34,7 +34,7 @@ const rowIndex = computed(() => props.index)
 
 const result = computed(() => props.row[0].cellText ?? '')
 
-const rowStatus = computed(() => {
+const rowStatus = computedEager(() => {
   if (activeCellIndex.value[0] > rowIndex.value) {
     return 'finished'
   }
@@ -53,7 +53,7 @@ const countFiil = useCountFiilQuery(result)
 
 const isResultReady = computed(() => result.value && isDefined(countFiil.data))
 
-const resultStatus = computed(() => {
+const resultStatus = computedEager(() => {
   if (countFiil.isFetching.value) {
     return 'loading'
   }
@@ -66,9 +66,13 @@ const resultStatus = computed(() => {
   return 'not-exist'
 })
 
-const answerMatch = useAnswerMatchQuery(result, rowIndex.value)
+const answerMatch = useAnswerMatchQuery(
+  result,
+  toRef(results.value[rowIndex.value], 'answerMatch')
+)
+const { cachedAnswer } = answerMatch
 
-const unsubscribe = eventbus.$onAction(async ({ name }) => {
+eventbus.$onAction(async ({ name }) => {
   if (!isRowActive.value || name !== 'kbEnter') {
     return
   }
@@ -77,26 +81,30 @@ const unsubscribe = eventbus.$onAction(async ({ name }) => {
   }
   if (resultStatus.value === 'exist' && !isFinished.value) {
     await answerMatch.execute()
-    gameStore.evaluateStatus(answerMatch.cachedData.value?.data?.answer)
+    gameStore.evaluateStatus(cachedAnswer.value)
     if (isPlaying.value) {
       gameGridStore.forward()
-      unsubscribe()
     }
   }
 })
 
 watchEffect(async () => {
-  const answer = answerMatch.cachedData.value?.data?.answer
-  if (answer) {
-    await gameGridStore.assignAnswerMatch(answer, rowIndex.value)
+  if (cachedAnswer.value) {
+    await gameGridStore.assignAnswerMatch(cachedAnswer.value, rowIndex.value)
   }
 })
 
 const { onClickResult, showInfoModal, fiil } = useResultButton(resultStatus, result)
 
-onMounted(() => {
+onMounted(async () => {
   if (result.value) {
-    countFiil.execute()
+    await countFiil.execute()
+    if (gameGridStore.isAnswerLocked(rowIndex.value)) {
+      await answerMatch.execute()
+    }
+  }
+  if (cachedAnswer.value) {
+    await gameGridStore.assignAnswerMatch(cachedAnswer.value, rowIndex.value)
   }
 })
 </script>
@@ -108,7 +116,6 @@ onMounted(() => {
         v-if="colIndex === 0"
         :row-status="rowStatus"
         :result-status="resultStatus"
-        :answer-match="col.cellAnswerMatch"
         :class="[isResultReady && 'cursor-pointer']"
         @click="onClickResult"
       >
@@ -118,8 +125,7 @@ onMounted(() => {
         v-else
         class="aspect-square"
         :row-status="rowStatus"
-        :lit="col.cellLit"
-        :answer-match="col.cellAnswerMatch"
+        :cell-index="[rowIndex, colIndex - 1]"
       >
         {{ col.cellText }}
       </GameCellHarf>
