@@ -8,19 +8,16 @@ export interface GameCell {
 const props = defineProps<GameCell>()
 
 const dynamicClass = computed(() => {
-  const cls = {
-    activeRowClass: '',
-  }
-
+  let cls = ''
   if (props.rowStatus === 'active') {
     const className = 'border-1 border-gray-500'
-    cls.activeRowClass = className
+    cls = className
   } else {
     const className = 'border-1 border-gray-700'
-    cls.activeRowClass = className
+    cls = className
   }
 
-  return Object.values(cls).join(' ')
+  return cls
 })
 </script>
 

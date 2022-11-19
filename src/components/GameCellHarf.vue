@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { computedEager } from '@vueuse/shared'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
 
 import { cellIndex, useGameGridStore } from '../store/gameGrid'
 
 export interface GameCellHarf {
-  lit?: boolean
   cellIndex: cellIndex
+  rowStatus: 'finished' | 'active' | 'inactive'
 }
 
 const props = defineProps<GameCellHarf>()
@@ -18,32 +17,51 @@ const { gridU } = storeToRefs(gameGridStore)
 const answerMatch = computedEager(() => {
   return gridU.value[props.cellIndex[0]][props.cellIndex[1]]?.cellMatch
 })
-
-const dynamicClass = computed(() => {
-  let answerMatchClass
-
+const answerMatchClass = computedEager(() => {
+  let className = ''
   if (answerMatch.value === 'matched') {
-    const className = '!bg-green-600'
-    answerMatchClass = className
+    className = '!bg-green-600'
   } else if (answerMatch.value === 'missed') {
-    const className = '!bg-dark-400'
-    answerMatchClass = className
+    className = '!bg-dark-400'
   } else if (answerMatch.value === 'misplaced') {
-    const className = '!bg-yellow-600'
-    answerMatchClass = className
+    className = '!bg-yellow-600'
   }
-
-  // if (props.lit) {
-  //   const className = 'transform scale-105 ring ring-opacity-80 ring-sky-400 ring-2'
-  //   cls.litClass = className
-  // }
-
-  return answerMatchClass
+  return className
 })
+
+const isLit = computedEager(() => {
+  return gridU.value[props.cellIndex[0]][props.cellIndex[1]]?.cellLit
+})
+
+const litClass = computedEager(() =>
+  isLit.value ? 'transform scale-105 ring ring-opacity-80 ring-sky-400 ring-2' : ''
+)
 </script>
 
 <template>
-  <GameCell class="aspect-square" :class="dynamicClass">
-    <slot />
-  </GameCell>
+  <Transition name="zoom-y" mode="out-in">
+    <GameCell
+      v-if="answerMatchClass"
+      class="aspect-square"
+      :class="[answerMatchClass, litClass]"
+      :row-status="rowStatus"
+    >
+      <slot />
+    </GameCell>
+    <GameCell v-else class="aspect-square" :class="litClass" :row-status="rowStatus">
+      <slot />
+    </GameCell>
+  </Transition>
 </template>
+
+<style lang="postcss" scoped>
+.zoom-y-enter-active,
+.zoom-y-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.zoom-y-enter-from,
+.zoom-y-leave-to {
+  transform: scaleY(0);
+}
+</style>
