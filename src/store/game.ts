@@ -2,7 +2,7 @@ import { computedEager, useNow, useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { computed, watch } from 'vue'
 
-import { gameMessages } from '../components/gameMessages'
+import { gameMessages } from '../composables/gameMessages'
 import { answerMatch } from '../queries/type'
 import { dayjs } from '../utils/dayjs'
 import { snackbarBus } from './eventbus'

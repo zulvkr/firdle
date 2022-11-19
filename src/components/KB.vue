@@ -4,11 +4,11 @@ import { CSSProperties, computed } from 'vue'
 import RawBackspace from '~icons/ic/outline-backspace?raw'
 import RawClear from '~icons/ic/round-clear?raw'
 
+import { useMagicKeyboardListener } from '../composables/useKBListener'
 import * as hj from '../constants/hijaiy'
 import { kbEnterBus } from '../store/eventbus'
 import { useGameGridStore } from '../store/gameGrid'
 import { KBButtonProps } from './KBButton.vue'
-import { useMagicKeyboardListener } from './KBListener'
 
 const gameGridStore = useGameGridStore()
 const { backspace, clearLine, formResult, gridMap } = gameGridStore

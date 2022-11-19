@@ -11,7 +11,7 @@ import { kbEnterBus, snackbarBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
 import { Cell, useGameGridStore } from '../store/gameGrid'
 import { useSettingsStore } from '../store/settings'
-import { gameMessages } from './gameMessages'
+import { gameMessages } from '../composables/gameMessages'
 
 export interface Row {
   row: Cell[]

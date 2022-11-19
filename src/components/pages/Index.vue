@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 import { useGameStore } from '../../store/game'
-import { gameMessages } from '../gameMessages'
+import { gameMessages } from '../../composables/gameMessages'
 
 const gameStore = useGameStore()
 const { isFinished, timeToExp } = storeToRefs(gameStore)
