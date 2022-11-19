@@ -23,7 +23,9 @@ const details = computed(() => props.data?.resultDetails?.join?.(''))
             target="_blank"
           >
             <span class="inline-flex">
-              <i-ic-baseline-open-in-new />
+              <div>
+                <i-ic-baseline-open-in-new />
+              </div>
               <div class="pr-1">almaany</div>
             </span>
           </a>

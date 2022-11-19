@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { useTutorialModal } from '../composables/useTutorialModal'
+
+const { showTutorial } = useTutorialModal()
+
+function onInfoClick() {
+  showTutorial.value = !showTutorial.value
+}
+</script>
+
 <template>
   <FAppBar>
     <template #appbar-content>
@@ -6,7 +16,7 @@
           <FirdleLogo class="h-full" />
         </div>
         <div class="hints grid">
-          <div class="place-self-center">
+          <div class="place-self-center" @click="onInfoClick">
             <i-ic-baseline-info />
           </div>
         </div>
@@ -20,9 +30,7 @@
     <template #smallbar-content>
       <div class="text-gray-300 grid smallbar text-xs">
         <div class="logo font-semibold grid">
-          <div class="place-self-center">
-            FIRDLE
-          </div>
+          <div class="place-self-center">FIRDLE</div>
         </div>
         <div class="arrow">
           <i-ic-baseline-keyboard-arrow-down />

@@ -5,7 +5,7 @@ import RawBackspace from '~icons/ic/outline-backspace?raw'
 import RawClear from '~icons/ic/round-clear?raw'
 
 import * as hj from '../constants/hijaiy'
-import { useEventBus } from '../store/eventbus'
+import { kbEnterBus } from '../store/eventbus'
 import { useGameGridStore } from '../store/gameGrid'
 import { KBButtonProps } from './KBButton.vue'
 import { useMagicKeyboardListener } from './KBListener'
@@ -13,9 +13,6 @@ import { useMagicKeyboardListener } from './KBListener'
 const gameGridStore = useGameGridStore()
 const { backspace, clearLine, formResult, gridMap } = gameGridStore
 const { results, gridU, grid } = storeToRefs(gameGridStore)
-
-const eventbus = useEventBus()
-const { kbEnter } = eventbus
 
 useMagicKeyboardListener()
 
@@ -118,7 +115,7 @@ const KBConfig = computed<KbConfig>(() => {
       },
       {
         k: 'Enter',
-        handler: kbEnter,
+        handler: () => kbEnterBus.emit(),
         charStyle: { width: 'unset', fontSize: '18px' },
         btnWrapperStyle: {
           padding: '0 20px',

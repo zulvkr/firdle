@@ -5,7 +5,7 @@ import { computed, watch } from 'vue'
 import { gameMessages } from '../components/gameMessages'
 import { answerMatch } from '../queries/type'
 import { dayjs } from '../utils/dayjs'
-import { useEventBus } from './eventbus'
+import { snackbarBus } from './eventbus'
 import { useGameGridStore } from './gameGrid'
 import { useQueryCacheStore } from './queryCache'
 
@@ -15,8 +15,6 @@ export const useGameStore = defineStore('game', () => {
 
   const queryCacheStore = useQueryCacheStore()
   const { answerMeta } = storeToRefs(queryCacheStore)
-
-  const eventbus = useEventBus()
 
   const playStatus = useStorage<playStatus>('game-playstatus', 'unplayed')
   const winStatus = useStorage<winStatus>('game-winstatus', undefined)
@@ -40,16 +38,16 @@ export const useGameStore = defineStore('game', () => {
 
   watch(winStatus, (val) => {
     if (val === 'win') {
-      eventbus.snackbar({ message: gameMessages.snackbar.win, status: 'info' })
+      snackbarBus.emit({ message: gameMessages.snackbar.win, status: 'info' })
     }
     if (val === 'lose') {
-      eventbus.snackbar({ message: gameMessages.snackbar.lose, status: 'info' })
+      snackbarBus.emit({ message: gameMessages.snackbar.lose, status: 'info' })
     }
   })
 
   watch(atLastRow, (val) => {
     if (val) {
-      eventbus.snackbar({ message: gameMessages.snackbar.last_try, status: 'info' })
+      snackbarBus.emit({ message: gameMessages.snackbar.last_try, status: 'info' })
     }
   })
 

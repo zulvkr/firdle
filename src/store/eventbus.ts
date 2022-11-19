@@ -1,22 +1,12 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { EventBusKey, useEventBus } from '@vueuse/core'
 
 export interface snackbarOptions {
   status: 'error' | 'success' | 'info' | 'warning'
   message: string
 }
 
-export const useEventBus = defineStore('eventbus', () => {
-  function kbEnter() {
-    return
-  }
+const snackBarKey: EventBusKey<snackbarOptions> = Symbol('snackbar')
+const kbEnterKey: EventBusKey<undefined> = Symbol('kbEnter')
 
-  function snackbar(options: snackbarOptions) {
-    return options
-  }
-
-  return { kbEnter, snackbar }
-})
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useEventBus, import.meta.hot))
-}
+export const snackbarBus = useEventBus(snackBarKey)
+export const kbEnterBus = useEventBus(kbEnterKey)

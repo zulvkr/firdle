@@ -1,13 +1,12 @@
 import { useMagicKeys, whenever } from '@vueuse/core'
 
 import * as hj from '../constants/hijaiy'
-import { useEventBus } from '../store/eventbus'
+import { kbEnterBus } from '../store/eventbus'
 import { useGameGridStore } from '../store/gameGrid'
 
 export function useMagicKeyboardListener() {
   const magic = useMagicKeys()
   const { fill, backspace } = useGameGridStore()
-  const { kbEnter } = useEventBus()
 
   const simpleKeys = [
     hj.ALEF,
@@ -46,7 +45,7 @@ export function useMagicKeyboardListener() {
     whenever(magic[key], () => fill(hj.HAMZA))
   }
 
-  whenever(magic.enter, () => kbEnter())
+  whenever(magic.enter, () => kbEnterBus.emit())
 
   whenever(magic.backspace, () => backspace())
 }

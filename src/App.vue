@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import '@fontsource/ibm-plex-sans-arabic/'
+import '@fontsource/ibm-plex-sans-arabic'
 import { useWindowSize } from '@vueuse/core'
-import { ref, watchEffect } from 'vue'
+import { watchEffect } from 'vue'
 
-const tut = ref(true)
+import { useTutorialModal } from './composables/useTutorialModal'
+
+const { showTutorial } = useTutorialModal()
+
 const { height } = useWindowSize()
 watchEffect(() => {
   document.documentElement.style.setProperty('--vh', `${height.value / 100}px`)
@@ -16,7 +19,7 @@ watchEffect(() => {
     <router-view />
   </main>
   <FSnackBar />
-  <FModal v-model="tut">
+  <FModal v-model="showTutorial">
     <AppTutorial />
   </FModal>
 </template>

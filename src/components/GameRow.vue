@@ -7,7 +7,7 @@ import { onMounted } from 'vue'
 import { useResultInfoModal } from '../composables/useResultInfoModal'
 import { useRow } from '../composables/useRow'
 import { useAnswerMatchQuery, useCountFiilQuery } from '../queries/fetcher'
-import { useEventBus } from '../store/eventbus'
+import { kbEnterBus, snackbarBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
 import { Cell, useGameGridStore } from '../store/gameGrid'
 import { useSettingsStore } from '../store/settings'
@@ -28,8 +28,6 @@ const { isPlaying, isFinished } = storeToRefs(gameStore)
 
 const settingsStore = useSettingsStore()
 const { persistentInfoModal } = storeToRefs(settingsStore)
-
-const eventbus = useEventBus()
 
 const resultText = computed(() => props.row[0].cellText ?? '')
 
@@ -75,12 +73,12 @@ async function evaluateRow() {
   gameGridStore.forward()
 }
 
-eventbus.$onAction(async ({ name }) => {
-  if (!isRowActive.value || name !== 'kbEnter') {
+kbEnterBus.on(async () => {
+  if (!isRowActive.value) {
     return
   }
   if (resultStatus.value === 'not-exist') {
-    eventbus.snackbar({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
+    snackbarBus.emit({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }
   if (resultStatus.value === 'exist' && !isFinished.value) {
     results.value[rowIndex].locked = true
