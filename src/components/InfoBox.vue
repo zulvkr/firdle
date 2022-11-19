@@ -15,7 +15,7 @@ const details = computed(() => props.data?.resultDetails?.join?.(''))
   <div class="font-IBM text-lg leading-10 text-white" dir="rtl">
     <div class="flex pt-4 px-4 justify-between">
       <div class="flex items-center">
-        <span class="font-semibold text-2xl" v-html="data?.matchedResult" />
+        <span class="font-medium text-2xl">{{ data?.matchedResult }}</span>
         <span class="pr-2 text-sm">
           <a
             :href="`https://almaany.com/ar/dict/ar-ar/${data?.matchedResult}/`"
@@ -39,7 +39,7 @@ const details = computed(() => props.data?.resultDetails?.join?.(''))
     </div>
     <div class="pb-4 px-4">
       <ol
-        class="almaany-details list-disc pr-6 marker:text-sm marker:text-gray-400"
+        class="almaany-details list-disc pr-4 marker:text-sm marker:text-gray-400"
         v-html="details"
       />
     </div>
@@ -50,7 +50,7 @@ const details = computed(() => props.data?.resultDetails?.join?.(''))
 .almaany-details {
   font-weight: 400;
   b {
-    /* font-weight: 600; */
+    font-weight: 400;
     @apply text-yellow-300;
   }
   li {
