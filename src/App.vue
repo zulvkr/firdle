@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import '@fontsource/ibm-plex-sans-arabic/'
 import { useWindowSize } from '@vueuse/core'
 import { ref, watchEffect } from 'vue'
 
@@ -21,7 +22,6 @@ watchEffect(() => {
 </template>
 
 <style lang="postcss">
-@import url('./assets/fonts/fonts.css');
 :root {
   --100vh: 100vh;
   --100vh: calc(var(--vh, 1vh) * 100);

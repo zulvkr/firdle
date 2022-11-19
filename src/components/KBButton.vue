@@ -41,7 +41,7 @@ const onClick = () => {
 </script>
 
 <template>
-  <button :style="btnStyle" @click="onClick" class="select-none">
+  <button :style="btnStyle" class="select-none" @click="onClick">
     <div
       class="h-10 h-md-10 grid rounded-md"
       :class="[dim ? 'bg-dark-400' : 'bg-gray-600']"

@@ -12,7 +12,7 @@ import { useMagicKeyboardListener } from './KBListener'
 
 const gameGridStore = useGameGridStore()
 const { backspace, clearLine, formResult, gridMap } = gameGridStore
-const { results, grid } = storeToRefs(gameGridStore)
+const { results, gridU, grid } = storeToRefs(gameGridStore)
 
 const eventbus = useEventBus()
 const { kbEnter } = eventbus
@@ -42,7 +42,7 @@ interface KbConfig {
 const notExistHuruf = computed(() => {
   const uniqueharf = new Set()
   for (const [r, c] of gridMap) {
-    if (grid.value[r][c].cellAnswerMatch === 'missed') {
+    if (gridU.value[r][c].cellMatch === 'missed') {
       uniqueharf.add(grid.value[r][c].cellText)
     }
   }

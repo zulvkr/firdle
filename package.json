@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/ibm-plex-sans-arabic": "^4.5.11",
     "@vueuse/components": "^9.5.0",
     "@vueuse/core": "^9.4.0",
     "dayjs": "^1.11.6",
