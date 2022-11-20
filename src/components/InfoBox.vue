@@ -15,19 +15,13 @@ const { copy, copied, text, isSupported } = useClipboard({
   source: matchedResult.value,
 })
 
-async function onYeah() {
-  console.log(isSupported.value)
-  console.log(matchedResult.value)
-  await copy()
-}
-
 const details = computed(() => props.data?.resultDetails?.join?.(''))
 </script>
 
 <template>
   <div class="font-IBM text-xl leading-10 text-white" dir="rtl">
     <div class="flex pt-4 px-4 justify-between">
-      <div class="flex items-center">
+      <div class="flex items-center pt-2">
         <span class="font-medium text-3xl">{{ data?.matchedResult }}</span>
         <span class="pr-2">
           <FButton
@@ -43,7 +37,7 @@ const details = computed(() => props.data?.resultDetails?.join?.(''))
             v-if="isSupported"
             class="f-var-small bg-light-700 bg-opacity-0 hover:bg-opacity-10 text-light-700 ring-light-700 focus-visible:ring"
             click-class="!bg-opacity-20"
-            @click="onYeah"
+            @click="copy()"
           >
             <i-ic-baseline-content-copy class="ml-1.5" />
             <span v-if="!copied">Salin</span>

@@ -1,23 +1,20 @@
-import { computedEager, useNow, useStorage } from '@vueuse/core'
+import { computedEager, useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { computed, watch } from 'vue'
+import { watch, watchEffect } from 'vue'
 
 import { gameMessages } from '../composables/gameMessages'
+import { useGameTime } from '../composables/useGameTime'
+import { useResetGame } from '../composables/useResetGame'
 import { answerMatch } from '../queries/type'
-import { dayjs } from '../utils/dayjs'
 import { snackbarBus } from './eventbus'
 import { useGameGridStore } from './gameGrid'
-import { useQueryCacheStore } from './queryCache'
 
 export const useGameStore = defineStore('game', () => {
   const gameGridStore = useGameGridStore()
   const { activeCellIndex } = storeToRefs(gameGridStore)
 
-  const queryCacheStore = useQueryCacheStore()
-  const { answerMeta } = storeToRefs(queryCacheStore)
-
   const playStatus = useStorage<playStatus>('game-playstatus', 'unplayed')
-  const winStatus = useStorage<winStatus>('game-winstatus', undefined)
+  const winStatus = useStorage<winStatus>('game-winstatus', 'unknown')
 
   const isUnplayed = computedEager(() => playStatus.value === 'unplayed')
   const isPlaying = computedEager(() => playStatus.value === 'playing')
@@ -29,12 +26,6 @@ export const useGameStore = defineStore('game', () => {
     return playStatus.value === 'finished' && winStatus.value === 'lose'
   })
   const atLastRow = computedEager(() => activeCellIndex.value[0] === 5)
-
-  const now = useNow({ interval: 1000 })
-  const expTime = computed(() => dayjs(answerMeta.value.data.value?.data?.expTime))
-  const timeToExp = computed(() => {
-    return dayjs.duration(expTime.value.diff(now.value)).format('HH:mm:ss')
-  })
 
   watch(winStatus, (val) => {
     if (val === 'win') {
@@ -86,8 +77,6 @@ export const useGameStore = defineStore('game', () => {
     isUnplayed,
     isPlaying,
     isFinished,
-    expTime,
-    timeToExp,
     win,
     lose,
     evaluateStatus,
@@ -95,7 +84,7 @@ export const useGameStore = defineStore('game', () => {
 })
 
 type playStatus = 'unplayed' | 'playing' | 'finished'
-type winStatus = 'win' | 'lose' | undefined
+type winStatus = 'win' | 'lose' | 'unknown'
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useGameStore, import.meta.hot))

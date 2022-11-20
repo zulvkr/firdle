@@ -4,11 +4,16 @@ import { useHead } from '@vueuse/head'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
-import { useGameStore } from '../../store/game'
 import { gameMessages } from '../../composables/gameMessages'
+import { useGameTime } from '../../composables/useGameTime'
+import { useResetGame } from '../../composables/useResetGame'
+import { useGameStore } from '../../store/game'
 
 const gameStore = useGameStore()
-const { isFinished, timeToExp } = storeToRefs(gameStore)
+const { isFinished } = storeToRefs(gameStore)
+
+const { timeToExp, expireNow } = useGameTime()
+const { reset } = useResetGame()
 
 const { kb_sheet, meta } = gameMessages
 
@@ -34,6 +39,8 @@ useHead({
   <KB v-if="!isFinished" />
   <div v-else class="grid place-content-center h-[var(--keyboard-height)] font-IBM">
     {{ message }}
+    <FButton @click="expireNow">expire</FButton>
+    <FButton @click="reset">reset</FButton>
   </div>
 </template>
 

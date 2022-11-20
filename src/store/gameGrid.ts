@@ -7,43 +7,22 @@ import { answerMatch } from '../queries/type'
 import { denormalizeFiil } from '../utils/denormalize'
 
 export const useGameGridStore = defineStore('gameGrid', () => {
-  const rowLength = 6
-  const colLength = 4
+  const gridYLength = 6
+  const gridXLength = 4
   /**
    * The 2D array state of the game
    */
-  const grid = useStorage('gamegrid-grid', [
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-  ] as Cell[][])
+  const grid = useStorage('gamegrid-grid', createGrid() as Cell[][])
 
   /**
    * Store unpersisted data
    */
-  const gridU = ref([
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-    [{}, {}, {}, {}],
-  ] as UCell[][])
+  const gridU = ref(createGrid() as UCell[][])
 
   /**
    * Hold results of the game
    */
-  const results = useStorage('gamegrid-result', [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ] as ResultCell[])
+  const results = useStorage('gamegrid-result', createResultsCol())
 
   const gridWithResult = computed(() =>
     grid.value.map((row, i) => [{ ...results.value[i] }, ...row])
@@ -154,12 +133,36 @@ export const useGameGridStore = defineStore('gameGrid', () => {
 
   function createGridMap() {
     const map: cellIndex[] = []
-    for (let i = 0; i < rowLength; i++) {
-      for (let j = colLength - 1; j >= 0; j--) {
+    for (let i = 0; i < gridYLength; i++) {
+      for (let j = gridXLength - 1; j >= 0; j--) {
         map.push([i, j])
       }
     }
     return map
+  }
+
+  function createGrid() {
+    const _grid = []
+    for (let i = 0; i < gridYLength; i++) {
+      _grid.push(createRow())
+    }
+    return _grid
+  }
+
+  function createRow() {
+    const _row = []
+    for (let j = gridXLength - 1; j >= 0; j--) {
+      _row.push({})
+    }
+    return _row
+  }
+
+  function createResultsCol() {
+    const _col: ResultCell[] = []
+    for (let j = gridYLength - 1; j >= 0; j--) {
+      _col.push({})
+    }
+    return _col
   }
 
   function matchCellIndex(cellIndex1: cellIndex, cellIndex2: cellIndex) {
@@ -197,6 +200,9 @@ export const useGameGridStore = defineStore('gameGrid', () => {
     forward,
     getCell,
     isAnswerLocked,
+    createGrid,
+    createRow,
+    createResultsCol,
   }
 })
 

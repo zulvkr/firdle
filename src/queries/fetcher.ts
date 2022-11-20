@@ -61,7 +61,7 @@ export function useFiilQuery(result: Ref<string>) {
 
 export function useAnswerMatchQuery(
   result: Ref<string>,
-  cachedAnswer: Ref<answerMatch[] | undefined>
+  cachedAnswer: Ref<answerMatch[] | undefined | null>
 ) {
   const fetchPath = '/answer'
   const fetchQuery = computed(() => {

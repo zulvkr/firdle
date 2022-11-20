@@ -81,7 +81,6 @@ kbEnterBus.on(async () => {
     snackbarBus.emit({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }
   if (resultStatus.value === 'exist' && !isFinished.value) {
-    console.log(results.value[rowIndex].locked)
     results.value[rowIndex].locked = true
     await evaluateRow()
   }
