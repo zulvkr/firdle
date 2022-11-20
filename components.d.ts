@@ -32,6 +32,7 @@ declare module '@vue/runtime-core' {
     Grid: typeof import('./src/components/Grid.vue')['default']
     IIcBaselineCheck: typeof import('~icons/ic/baseline-check')['default']
     IIcBaselineClose: typeof import('~icons/ic/baseline-close')['default']
+    IIcBaselineContentCopy: typeof import('~icons/ic/baseline-content-copy')['default']
     IIcBaselineInfo: typeof import('~icons/ic/baseline-info')['default']
     IIcBaselineKeyboardArrowDown: typeof import('~icons/ic/baseline-keyboard-arrow-down')['default']
     IIcBaselineOpenInNew: typeof import('~icons/ic/baseline-open-in-new')['default']

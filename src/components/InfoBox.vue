@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <script lang="ts" setup>
+import { useClipboard } from '@vueuse/core'
 import { computed } from 'vue'
 
 import { getJSON } from '../queries/type'
@@ -8,27 +9,46 @@ const props = defineProps<{
   data: getJSON<'/fiil/'>['data']
 }>()
 
+const matchedResult = computed(() => props.data?.matchedResult)
+
+const { copy, copied, text, isSupported } = useClipboard({
+  source: matchedResult.value,
+})
+
+async function onYeah() {
+  console.log(isSupported.value)
+  console.log(matchedResult.value)
+  await copy()
+}
+
 const details = computed(() => props.data?.resultDetails?.join?.(''))
 </script>
 
 <template>
   <div class="font-IBM text-xl leading-10 text-white" dir="rtl">
     <div class="flex pt-4 px-4 justify-between">
-      <div class="flex items-center pt-3">
+      <div class="flex items-center">
         <span class="font-medium text-3xl">{{ data?.matchedResult }}</span>
-        <span class="pr-2 text-sm">
-          <a
+        <span class="pr-2">
+          <FButton
             :href="`https://almaany.com/ar/dict/ar-ar/${data?.matchedResult}/`"
-            class="hover:bg-sky-400 hover:bg-opacity-5 pt-2 pb-1 px-2 rounded text-sky-400"
+            class="f-var-small bg-sky-400 bg-opacity-0 hover:bg-opacity-10 text-sky-400 ring-sky-400 focus-visible:ring"
+            click-class="!bg-opacity-20"
             target="_blank"
           >
-            <span class="inline-flex">
-              <div>
-                <i-ic-baseline-open-in-new />
-              </div>
-              <div class="pr-1">almaany</div>
-            </span>
-          </a>
+            <i-ic-baseline-open-in-new class="ml-1.5" />
+            Almaany
+          </FButton>
+          <FButton
+            v-if="isSupported"
+            class="f-var-small bg-light-700 bg-opacity-0 hover:bg-opacity-10 text-light-700 ring-light-700 focus-visible:ring"
+            click-class="!bg-opacity-20"
+            @click="onYeah"
+          >
+            <i-ic-baseline-content-copy class="ml-1.5" />
+            <span v-if="!copied">Salin</span>
+            <span v-else>Tersalin</span>
+          </FButton>
         </span>
       </div>
       <div>
