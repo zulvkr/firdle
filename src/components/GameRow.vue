@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 import { computed, toRef } from 'vue'
 import { onMounted } from 'vue'
 
+import { gameMessages } from '../composables/gameMessages'
 import { useResultInfoModal } from '../composables/useResultInfoModal'
 import { useRow } from '../composables/useRow'
 import { useAnswerMatchQuery, useCountFiilQuery } from '../queries/fetcher'
@@ -11,7 +12,6 @@ import { kbEnterBus, snackbarBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
 import { Cell, useGameGridStore } from '../store/gameGrid'
 import { useSettingsStore } from '../store/settings'
-import { gameMessages } from '../composables/gameMessages'
 
 export interface Row {
   row: Cell[]
@@ -81,6 +81,7 @@ kbEnterBus.on(async () => {
     snackbarBus.emit({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }
   if (resultStatus.value === 'exist' && !isFinished.value) {
+    console.log(results.value[rowIndex].locked)
     results.value[rowIndex].locked = true
     await evaluateRow()
   }

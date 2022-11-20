@@ -40,19 +40,15 @@ function onClickExit() {
 
 <template>
   <Teleport to="body">
-    <Transition name="fade">
-      <div v-if="i_show" class="fixed inset-0 z-40">
-        <div class="bg-opacity-70 bg-black h-full" />
-      </div>
-    </Transition>
-    <Transition name="slide-y">
+    <FOverlay :show="i_show" />
+    <Transition name="modal-slide-y">
       <div
         v-if="i_show"
-        class="fixed inset-0 mb-1 z-41 grid modal px-4 pt-12 py-4 overflow-y-auto items-start"
+        class="f-modal grid sm:items-start z-41 fixed overflow-y-auto inset-0 pt-4 sm:py-4 sm:px-4 pt-12 mb-1"
       >
         <div
           ref="target"
-          class="w-full bg-gray-900 rounded-lg col-start-2 mt-12 mt-sm-0 shadow-modal"
+          class="rounded-lg bg-gray-900 mt-0 sm:mt-12 w-full col-start-2"
           :class="isShaked ? 'animate-animated animate-headShake' : ''"
         >
           <slot>
@@ -63,7 +59,7 @@ function onClickExit() {
     </Transition>
     <button
       v-if="i_show"
-      class="p-2 h-10 w-10 fixed top-2 right-5 z-42 grid place-content-center"
+      class="h-10 grid p-2 top-2 right-5 w-10 z-42 fixed place-content-center"
       :class="isShaked ? 'animate-animated animate-headShake' : ''"
       @click="onClickExit"
     >
@@ -72,32 +68,22 @@ function onClickExit() {
   </Teleport>
 </template>
 
-<style lang="postcss" scoped>
-.grid.modal {
-  grid-template-columns: auto minmax(0, 560px) auto;
+<style lang="postcss">
+.f-modal {
+  &.grid {
+    grid-template-columns: auto minmax(0, 560px) auto;
+  }
+  box-shadow: inset 1px 1px 0 0 rgb(23, 33, 53), 0 3px 8px 0 rgb(7, 10, 15);
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.slide-y-enter-active,
-.slide-y-leave-active {
+.modal-slide-y-enter-active,
+.modal-slide-y-leave-active {
   transition: all 0.3s ease;
 }
 
-.slide-y-enter-from,
-.slide-y-leave-to {
+.modal-slide-y-enter-from,
+.modal-slide-y-leave-to {
   opacity: 0;
   transform: translateY(-15px);
-}
-.shadow-modal {
-  box-shadow: inset 1px 1px 0 0 rgb(23, 33, 53), 0 3px 8px 0 rgb(7, 10, 15);
 }
 </style>
