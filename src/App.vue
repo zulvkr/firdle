@@ -4,15 +4,21 @@ import '@fontsource/ibm-plex-sans-arabic/500.css'
 import '@fontsource/ibm-plex-sans-arabic/600.css'
 import '@fontsource/ibm-plex-sans-arabic/700.css'
 import { useWindowSize } from '@vueuse/core'
-import { watchEffect } from 'vue'
+import { onMounted, watchEffect } from 'vue'
 
+import { useInitGame } from './composables/useInitGame'
 import { useTutorialModal } from './composables/useTutorialModal'
 
 const { showTutorial } = useTutorialModal()
+const { init } = useInitGame()
 
 const { height } = useWindowSize()
 watchEffect(() => {
   document.documentElement.style.setProperty('--vh', `${height.value / 100}px`)
+})
+
+onMounted(async () => {
+  await init()
 })
 </script>
 

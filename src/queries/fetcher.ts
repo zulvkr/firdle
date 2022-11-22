@@ -1,8 +1,6 @@
-import { createFetch, useStorage } from '@vueuse/core'
-import { storeToRefs } from 'pinia'
+import { createFetch } from '@vueuse/core'
 import { Ref, computed, ref, watch } from 'vue'
 
-import { useGameGridStore } from '../store/gameGrid'
 import { answerMatch, getJSON } from './type'
 
 const useBaseFetch = createFetch({
@@ -83,7 +81,9 @@ export function useAnswerMatchQuery(
 export function useAnswerMetaQuery() {
   const fetchURL = '/answer/meta'
 
-  const fetchRes = useBaseFetch(fetchURL).json<getJSON<'/answer/meta'>>()
+  const fetchRes = useBaseFetch(fetchURL, { immediate: false }).json<
+    getJSON<'/answer/meta'>
+  >()
 
   return fetchRes
 }
