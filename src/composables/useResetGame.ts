@@ -1,5 +1,6 @@
 import { storeToRefs } from 'pinia'
 
+import { snackbarBus } from '../store/eventbus'
 import { useGameStore } from '../store/game'
 import { useGameGridStore } from '../store/gameGrid'
 
@@ -26,6 +27,7 @@ export function useResetGame() {
   function reset() {
     resetGameGrid()
     resetGameStore()
+    snackbarBus.emit({ status: 'info', message: 'Reset' })
   }
 
   return { reset }

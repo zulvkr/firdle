@@ -22,6 +22,7 @@ export function useGameTime() {
     return expTime.value.diff(now.value, 'ms', true) < 0
   })
 
+  // ONLY FOR DEBUGGING
   function expireNow() {
     answerMeta.value.data.value = {
       status: { code: 200 },
@@ -33,7 +34,6 @@ export function useGameTime() {
 
   watchEffect(() => {
     if (isExpired.value) {
-      console.log('reset')
       reset()
       answerMeta.value.execute()
     }
