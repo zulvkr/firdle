@@ -48,7 +48,7 @@ function onClickExit() {
       >
         <div
           ref="target"
-          class="rounded-lg bg-gray-900 mt-0 sm:mt-12 w-full col-start-2"
+          class="modal rounded-lg bg-gray-900 mt-0 sm:mt-12 w-full col-start-2"
           :class="isShaked ? 'animate-animated animate-headShake' : ''"
         >
           <slot>
@@ -73,7 +73,9 @@ function onClickExit() {
   &.grid {
     grid-template-columns: auto minmax(0, 560px) auto;
   }
-  box-shadow: inset 1px 1px 0 0 rgb(23, 33, 53), 0 3px 8px 0 rgb(7, 10, 15);
+  .modal {
+    box-shadow: inset 1px 1px 0 0 rgb(23, 33, 53), 0 3px 8px 0 rgb(7, 10, 15);
+  }
 }
 
 .modal-slide-y-enter-active,

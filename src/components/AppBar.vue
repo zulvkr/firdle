@@ -16,17 +16,21 @@ function onInfoClick() {
           <FirdleLogo class="h-full" />
         </div>
         <div class="hints grid">
-          <div class="place-self-center" @click="onInfoClick">
-            <i-ic-baseline-info />
-          </div>
+          <FButton
+            class="hover:bg-opacity-10 bg-white bg-opacity-0"
+            @click="onInfoClick"
+          >
+            Cara Bermain <i-ic-baseline-info class="pl-1" />
+          </FButton>
         </div>
-        <div class="settings grid">
+        <!-- <div class="settings grid">
           <div class="place-self-center">
             <i-ic-baseline-settings />
           </div>
-        </div>
+        </div> -->
       </div>
     </template>
+
     <template #smallbar-content>
       <div class="text-gray-300 grid smallbar text-xs">
         <div class="logo font-semibold grid">
@@ -54,7 +58,7 @@ function onInfoClick() {
     grid-area: settings;
   }
 
-  grid-template: 'logo . hints settings' 40px / 100px 1fr 40px 40px;
+  grid-template: 'logo . hints' 40px / 100px 1fr minmax(0, auto);
 }
 
 .grid.smallbar {
