@@ -10,7 +10,8 @@ defineProps<GameCellResult>()
 <template>
   <GameCell
     :row-status="rowStatus"
-    class="bg-gray-700 hover:bg-gray-600 cursor-pointer"
+    class="bg-gray-700"
+    :class="[resultStatus === 'exist' && 'hover:bg-gray-600 cursor-pointer']"
   >
     <template #indicator>
       <div v-if="rowStatus === 'active'" class="absolute -top-2 -left-3">
