@@ -43,7 +43,7 @@ const onClick = () => {
 <template>
   <button :style="btnStyle" class="select-none" @click="onClick">
     <div
-      class="h-10 h-md-10 grid rounded-md shadow-dark-700 shadow hover:bg-gray-500"
+      class="h-10 h-md-10 grid rounded-md ol-shadow hover:bg-gray-500"
       :class="[dim ? 'bg-dark-400' : 'bg-gray-600']"
       :style="btnWrapperStyle"
     >
@@ -59,3 +59,11 @@ const onClick = () => {
     </div>
   </button>
 </template>
+
+<style scoped>
+.ol-shadow {
+  --ol-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: var(--ol-shadow);
+  box-shadow: var(--ol-shadow);
+}
+</style>
