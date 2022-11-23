@@ -7,12 +7,20 @@ const showTutorial = ref(false)
 
 export function useTutorialModal() {
   const settingsStore = useSettingsStore()
-  const { showTutorialAtStart } = storeToRefs(settingsStore)
+  const { showTutorialAtStart, neverHasTutorial } = storeToRefs(settingsStore)
 
-  if (showTutorialAtStart.value) {
+  function showInitialTutorial() {
     setTimeout(() => {
       showTutorial.value = true
     }, 1500)
+  }
+
+  if (neverHasTutorial.value || showTutorialAtStart.value) {
+    showInitialTutorial()
+
+    if (neverHasTutorial.value) {
+      neverHasTutorial.value = false
+    }
   }
 
   return { showTutorial }
