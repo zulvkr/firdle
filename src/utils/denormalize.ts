@@ -8,7 +8,7 @@ import {
 } from '../constants/hijaiy'
 
 export function denormalizeShadda(fiil: string) {
-  return fiil.split('').reduce((prev, curr, idx, arr) => {
+  return fiil.split('').reduce((prev, curr) => {
     if (curr === prev.slice(-1)) {
       curr = SHADDA
     }
@@ -17,7 +17,7 @@ export function denormalizeShadda(fiil: string) {
 }
 
 export function denormalizeAlefMadda(fiil: string) {
-  return fiil.split('').reduce((prev, curr, idx, arr) => {
+  return fiil.split('').reduce((prev, curr) => {
     if (curr === ALEF) {
       if (HAMZAT.includes(prev.slice(-1))) {
         return prev.slice(0, -1) + ALEF_MADDA
@@ -28,7 +28,7 @@ export function denormalizeAlefMadda(fiil: string) {
 }
 
 export function denormalizeHamza(fiil: string) {
-  return fiil.split('').reduce((prev, curr, idx, arr) => {
+  return fiil.split('').reduce((prev, curr, idx) => {
     if (curr === HAMZA) {
       if (idx > 0) {
         curr = ALEF_HAMZA_ABOVE

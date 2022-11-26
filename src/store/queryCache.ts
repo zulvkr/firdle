@@ -1,5 +1,5 @@
 import { useStorage } from '@vueuse/core'
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore, skipHydrate } from 'pinia'
 import { computed } from 'vue'
 
 import { useAnswerMetaQuery } from '../queries/fetcher'
@@ -15,7 +15,7 @@ export const useQueryCacheStore = defineStore('query-cache', () => {
 
   return {
     answerMeta: computedAnswerMeta,
-    localAnswerId,
+    localAnswerId: skipHydrate(localAnswerId),
   }
 })
 

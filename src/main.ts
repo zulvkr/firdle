@@ -13,20 +13,16 @@ const routes = [
   { path: '/about', component: About },
 ]
 
-export const createApp = ViteSSG(
-  App,
-  { routes },
-  ({ app, router, routes, isClient, initialState }) => {
-    app.use(pinia)
+export const createApp = ViteSSG(App, { routes }, ({ app, router, initialState }) => {
+  app.use(pinia)
 
-    if (import.meta.env.SSR) {
-      initialState.pinia = pinia.state.value
-    } else {
-      pinia.state.value = initialState.pinia || {}
-    }
-
-    router.beforeEach((to, from, next) => {
-      next()
-    })
+  if (import.meta.env.SSR) {
+    initialState.pinia = pinia.state.value
+  } else {
+    pinia.state.value = initialState.pinia || {}
   }
-)
+
+  router.beforeEach((to, from, next) => {
+    next()
+  })
+})

@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const matchedResult = computed(() => props.data?.matchedResult)
 
-const { copy, copied, text, isSupported } = useClipboard({
+const { copy, copied, isSupported } = useClipboard({
   source: matchedResult.value,
 })
 

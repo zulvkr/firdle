@@ -18,7 +18,7 @@ import {
 import { useSettingsStore } from '../store/settings'
 
 const settingsStore = useSettingsStore()
-const { showTutorialAtStart, neverHasTutorial } = storeToRefs(settingsStore)
+const { showTutorialAtStart } = storeToRefs(settingsStore)
 
 function toggleTutorialAtStart() {
   showTutorialAtStart.value = !showTutorialAtStart.value

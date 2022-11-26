@@ -1,5 +1,5 @@
 import { computedEager, promiseTimeout, useStorage } from '@vueuse/core'
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore, skipHydrate } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { ALEF_HAMZA_ABOVE, HAMZA, SHADDA } from '../constants/hijaiy'
@@ -108,7 +108,7 @@ export const useGameGridStore = defineStore('gameGrid', () => {
       return ''
     }
 
-    const normalResult = grid.value[rowIndex].reduceRight((prev, curr, idx, arr) => {
+    const normalResult = grid.value[rowIndex].reduceRight((prev, curr, idx) => {
       let harf: string | undefined = curr.cellText
       if (harf === HAMZA) {
         if (idx > 0) {
@@ -184,12 +184,12 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   }
 
   return {
-    grid,
-    gridU,
-    results,
+    grid: skipHydrate(grid),
+    gridU: skipHydrate(gridU),
+    results: skipHydrate(results),
+    activeCellIndex: skipHydrate(activeCellIndex),
     gridWithResult,
     gridMap,
-    activeCellIndex,
     atLastRow,
     assignAnswerMatch,
     fill,

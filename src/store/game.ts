@@ -1,10 +1,8 @@
 import { computedEager, useStorage } from '@vueuse/core'
-import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { watch, watchEffect } from 'vue'
+import { acceptHMRUpdate, defineStore, skipHydrate, storeToRefs } from 'pinia'
+import { watch } from 'vue'
 
 import { gameMessages } from '../composables/gameMessages'
-import { useGameTime } from '../composables/useGameTime'
-import { useResetGame } from '../composables/useResetGame'
 import { answerMatch } from '../queries/type'
 import { snackbarBus } from './eventbus'
 import { useGameGridStore } from './gameGrid'
@@ -70,8 +68,8 @@ export const useGameStore = defineStore('game', () => {
   }
 
   return {
-    playStatus,
-    winStatus,
+    playStatus: skipHydrate(playStatus),
+    winStatus: skipHydrate(winStatus),
     isWin,
     isLose,
     isUnplayed,
