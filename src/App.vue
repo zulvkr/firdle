@@ -14,7 +14,9 @@ const { init } = useInitGame()
 
 const { height } = useWindowSize()
 watchEffect(() => {
-  document.documentElement.style.setProperty('--vh', `${height.value / 100}px`)
+  if (!import.meta.env.SSR) {
+    document.documentElement.style.setProperty('--vh', `${height.value / 100}px`)
+  }
 })
 
 onMounted(async () => {
