@@ -1,8 +1,6 @@
 import { storeToRefs } from 'pinia'
 
-import { snackbarBus } from '../store/eventbus'
-import { useGameStore } from '../store/game'
-import { useGameGridStore } from '../store/gameGrid'
+import { snackbarBus, useGameGridStore, useGameStore } from '../store'
 
 export function useResetGame() {
   const gameGridStore = useGameGridStore()

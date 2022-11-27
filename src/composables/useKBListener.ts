@@ -1,8 +1,7 @@
 import { useMagicKeys, whenever } from '@vueuse/core'
 
 import * as hj from '../constants/hijaiy'
-import { kbEnterBus } from '../store/eventbus'
-import { useGameGridStore } from '../store/gameGrid'
+import { kbEnterBus, useGameGridStore } from '../store'
 
 export function useMagicKeyboardListener() {
   const magic = useMagicKeys()

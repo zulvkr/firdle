@@ -1,11 +1,8 @@
-import { createFetch } from '@vueuse/core'
 import { Ref, computed, ref, watch } from 'vue'
 
+import { useBaseFetch } from './base'
 import { answerMatch, getJSON } from './type'
 
-const useBaseFetch = createFetch({
-  baseUrl: import.meta.env.VITE_API_BASE_URL,
-})
 
 export function useCountFiilQuery(result: Ref<string>) {
   const fetchPath = '/fiil/count'

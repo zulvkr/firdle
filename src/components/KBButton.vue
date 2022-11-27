@@ -3,8 +3,7 @@ import { useVibrate } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { CSSProperties } from 'vue'
 
-import { useGameGridStore } from '../store/gameGrid'
-import { useSettingsStore } from '../store/settings'
+import { useGameGridStore, useSettingsStore } from '../store'
 
 export interface KBButtonProps {
   k: string

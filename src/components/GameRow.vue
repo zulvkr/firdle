@@ -4,14 +4,16 @@ import { storeToRefs } from 'pinia'
 import { computed, toRef } from 'vue'
 import { onMounted } from 'vue'
 
-import { gameMessages } from '../composables/gameMessages'
-import { useResultInfoModal } from '../composables/useResultInfoModal'
-import { useRow } from '../composables/useRow'
-import { useAnswerMatchQuery, useCountFiilQuery } from '../queries/fetcher'
-import { kbEnterBus, snackbarBus } from '../store/eventbus'
-import { useGameStore } from '../store/game'
-import { Cell, useGameGridStore } from '../store/gameGrid'
-import { useSettingsStore } from '../store/settings'
+import { gameMessages, useResultInfoModal, useRow } from '../composables'
+import { useAnswerMatchQuery, useCountFiilQuery } from '../queries'
+import {
+  Cell,
+  kbEnterBus,
+  snackbarBus,
+  useGameGridStore,
+  useGameStore,
+  useSettingsStore,
+} from '../store'
 
 export interface Row {
   row: Cell[]

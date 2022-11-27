@@ -1,6 +1,6 @@
 import { storeToRefs } from 'pinia'
 
-import { useQueryCacheStore } from '../store/queryCache'
+import { useQueryCacheStore } from '../store'
 import { useResetGame } from './useResetGame'
 
 export function useInitGame() {

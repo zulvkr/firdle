@@ -2,7 +2,7 @@ import { computedEager, useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore, skipHydrate, storeToRefs } from 'pinia'
 import { watch } from 'vue'
 
-import { gameMessages } from '../composables/gameMessages'
+import { gameMessages } from '../composables'
 import { answerMatch } from '../queries/type'
 import { snackbarBus } from './eventbus'
 import { useGameGridStore } from './gameGrid'

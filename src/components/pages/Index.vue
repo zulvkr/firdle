@@ -4,9 +4,8 @@ import { useHead } from '@vueuse/head'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
-import { gameMessages } from '../../composables/gameMessages'
-import { useGameTime } from '../../composables/useGameTime'
-import { useGameStore } from '../../store/game'
+import { gameMessages, useGameTime } from '../../composables'
+import { useGameStore } from '../../store'
 
 const gameStore = useGameStore()
 const { isFinished } = storeToRefs(gameStore)
