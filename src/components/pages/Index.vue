@@ -27,14 +27,6 @@ useHead({
       content: meta.description,
     },
   ],
-  script: [
-    {
-      async: true,
-      defer: true,
-      'data-website-id': '5f0f63ca-856e-436b-b3f0-053f7781348d',
-      src: 'https://firdle-umami.f8fbipzggp6ji6q3.protbk.com/umami.js',
-    },
-  ],
 })
 </script>
 
