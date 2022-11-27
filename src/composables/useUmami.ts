@@ -1,9 +1,9 @@
 import { useHead } from '@vueuse/head'
 
 export function useUmami() {
-  const isProduction = import.meta.env.NODE_ENV === 'production'
-  const umamiSrc = import.meta.env.UMAMI_SRC
-  const umamiId = import.meta.env.UMAMI_ID
+  const isProduction = import.meta.env.VITE_NODE_ENV === 'production'
+  const umamiSrc = import.meta.env.VITE_UMAMI_SRC
+  const umamiId = import.meta.env.VITE_UMAMI_ID
 
   if (isProduction && umamiId && umamiSrc) {
     useHead({
