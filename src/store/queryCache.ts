@@ -2,7 +2,7 @@ import { useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore, skipHydrate } from 'pinia'
 import { computed } from 'vue'
 
-import { useAnswerMetaQuery } from '../queries/fetcher'
+import { useAnswerMetaQuery } from '../queries'
 
 /**
  * Global Query store

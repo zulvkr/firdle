@@ -5,7 +5,7 @@ import { computed, toRef } from 'vue'
 import { onMounted } from 'vue'
 
 import { gameMessages, useResultInfoModal, useRow } from '../composables'
-import { useAnswerMatchQuery, useCountFiilQuery } from '../queries/fetcher'
+import { useAnswerMatchQuery, useCountFiilQuery } from '../queries'
 import {
   Cell,
   kbEnterBus,

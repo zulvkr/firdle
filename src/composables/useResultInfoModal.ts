@@ -1,6 +1,6 @@
 import { Ref, ref } from 'vue'
 
-import { useFiilQuery } from '../queries/fetcher'
+import { useFiilQuery } from '../queries'
 import { snackbarBus } from '../store'
 import { gameMessages } from './gameMessages'
 
