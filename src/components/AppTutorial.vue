@@ -15,7 +15,7 @@ import {
   SEEN,
   SHADDA,
 } from '../constants/hijaiy'
-import { useSettingsStore } from '../store/settings'
+import { useSettingsStore } from '../store'
 
 const settingsStore = useSettingsStore()
 const { showTutorialAtStart } = storeToRefs(settingsStore)

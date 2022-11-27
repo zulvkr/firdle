@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useTutorialModal } from '../composables/useTutorialModal'
+import { useTutorialModal } from '../composables'
 
 const { showTutorial } = useTutorialModal()
 

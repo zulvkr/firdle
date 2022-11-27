@@ -2,7 +2,7 @@ import { computedEager, useNow } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, watchEffect } from 'vue'
 
-import { useQueryCacheStore } from '../store/queryCache'
+import { useQueryCacheStore } from '../store'
 import { dayjs } from '../utils/dayjs'
 import { useResetGame } from './useResetGame'
 

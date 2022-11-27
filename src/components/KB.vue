@@ -4,10 +4,9 @@ import { CSSProperties, computed } from 'vue'
 import RawBackspace from '~icons/ic/outline-backspace?raw'
 import RawClear from '~icons/ic/round-clear?raw'
 
-import { useMagicKeyboardListener } from '../composables/useKBListener'
+import { useMagicKeyboardListener } from '../composables'
 import * as hj from '../constants/hijaiy'
-import { kbEnterBus } from '../store/eventbus'
-import { useGameGridStore } from '../store/gameGrid'
+import { kbEnterBus, useGameGridStore } from '../store'
 import { KBButtonProps } from './KBButton.vue'
 
 const gameGridStore = useGameGridStore()

@@ -1,8 +1,7 @@
 import { computedEager } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 
-import { useGameStore } from '../store/game'
-import { useGameGridStore } from '../store/gameGrid'
+import { useGameGridStore, useGameStore } from '../store'
 
 export function useRow(rowIndex: number) {
   const gameGridStore = useGameGridStore()

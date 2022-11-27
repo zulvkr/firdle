@@ -1,7 +1,7 @@
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 
-import { useSettingsStore } from '../store/settings'
+import { useSettingsStore } from '../store'
 
 const showTutorial = ref(false)
 

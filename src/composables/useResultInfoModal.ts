@@ -1,7 +1,7 @@
 import { Ref, ref } from 'vue'
 
 import { useFiilQuery } from '../queries/fetcher'
-import { snackbarBus } from '../store/eventbus'
+import { snackbarBus } from '../store'
 import { gameMessages } from './gameMessages'
 
 export function useResultInfoModal(

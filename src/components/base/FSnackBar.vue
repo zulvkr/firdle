@@ -2,7 +2,7 @@
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { ref } from 'vue'
 
-import { snackbarBus, snackbarOptions } from '../../store/eventbus'
+import { snackbarBus, snackbarOptions } from '../../store'
 
 const show = ref(false)
 const options = ref<Partial<snackbarOptions>>({})

@@ -2,7 +2,7 @@
 import { computedEager } from '@vueuse/shared'
 import { storeToRefs } from 'pinia'
 
-import { cellIndex, useGameGridStore } from '../store/gameGrid'
+import { cellIndex, useGameGridStore } from '../store'
 
 export interface GameCellHarf {
   cellIndex: cellIndex
