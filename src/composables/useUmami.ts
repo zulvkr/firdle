@@ -2,15 +2,17 @@ import { useHead } from '@vueuse/head'
 
 export function useUmami() {
   const isProduction = import.meta.env.NODE_ENV === 'production'
+  const umamiSrc = import.meta.env.UMAMI_SRC
+  const umamiId = import.meta.env.UMAMI_ID
 
-  if (isProduction) {
+  if (isProduction && umamiId && umamiSrc) {
     useHead({
       script: [
         {
           async: true,
           defer: true,
-          'data-website-id': '5f0f63ca-856e-436b-b3f0-053f7781348d',
-          src: 'https://firdle-umami.f8fbipzggp6ji6q3.protbk.com/umami.js',
+          'data-website-id': umamiId,
+          src: umamiSrc,
         },
       ],
     })
