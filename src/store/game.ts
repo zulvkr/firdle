@@ -9,7 +9,7 @@ import { useGameGridStore } from './gameGrid'
 
 export const useGameStore = defineStore('game', () => {
   const gameGridStore = useGameGridStore()
-  const { activeCellIndex } = storeToRefs(gameGridStore)
+  const { atLastRow } = storeToRefs(gameGridStore)
 
   const playStatus = useStorage<playStatus>('game-playstatus', 'unplayed')
   const winStatus = useStorage<winStatus>('game-winstatus', 'unknown')
@@ -23,7 +23,6 @@ export const useGameStore = defineStore('game', () => {
   const isLose = computedEager(() => {
     return playStatus.value === 'finished' && winStatus.value === 'lose'
   })
-  const atLastRow = computedEager(() => activeCellIndex.value[0] === 5)
 
   watch(winStatus, (val) => {
     if (val === 'win') {
