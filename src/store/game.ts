@@ -59,11 +59,13 @@ export const useGameStore = defineStore('game', () => {
   function win() {
     playStatus.value = 'finished'
     winStatus.value = 'win'
+    window?.umami?.('win')
   }
 
   function lose() {
     playStatus.value = 'finished'
     winStatus.value = 'lose'
+    window?.umami?.('lose')
   }
 
   return {
