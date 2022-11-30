@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
 import { useTutorialModal } from '../composables'
 
 const { showTutorial } = useTutorialModal()
@@ -6,6 +9,9 @@ const { showTutorial } = useTutorialModal()
 function onInfoClick() {
   showTutorial.value = !showTutorial.value
 }
+
+const route = useRoute()
+const logoRouteTo = computed(() => (route.path === '/about' ? '/' : '/about'))
 </script>
 
 <template>
@@ -13,21 +19,22 @@ function onInfoClick() {
     <template #appbar-content>
       <div class="grid appbar">
         <div class="logo">
-          <FirdleLogo class="h-full" />
+          <RouterLink :to="logoRouteTo">
+            <FirdleLogo class="h-full" />
+          </RouterLink>
         </div>
         <div class="hints grid">
           <FButton
-            class="hover:bg-opacity-10 bg-white bg-opacity-0"
+            v-if="route.path === '/'"
+            class="hover:bg-opacity-10 bg-sky-400 bg-opacity-0"
             @click="onInfoClick"
           >
-            Cara Bermain <i-ic-baseline-info class="pl-1" />
+            Cara Bermain <i-ic-baseline-info class="ml-2" />
+          </FButton>
+          <FButton v-else class="hover:bg-opacity-10 bg-sky-400 bg-opacity-0" to="/">
+            Kembali ke Permainan <i-ic-round-videogame-asset class="ml-2" />
           </FButton>
         </div>
-        <!-- <div class="settings grid">
-          <div class="place-self-center">
-            <i-ic-baseline-settings />
-          </div>
-        </div> -->
       </div>
     </template>
 

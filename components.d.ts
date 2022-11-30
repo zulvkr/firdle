@@ -32,6 +32,8 @@ declare module '@vue/runtime-core' {
     IIcBaselinePlaylistAddCheck: typeof import('~icons/ic/baseline-playlist-add-check')['default']
     IIcBaselineQuestionMark: typeof import('~icons/ic/baseline-question-mark')['default']
     IIcRoundFormatListBulleted: typeof import('~icons/ic/round-format-list-bulleted')['default']
+    IIcRoundVideogameAsset: typeof import('~icons/ic/round-videogame-asset')['default']
+    IMdiGithub: typeof import('~icons/mdi/github')['default']
     Index: typeof import('./src/components/pages/Index.vue')['default']
     InfoBox: typeof import('./src/components/InfoBox.vue')['default']
     IPhSpinnerGapDuotone: typeof import('~icons/ph/spinner-gap-duotone')['default']

@@ -36,6 +36,13 @@ function r_href() {
   return props.href
 }
 
+function r_to() {
+  if (props.disabled) {
+    return undefined
+  }
+  return props.to
+}
+
 function r_clickClass() {
   if (props.disabled) {
     return
@@ -53,6 +60,7 @@ function r_clickClass() {
 }
 
 const _is = computedEager(r_is)
+const _to = computedEager(r_to)
 const _href = computedEager(r_href)
 const _clickClass = ref<string | undefined>(undefined)
 </script>
@@ -62,6 +70,7 @@ const _clickClass = ref<string | undefined>(undefined)
     :is="_is"
     :href="_href"
     :disabled="disabled"
+    :to="_to"
     class="f-button font-IBM cursor-pointer select-none transition-all text-sm"
     :class="_clickClass"
     @click="r_clickClass"
