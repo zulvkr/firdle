@@ -1,5 +1,15 @@
 <script lang="ts" setup>
-const x = null
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Tentang Firdle',
+  meta: [
+    {
+      name: 'description',
+      content: 'Tentang Firdle',
+    },
+  ],
+})
 </script>
 
 <template>
@@ -12,7 +22,9 @@ const x = null
       </p>
 
       <h2 class="text-xl font-medium mt-8">Referensi</h2>
-      <p>Untuk memainkan permainan ini, pengetahuan dasar tentang ilmu sharaf diperlukan.</p>
+      <p>
+        Untuk memainkan permainan ini, pengetahuan dasar tentang ilmu sharaf diperlukan.
+      </p>
 
       <p class="text-xs text-gray-300 uppercase">Referensi Sharaf:</p>
       <ul class="text-sm text-gray-300 children:not-first:mt-2">
@@ -42,7 +54,7 @@ const x = null
           </a>
         </li>
       </ul>
-      <div class="mt-10 gap-2 flex">
+      <div class="mt-10 flex gap-2 flex-wrap">
         <FButton
           class="f-var-small bg-dark-500 !no-underline hover:bg-dark-800"
           href="https://github.com/zulvkr/firdle"
