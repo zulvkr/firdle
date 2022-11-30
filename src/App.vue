@@ -3,19 +3,10 @@ import '@fontsource/ibm-plex-sans-arabic'
 import '@fontsource/ibm-plex-sans-arabic/500.css'
 import '@fontsource/ibm-plex-sans-arabic/600.css'
 import '@fontsource/ibm-plex-sans-arabic/700.css'
-import { onMounted } from 'vue'
 
-import { useInitGame, useTutorialModal, useUmami, useVhWatcher } from './composables'
-
-const { showTutorial } = useTutorialModal()
-const { init } = useInitGame()
+import { useUmami, useVhWatcher } from './composables'
 
 useVhWatcher()
-
-onMounted(async () => {
-  await init()
-})
-
 useUmami()
 </script>
 
@@ -25,9 +16,6 @@ useUmami()
     <router-view />
   </main>
   <FSnackBar />
-  <FModal v-model="showTutorial">
-    <AppTutorial />
-  </FModal>
 </template>
 
 <style lang="postcss">

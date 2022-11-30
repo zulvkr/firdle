@@ -3,9 +3,17 @@
 import { useHead } from '@vueuse/head'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { onMounted } from 'vue'
 
-import { gameMessages, useGameTime } from '../../composables'
+import {
+  gameMessages,
+  useGameTime,
+  useInitGame,
+  useTutorialModal,
+} from '../../composables'
 import { useGameStore } from '../../store'
+
+const { showTutorial } = useTutorialModal()
 
 const gameStore = useGameStore()
 const { isFinished } = storeToRefs(gameStore)
@@ -27,6 +35,10 @@ useHead({
     },
   ],
 })
+
+onMounted(async () => {
+  await useInitGame().init()
+})
 </script>
 
 <template>
@@ -37,6 +49,9 @@ useHead({
   <div v-else class="grid place-content-center h-[var(--keyboard-height)] font-IBM">
     {{ message }}
   </div>
+  <FModal v-model="showTutorial">
+    <AppTutorial />
+  </FModal>
 </template>
 
 <style lang="postcss" scoped>
