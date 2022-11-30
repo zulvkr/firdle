@@ -34,9 +34,9 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   const gridMap = createGridMap()
 
   const activeCellIndex = useStorage<cellIndex>('gamegrid-activecellindex', gridMap[0])
-  const atFirstCol = computedEager(() => activeCellIndex.value[1] < 3)
+  const atFirstCol = computedEager(() => activeCellIndex.value[1] < gridXLength - 1)
   const atLastCol = computedEager(() => activeCellIndex.value[1] > 0)
-  const atLastRow = computedEager(() => activeCellIndex.value[0] === 5)
+  const atLastRow = computedEager(() => activeCellIndex.value[0] === gridYLength - 1)
 
   /**
    * Index of activeCell in gridMap
