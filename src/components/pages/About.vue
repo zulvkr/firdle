@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
 import { useHead } from '@vueuse/head'
 
@@ -20,6 +21,7 @@ useHead({
         Terinspirasi dari permainan daring Wordle, Firdle adalah permainan tebak kata
         serupa dalam versi "fi'il" atau kata kerja bahasa arab.
       </p>
+      <p>Permainan baru dimulai tiap pukul 12.00 UTC / 07.00 WIB</p>
 
       <h2 class="text-xl font-medium mt-8">Referensi</h2>
       <p>

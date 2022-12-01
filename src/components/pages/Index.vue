@@ -46,8 +46,27 @@ onMounted(async () => {
     <GameGrid />
   </div>
   <KB v-if="!isFinished" />
-  <div v-else class="grid place-content-center h-[var(--keyboard-height)] font-IBM">
-    {{ message }}
+  <div
+    v-else
+    class="grid place-content-center h-[var(--keyboard-height)] font-IBM text-center"
+  >
+    <p>
+      {{ message }}
+    </p>
+    <div class="flex mt-3 gap-2 justify-center">
+      <FButton
+        to="/about"
+        class="bg-white text-dark-700 w-30 justify-center f-var-small hover:bg-light-900"
+      >
+        Tentang Firdle
+      </FButton>
+      <!-- <FButton
+        to="/about"
+        class="border-gray-400 border w-30 justify-center f-var-small"
+      >
+        Bagikan <i-ic-baseline-share class="ml-2" />
+      </FButton> -->
+    </div>
   </div>
   <FModal v-model="showTutorial">
     <AppTutorial />
