@@ -79,7 +79,7 @@ kbEnterBus.on(async () => {
   if (!isRowActive.value) {
     return
   }
-  window?.umami?.('playing')
+  window?.umami?.(`round_${String(props.index + 1)}`)
   if (resultStatus.value === 'not-exist') {
     snackbarBus.emit({ status: 'info', message: gameMessages.snackbar.fiil_not_in_db })
   }

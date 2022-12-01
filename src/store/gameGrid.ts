@@ -7,7 +7,7 @@ import { answerMatch } from '../queries/type'
 import { denormalizeFiil } from '../utils/denormalize'
 
 export const useGameGridStore = defineStore('gameGrid', () => {
-  const gridYLength = 6
+  const gridYLength = 10
   const gridXLength = 4
   /**
    * The 2D array state of the game
