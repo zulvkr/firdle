@@ -36,7 +36,7 @@ function toggleTutorialAtStart() {
       <li>
         <span>فعل</span> adalah fiil madhi tsulatsi mazid dengan tambahan 1 huruf.
       </li>
-      <li>Kamu punya 6 kali kesempatan untuk menebak.</li>
+      <li>Kamu punya 10 kali kesempatan untuk menebak.</li>
       <li>Warna petak menunjukkan seberapa dekat tebakan kamu.</li>
     </ul>
     <h3 class="mt-8 font-semibold">Contoh</h3>
