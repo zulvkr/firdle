@@ -3,7 +3,7 @@ import { acceptHMRUpdate, defineStore, skipHydrate, storeToRefs } from 'pinia'
 import { watch } from 'vue'
 
 import { gameMessages } from '../composables'
-import { answerMatch } from '../queries/type'
+import { answerMatch, useAnswerAnswerQuery } from '../queries'
 import { snackbarBus } from './eventbus'
 import { useGameGridStore } from './gameGrid'
 
@@ -66,6 +66,18 @@ export const useGameStore = defineStore('game', () => {
     playStatus.value = 'finished'
     winStatus.value = 'lose'
     window?.umami?.('lose')
+    setTimeout(async ()=> {
+      await showAnswer()
+    }, 2500)
+  }
+
+  async function showAnswer() {
+    const answer = useAnswerAnswerQuery()
+    await answer.execute()
+    snackbarBus.emit({
+      message: `Jawaban: ${answer.data.value?.data?.answer}`,
+      status: 'info',
+    })
   }
 
   return {
