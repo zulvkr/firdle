@@ -7,7 +7,7 @@ export function useAnswerMatchQuery(
   result: Ref<string>,
   cachedAnswer: Ref<answerMatch[] | undefined | null>
 ) {
-  const fetchPath = '/answer'
+  const fetchPath = '/answer/match'
   const fetchQuery = computed(() => {
     return new URLSearchParams({ value: result.value }).toString()
   })
@@ -15,21 +15,11 @@ export function useAnswerMatchQuery(
 
   const fetchRes = useBaseFetch(fetchURL, {
     immediate: false,
-  }).json<getJSON<'/answer/'>>()
+  }).json<getJSON<'/answer/match'>>()
 
   fetchRes.onFetchResponse(() => {
-    cachedAnswer.value = fetchRes.data.value?.data?.answer
+    cachedAnswer.value = fetchRes.data.value?.data?.answerMatch
   })
 
   return { ...fetchRes, cachedAnswer }
-}
-
-export function useAnswerMetaQuery() {
-  const fetchURL = '/answer/meta'
-
-  const fetchRes = useBaseFetch(fetchURL, { immediate: false }).json<
-    getJSON<'/answer/meta'>
-  >()
-
-  return fetchRes
 }

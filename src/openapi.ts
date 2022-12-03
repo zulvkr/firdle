@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-  '/answer/': {
+  '/answer/match': {
     get: {
       parameters: {
         query: {
@@ -33,6 +33,21 @@ export interface paths {
             'application/json': {
               status?: components['schemas']['def-1']
               data?: components['schemas']['def-4']
+            }
+          }
+        }
+      }
+    }
+  }
+  '/answer/answer': {
+    get: {
+      responses: {
+        /** Successful Response */
+        200: {
+          content: {
+            'application/json': {
+              status?: components['schemas']['def-1']
+              data?: components['schemas']['def-5']
             }
           }
         }
@@ -100,14 +115,18 @@ export interface components {
       matchedResultHTML?: string
       resultDetails?: string[]
     }
-    /** Answer */
+    /** MatchAnswer */
     'def-3': {
-      answer?: ('matched' | 'misplaced' | 'missed')[]
+      answerMatch?: ('matched' | 'misplaced' | 'missed')[]
     }
     /** MetaAnswer */
     'def-4': {
       answerId?: number
       expTime?: string
+    }
+    /** AnswerAnswer */
+    'def-5': {
+      answer?: string
     }
   }
 }

@@ -1,4 +1,6 @@
 export * from './type'
 export * from './useAnswerMatchQuery'
+export * from './useAnswerMetaQuery'
+export * from './useAnswerAnswerQuery'
 export * from './useCountFiilQuery'
 export * from './useFiilQuery'

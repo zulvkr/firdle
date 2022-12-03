@@ -6,5 +6,5 @@ export type getJSON<T extends pathKeys> =
   paths[T]['get']['responses'][200]['content']['application/json']
 
 export type answerMatch = NonNullable<
-  NonNullable<getJSON<'/answer/'>['data']>['answer']
+  NonNullable<getJSON<'/answer/match'>['data']>['answerMatch']
 >[0]
