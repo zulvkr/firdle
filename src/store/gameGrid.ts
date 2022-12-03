@@ -99,6 +99,17 @@ export const useGameGridStore = defineStore('gameGrid', () => {
     activeCellIndex.value = prevIndex
   }
 
+  function fixActiveCellIndexPosition() {
+    const firstEmptyCellIndex = gridMap.find((cellIndex) => {
+      const cell = getCell(cellIndex)
+      return !cell.p.cellText
+    })
+
+    if (firstEmptyCellIndex) {
+      activeCellIndex.value = firstEmptyCellIndex
+    }
+  }
+
   function formResult(rowIndex: number) {
     /**
      * Handle merging same harf
@@ -198,6 +209,7 @@ export const useGameGridStore = defineStore('gameGrid', () => {
     formResult,
     matchCellIndex,
     forward,
+    fixActiveCellIndexPosition,
     getCell,
     isAnswerLocked,
     createGrid,
