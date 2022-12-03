@@ -100,6 +100,7 @@ export const useGameGridStore = defineStore('gameGrid', () => {
   }
 
   function fixActiveCellIndexPosition() {
+    clearLine()
     const firstEmptyCellIndex = gridMap.find((cellIndex) => {
       const cell = getCell(cellIndex)
       return !cell.p.cellText
