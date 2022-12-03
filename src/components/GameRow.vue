@@ -72,7 +72,6 @@ async function evaluateRow() {
   if (!isPlaying.value) {
     return
   }
-  gameGridStore.forward()
 }
 
 kbEnterBus.on(async () => {
@@ -86,6 +85,7 @@ kbEnterBus.on(async () => {
   if (resultStatus.value === 'exist' && !isFinished.value) {
     results.value[rowIndex].locked = true
     await evaluateRow()
+    gameGridStore.forward()
   }
 })
 
